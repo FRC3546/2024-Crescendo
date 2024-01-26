@@ -13,7 +13,7 @@ public class IntakeSubsystem extends SubsystemBase{
     private CANSparkMax lowerShooterMotor;
 
 }
-private IntakeSubsystem(){
+public IntakeSubsystem(){
     
     intakeMotor = new VictorSP(0);
     upperShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
