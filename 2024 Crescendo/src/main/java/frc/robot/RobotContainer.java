@@ -15,6 +15,8 @@ import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Intake.ReverseIntakeCommand;
+import frc.robot.commands.Intake.RunIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 
 //SUBSYSTEMS
@@ -45,8 +47,10 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-
+    shooterJoystick.button(2).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
+    shooterJoystick.button(0).whileTrue(new RunIntakeCommand(intakeShooterSubsystem));
     shooterJoystick.button(1).whileTrue(new RunShooterCommand(intakeShooterSubsystem));
+    
   }
 
   /**
