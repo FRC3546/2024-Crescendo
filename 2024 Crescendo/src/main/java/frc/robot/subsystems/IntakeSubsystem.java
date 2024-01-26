@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
-import java.util.concurrent.CancellationException;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -13,8 +12,9 @@ public class IntakeSubsystem extends SubsystemBase{
     private CANSparkMax lowerShooterMotor;
 
 }
-public IntakeSubsystem(){
-    
+
+private IntakeSubsystem(){
+
     intakeMotor = new VictorSP(0);
     upperShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
     lowerShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
