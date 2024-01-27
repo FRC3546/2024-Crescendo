@@ -11,6 +11,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private CANSparkMax upperShooterMotor;
     private CANSparkMax lowerShooterMotor;
 
+    private double upperShooterSpeed;
+    private double lowerShooterSpeed;
 
 
     public IntakeShooterSubsystem(){
@@ -40,10 +42,13 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     }
 
-    public void runShooter(){
+    public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
         
-        upperShooterMotor.set(1);
-        lowerShooterMotor.set(1);
+        this.upperShooterSpeed = upperShooterSpeed;
+        this.lowerShooterSpeed = lowerShooterSpeed;
+
+        upperShooterMotor.set(-(Math.abs(upperShooterSpeed)));
+        lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
 
     }
 
@@ -52,5 +57,13 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         upperShooterMotor.stopMotor();
         lowerShooterMotor.stopMotor();;
 
+    }
+
+    public double getUpperShooterValues(){
+        return upperShooterMotor.get();
+    }
+
+    public double getLowerShooterValues(){
+        return lowerShooterMotor.get();
     }
 }

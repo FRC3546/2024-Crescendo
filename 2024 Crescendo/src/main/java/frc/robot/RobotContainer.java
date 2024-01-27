@@ -24,6 +24,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import edu.wpi.first.wpilibj.Joystick;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,12 +35,14 @@ import edu.wpi.first.wpilibj.Joystick;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public final IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
   
   private CommandJoystick shooterJoystick = new CommandJoystick(0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -47,9 +50,15 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    shooterJoystick.button(2).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
-    shooterJoystick.button(0).whileTrue(new RunIntakeCommand(intakeShooterSubsystem));
-    shooterJoystick.button(1).whileTrue(new RunShooterCommand(intakeShooterSubsystem));
+    shooterJoystick.button(3).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
+    shooterJoystick.button(2).whileTrue(new RunIntakeCommand(intakeShooterSubsystem));
+    shooterJoystick.button(1).whileTrue
+                    (new RunShooterCommand
+                      (intakeShooterSubsystem,
+                       SmartDashboard.getNumber("upper motor speed", 0),
+                       SmartDashboard.getNumber("lower motor speed", 0)));
+
+    
     
   }
 

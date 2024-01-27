@@ -6,8 +6,14 @@ import frc.robot.subsystems.IntakeShooterSubsystem;
 public class RunShooterCommand extends Command{
 
     IntakeShooterSubsystem shooterSubsystem;
+
+    double upperShooterSpeed;
+    double lowerShooterSpeed;
     
-    public RunShooterCommand(IntakeShooterSubsystem shooterSubsystem){
+    public RunShooterCommand(IntakeShooterSubsystem shooterSubsystem, double upperShooterSpeed, double lowerShooterSpeed){
+
+        this.upperShooterSpeed = upperShooterSpeed;
+        this.lowerShooterSpeed = lowerShooterSpeed;
 
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
@@ -15,7 +21,7 @@ public class RunShooterCommand extends Command{
 
     @Override
     public void initialize(){
-        shooterSubsystem.runShooter();
+        shooterSubsystem.runShooter(upperShooterSpeed, lowerShooterSpeed);
     }
 
     @Override
