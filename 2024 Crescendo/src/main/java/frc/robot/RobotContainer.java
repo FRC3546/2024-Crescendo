@@ -20,6 +20,8 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.RunIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.Shooter.InputRunShooterCommand;
+
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
@@ -55,10 +57,9 @@ public class RobotContainer {
     shooterJoystick.button(3).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     shooterJoystick.button(2).whileTrue(new RunIntakeCommand(intakeShooterSubsystem));
     shooterJoystick.button(1).whileTrue
-                    (new RunShooterCommand
-                      (intakeShooterSubsystem,
-                       SmartDashboard.getNumber("upper motor speed", 0),
-                       SmartDashboard.getNumber("lower motor speed", 0)));
+                    (new InputRunShooterCommand(intakeShooterSubsystem));
+                      //  SmartDashboard.getNumber("upper motor speed", 0.0),
+                      //  SmartDashboard.getNumber("lower motor speed", 0.0)));
 
     
     
