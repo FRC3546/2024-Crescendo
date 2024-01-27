@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeShooterSubsystem extends SubsystemBase{
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("Drive");
+    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
     private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
     private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
 
