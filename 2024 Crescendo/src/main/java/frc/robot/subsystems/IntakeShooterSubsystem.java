@@ -35,9 +35,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     }
 
-    public void intake(){
+    public void intake(double speed){
         
-        intakeMotor.set(1);
+        intakeMotor.set(speed);
 
     }
 

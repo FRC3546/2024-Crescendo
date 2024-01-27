@@ -5,9 +5,11 @@ import frc.robot.subsystems.IntakeShooterSubsystem;
 public class RunIntakeCommand extends Command{
 
     IntakeShooterSubsystem intakeSubsystem;
+    double speed;
     
-    public RunIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
+    public RunIntakeCommand(IntakeShooterSubsystem intakeSubsystem, double speed){
         
+        this.speed = speed;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
 
@@ -15,7 +17,7 @@ public class RunIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.intake();
+        intakeSubsystem.intake(speed);
     }
 
     @Override

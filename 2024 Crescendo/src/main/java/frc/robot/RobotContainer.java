@@ -54,8 +54,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    shooterJoystick.button(3).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
-    shooterJoystick.button(2).whileTrue(new RunIntakeCommand(intakeShooterSubsystem));
+    shooterJoystick.button(3).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 0.6));
+    shooterJoystick.button(2).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 1));
     shooterJoystick.button(1).whileTrue
                     (new InputRunShooterCommand(intakeShooterSubsystem));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
