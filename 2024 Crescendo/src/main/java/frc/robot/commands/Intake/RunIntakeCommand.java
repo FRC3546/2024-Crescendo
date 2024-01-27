@@ -6,7 +6,7 @@ public class RunIntakeCommand extends Command{
 
     IntakeShooterSubsystem intakeSubsystem;
     
-    public RunIntakeCommand(IntakeShooterSubsystem shooterSubsystem){
+    public RunIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
         
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

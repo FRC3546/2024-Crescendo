@@ -4,18 +4,18 @@ import frc.robot.subsystems.IntakeShooterSubsystem;
 
 public class ReverseIntakeCommand extends Command{
 
-    IntakeShooterSubsystem reverseIntakeSubsystem;
+    IntakeShooterSubsystem intakeSubsystem;
     
-    public ReverseIntakeCommand(IntakeShooterSubsystem shooterSubsystem){
+    public ReverseIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
         
-        this.reverseIntakeSubsystem = reverseIntakeSubsystem;
-        addRequirements(reverseIntakeSubsystem);
+        this.intakeSubsystem = intakeSubsystem;
+        addRequirements(intakeSubsystem);
 
     }
 
     @Override
     public void initialize(){
-        reverseIntakeSubsystem.reverseIntake();
+        intakeSubsystem.reverseIntake();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ReverseIntakeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        reverseIntakeSubsystem.stopIntake();
+        intakeSubsystem.stopIntake();
     }
 
     @Override
