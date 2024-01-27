@@ -71,7 +71,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public void stopShooter(){
         
         upperShooterMotor.stopMotor();
-        lowerShooterMotor.stopMotor();;
+        lowerShooterMotor.stopMotor();
 
     }
 
