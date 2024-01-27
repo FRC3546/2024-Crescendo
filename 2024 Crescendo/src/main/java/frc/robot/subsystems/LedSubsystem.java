@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.CANifier;;
 
-public class LEDs extends SubsystemBase{
+public class LedSubsystem extends SubsystemBase{
 
     public CANifier led = new CANifier(9);
 
