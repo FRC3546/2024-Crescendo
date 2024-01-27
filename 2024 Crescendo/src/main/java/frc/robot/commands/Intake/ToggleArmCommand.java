@@ -21,11 +21,7 @@ public class ToggleArmCommand extends Command{
     }
 
     @Override
-    public void execute() {
-        
-        
-
-    }
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {

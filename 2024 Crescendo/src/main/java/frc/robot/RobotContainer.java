@@ -36,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public final IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
   public final ArmSubsystem armSubsystem = new ArmSubsystem();
   
   private CommandJoystick shooterJoystick = new CommandJoystick(0);
