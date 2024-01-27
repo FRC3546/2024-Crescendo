@@ -15,10 +15,11 @@ import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.RunIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
-
+import frc.robot.subsystems.ArmSubsystem;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
@@ -35,7 +36,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public final IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public final ArmSubsystem armSubsystem = new ArmSubsystem();
   
   private CommandJoystick shooterJoystick = new CommandJoystick(0);
 
