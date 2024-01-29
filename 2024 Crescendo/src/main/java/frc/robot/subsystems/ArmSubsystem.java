@@ -22,7 +22,6 @@ public class ArmSubsystem extends SubsystemBase{
         //create CANSparkMax IDs
         extendSolenoid = new DoubleSolenoid (PneumaticsModuleType.CTREPCM, 0, 1);
         
-  
 
     } 
 

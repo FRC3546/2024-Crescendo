@@ -15,7 +15,7 @@ public class ReverseIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.reverseIntake();
+        intakeSubsystem.intake(-1);
     }
 
     @Override
