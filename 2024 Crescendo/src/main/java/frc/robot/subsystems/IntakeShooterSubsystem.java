@@ -22,6 +22,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
     private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
 
+
+
     //motors
     private VictorSP intakeMotor;
     private CANSparkMax upperShooterMotor;
@@ -67,6 +69,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();
+
+        Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
+        Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
 
     }
 
@@ -148,6 +153,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
+
+        Shuffleboard.update();
+
 
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
