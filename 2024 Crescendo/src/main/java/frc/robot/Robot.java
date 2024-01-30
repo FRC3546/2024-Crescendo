@@ -30,15 +30,15 @@ public class Robot extends TimedRobot {;
 
   private Timer disabledTimer;
 
-  public Robot()
-  {
-    instance = this;
-  }
+  // public Robot()
+  // {
+  //   instance = this;
+  // }
 
-  public static Robot getInstance()
-  {
-    return instance;
-  }
+  // public static Robot getInstance()
+  // {
+  //   return instance;
+  // }
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -52,10 +52,10 @@ public class Robot extends TimedRobot {;
 
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
-    disabledTimer = new Timer();
+    // disabledTimer = new Timer();
 
-    SmartDashboard.putNumber("upper motor speed", 0.0);
-    SmartDashboard.putNumber("lower motor speed", 0.0);
+    SmartDashboard.putNumber("upper rpm", RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
+    SmartDashboard.putNumber("lower rpm", RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
   }
 
   /**
@@ -68,8 +68,8 @@ public class Robot extends TimedRobot {;
   @Override
   public void robotPeriodic() {
 
-    upperShooterSpeed = SmartDashboard.getNumber("upper motor speed", 0);
-    lowerShooterSpeed = SmartDashboard.getNumber("lower motor speed", 0);
+    // upperShooterSpeed = SmartDashboard.getNumber("upper motor speed", 0);
+    // lowerShooterSpeed = SmartDashboard.getNumber("lower motor speed", 0);
 
     SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
     SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
@@ -84,25 +84,25 @@ public class Robot extends TimedRobot {;
   @Override
   public void disabledInit() {
 
-    m_robotContainer.setMotorBrake(true);
-    disabledTimer.reset();
-    disabledTimer.start();
+    // m_robotContainer.setMotorBrake(true);
+    // disabledTimer.reset();
+    // disabledTimer.start();
   }
 
   @Override
   public void disabledPeriodic() {
 
-    if (disabledTimer.hasElapsed(Constants.Drivebase.WHEEL_LOCK_TIME))
-    {
-      m_robotContainer.setMotorBrake(false);
-      disabledTimer.stop();
-    }
+    // if (disabledTimer.hasElapsed(Constants.Drivebase.WHEEL_LOCK_TIME))
+    // {
+    //   m_robotContainer.setMotorBrake(false);
+    //   disabledTimer.stop();
+    // }
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_robotContainer.setMotorBrake(true);
+    // m_robotContainer.setMotorBrake(true);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

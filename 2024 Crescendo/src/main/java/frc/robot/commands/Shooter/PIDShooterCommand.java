@@ -1,6 +1,7 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 
 public class PIDShooterCommand extends Command{
@@ -13,6 +14,10 @@ public class PIDShooterCommand extends Command{
 
         this.RPM = RPM;
 
+        if(RPM > Constants.Shooter.maxShooterRMP){
+            RPM = Constants.Shooter.maxShooterRMP;
+        }
+
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
     }
@@ -23,7 +28,8 @@ public class PIDShooterCommand extends Command{
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+    }
 
     @Override
     public void end(boolean interrupted) {
@@ -32,7 +38,7 @@ public class PIDShooterCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return false;
+        return shooterSubsystem.isShooterAtRPM(RPM);
     }
 }
 
