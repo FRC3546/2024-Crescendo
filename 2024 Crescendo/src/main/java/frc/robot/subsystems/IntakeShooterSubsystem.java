@@ -66,7 +66,6 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         upperPIDController.setFF(0.000175);
         upperPIDController.setOutputRange(0, 1);
         
-
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();
 
@@ -117,6 +116,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     }
 
     public boolean isShooterAtRPM(int RPM){
+
+        
 
         if((getUpperShooterRPM() > (RPM - 60) && (getUpperShooterRPM() < (RPM + 60)))
         && (getLowerShooterRPM() > (RPM - 60) && (getLowerShooterRPM() < (RPM + 60)))){
