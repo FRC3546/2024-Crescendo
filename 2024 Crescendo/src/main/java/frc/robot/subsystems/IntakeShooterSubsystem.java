@@ -111,9 +111,10 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     public void readSensor(){
         
-        noteSensor.get();
+        boolean sensor = noteSensor.get();
+        System.out.println("it worked!" + sensor);   
 
-    }
+     }
 
     public void runShooter(int RPM){
 
