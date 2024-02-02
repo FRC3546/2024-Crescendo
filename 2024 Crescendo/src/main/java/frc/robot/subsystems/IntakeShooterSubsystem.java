@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.networktables.GenericSubscriber;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -32,6 +34,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private SparkPIDController lowerPIDController;
     private SparkPIDController upperPIDController;
 
+    DigitalInput noteSensor = new DigitalInput(0);
 
     private double upperShooterSpeed;
     private double lowerShooterSpeed;
@@ -43,6 +46,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         intakeMotor = new VictorSP(0);
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
+        
         
         intakeMotor.setInverted(true);
 
@@ -103,6 +107,12 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public void inputRunShooter(){
         upperShooterMotor.set(Math.abs(inputUpperShooterSpeed.getDouble(0)));
         lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
+    }
+
+    public void readSensor(){
+        
+        noteSensor.get();
+
     }
 
     public void runShooter(int RPM){
