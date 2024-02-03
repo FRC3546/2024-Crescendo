@@ -76,6 +76,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
+        Shuffleboard.getTab("Shooter").add("sensor value", getSensorValue());
 
     }
 
@@ -110,10 +111,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
     }
 
-    public void readSensor(){
+    public boolean getSensorValue(){
         
-        boolean sensor = noteSensor.get();
-        System.out.println("it worked!" + sensor);   
+        return (!(noteSensor.get()));
 
      }
 
@@ -168,7 +168,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public void periodic(){
 
         Shuffleboard.update();
-        readSensor();
+    
 
 
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
