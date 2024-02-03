@@ -43,9 +43,10 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     public IntakeShooterSubsystem(){
 
-        intakeMotor = new VictorSP(0);
+        intakeMotor = new VictorSP(1);
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
+        
         noteSensor = new DigitalInput(0);
         
         
@@ -66,9 +67,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         upperPIDController.setP(0.0008);
         upperPIDController.setI(0);
-        upperPIDController.setD(0.0001);
+        upperPIDController.setD(0.000);
         upperPIDController.setIZone(0);
-        upperPIDController.setFF(0.000175);
+        upperPIDController.setFF(0.0002);
         upperPIDController.setOutputRange(0, 1);
         
         lowerShooterMotor.burnFlash();
@@ -76,7 +77,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-        Shuffleboard.getTab("Shooter").add("sensor value", getSensorValue());
+        Shuffleboard.getTab("Shooter").add("sensor value", noteSensor);
+        Shuffleboard.getTab("Shooter").add("note sensor boolean", getSensorValue());
 
     }
 
@@ -113,7 +115,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     public boolean getSensorValue(){
         
-        return (!(noteSensor.get()));
+        // System.out.println(noteSensor.get());
+        return noteSensor.get();
 
      }
 

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commandgroups.FireNoteCommandGroup;
+import frc.robot.commandgroups.IntakeNoteCommandGroup;
 //COMMANDS
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
@@ -104,11 +105,11 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    
-    shooterJoystick.button(2).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 1));
+    shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
+    shooterJoystick.button(2).whileTrue(new IntakeNoteCommandGroup());
     shooterJoystick.button(3).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 0.6));
     shooterJoystick.button(1).whileTrue
-                    (new FireNoteCommandGroup(3000));
+                    (new FireNoteCommandGroup(4800));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
                       //  SmartDashboard.getNumber("lower motor speed", 0.0)));
 

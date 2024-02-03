@@ -3,14 +3,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 
-public class RunIntakeCommand extends Command{
+public class SensorReverseIntakeCommand extends Command{
 
     IntakeShooterSubsystem intakeSubsystem;
-    double speed;
     
-    public RunIntakeCommand(IntakeShooterSubsystem intakeSubsystem, double speed){
+    public SensorReverseIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
         
-        this.speed = speed;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
 
@@ -18,23 +16,23 @@ public class RunIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.intake(speed);
+        // intakeSubsystem.intake();
+        intakeSubsystem.intake(-0.13);
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        // intakeSubsystem.intake(-0.5);
+    }
 
     @Override
     public void end(boolean interrupted) {
-
-        // intakeSubsystem.intake(-0.3);
-        // new WaitCommand(0.2);
+        new WaitCommand(1);
         intakeSubsystem.stopIntake();
     }
 
     @Override
     public boolean isFinished() {
-        // return false;
         return !intakeSubsystem.getSensorValue();
     }
 }
