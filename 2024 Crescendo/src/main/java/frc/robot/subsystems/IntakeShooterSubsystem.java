@@ -34,7 +34,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private SparkPIDController lowerPIDController;
     private SparkPIDController upperPIDController;
 
-    DigitalInput noteSensor = new DigitalInput(0);
+    DigitalInput noteSensor;
 
     private double upperShooterSpeed;
     private double lowerShooterSpeed;
@@ -46,6 +46,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         intakeMotor = new VictorSP(0);
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
+        noteSensor = new DigitalInput(0);
         
         
         intakeMotor.setInverted(true);
@@ -167,6 +168,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public void periodic(){
 
         Shuffleboard.update();
+        readSensor();
 
 
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
