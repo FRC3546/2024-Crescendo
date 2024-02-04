@@ -21,9 +21,7 @@ public class SensorReverseIntakeCommand extends Command{
     }
 
     @Override
-    public void execute() {
-        // intakeSubsystem.intake(-0.5);
-    }
+    public void execute() {}
 
     @Override
     public void end(boolean interrupted) {

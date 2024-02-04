@@ -18,7 +18,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 // import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
-import frc.robot.commands.Intake.RunIntakeCommand;
+import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 // import frc.robot.commands.Swerve.AbsoluteDriveAdv;
 // import frc.robot.subsystems.ArmSubsystem;
@@ -107,7 +107,7 @@ public class RobotContainer {
     
     shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     shooterJoystick.button(2).whileTrue(new IntakeNoteCommandGroup());
-    shooterJoystick.button(3).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 0.6));
+    shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
     shooterJoystick.button(1).whileTrue
                     (new FireNoteCommandGroup(4400));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),

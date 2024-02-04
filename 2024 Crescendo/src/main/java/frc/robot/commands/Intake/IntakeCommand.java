@@ -3,12 +3,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 
-public class XRunIntakeCommand extends Command{
+public class IntakeCommand extends Command{
 
     IntakeShooterSubsystem intakeSubsystem;
     double speed;
     
-    public XRunIntakeCommand(IntakeShooterSubsystem intakeSubsystem, double speed){
+    public IntakeCommand(IntakeShooterSubsystem intakeSubsystem, double speed){
         
         this.speed = speed;
         this.intakeSubsystem = intakeSubsystem;
@@ -27,14 +27,11 @@ public class XRunIntakeCommand extends Command{
     @Override
     public void end(boolean interrupted) {
 
-        // intakeSubsystem.intake(-0.3);
-        new WaitCommand(0.2);
         intakeSubsystem.stopIntake();
     }
 
     @Override
     public boolean isFinished() {
-        // return false;
         return false;
     }
 }
