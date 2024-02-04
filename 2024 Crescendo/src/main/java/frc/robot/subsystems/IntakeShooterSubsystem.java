@@ -115,7 +115,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     public boolean getSensorValue(){
         
-        // System.out.println(noteSensor.get());
+        // the note sensor returns true by default, so the value needs to be 
+        // flipped so it returns true when detecting a piece
         return !noteSensor.get();
 
      }
