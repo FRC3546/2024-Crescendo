@@ -9,6 +9,7 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
+import frc.robot.commands.Intake.SensorIntakeCommand;
 
 public class IntakeNoteCommandGroup extends SequentialCommandGroup{
 
