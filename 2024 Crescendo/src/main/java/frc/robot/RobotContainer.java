@@ -20,6 +20,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
+import frc.robot.commands.Shooter.AmpScoreCommand;
 // import frc.robot.commands.Swerve.AbsoluteDriveAdv;
 // import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.Shooter.InputRunShooterCommand;
@@ -105,8 +106,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     
+    shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
-    shooterJoystick.button(2).whileTrue(new IntakeNoteCommandGroup());
+    shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
     shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
     shooterJoystick.button(1).whileTrue
                     (new SpeakerScoreCommandGroup(4400));
