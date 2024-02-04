@@ -7,9 +7,9 @@ import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 
-public class FireNoteCommandGroup extends SequentialCommandGroup{
+public class SpeakerScoreCommandGroup extends SequentialCommandGroup{
 
-    public FireNoteCommandGroup(int RPM){
+    public SpeakerScoreCommandGroup(int RPM){
 
         addCommands(
             new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, RPM),

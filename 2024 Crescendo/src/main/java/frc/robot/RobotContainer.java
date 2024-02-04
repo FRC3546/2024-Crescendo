@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commandgroups.FireNoteCommandGroup;
+import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
 //COMMANDS
 import frc.robot.commands.Autos;
@@ -109,7 +109,7 @@ public class RobotContainer {
     shooterJoystick.button(2).whileTrue(new IntakeNoteCommandGroup());
     shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
     shooterJoystick.button(1).whileTrue
-                    (new FireNoteCommandGroup(4400));
+                    (new SpeakerScoreCommandGroup(4400));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
                       //  SmartDashboard.getNumber("lower motor speed", 0.0)));
 
