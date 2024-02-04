@@ -35,7 +35,7 @@ public class RunIntakeCommand extends Command{
     @Override
     public boolean isFinished() {
         // return false;
-        return !intakeSubsystem.getSensorValue();
+        return intakeSubsystem.getSensorValue();
     }
 }
 

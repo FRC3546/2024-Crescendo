@@ -28,7 +28,7 @@ public class XRunIntakeCommand extends Command{
     public void end(boolean interrupted) {
 
         // intakeSubsystem.intake(-0.3);
-        new WaitCommand(1);
+        new WaitCommand(0.2);
         intakeSubsystem.stopIntake();
     }
 

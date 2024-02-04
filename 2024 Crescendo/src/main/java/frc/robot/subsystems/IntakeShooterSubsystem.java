@@ -58,11 +58,11 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerPIDController = lowerShooterMotor.getPIDController();
         upperPIDController = upperShooterMotor.getPIDController();
 
-        lowerPIDController.setP(0.0008);
+        lowerPIDController.setP(0.001);
         lowerPIDController.setI(0);
         lowerPIDController.setD(0.0001);
         lowerPIDController.setIZone(0);
-        lowerPIDController.setFF(0.000175);
+        lowerPIDController.setFF(0.0002);
         lowerPIDController.setOutputRange(0, 1);
 
         upperPIDController.setP(0.0008);
@@ -75,10 +75,10 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();
 
-        Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
-        Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-        Shuffleboard.getTab("Shooter").add("sensor value", noteSensor);
-        Shuffleboard.getTab("Shooter").add("note sensor boolean", getSensorValue());
+        // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
+        // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
+        // Shuffleboard.getTab("Shooter").add("sensor value", noteSensor);
+        // Shuffleboard.getTab("Shooter").add("note sensor boolean", getSensorValue());
 
     }
 
@@ -116,7 +116,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public boolean getSensorValue(){
         
         // System.out.println(noteSensor.get());
-        return noteSensor.get();
+        return !noteSensor.get();
 
      }
 
@@ -134,8 +134,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         
 
-        if((getUpperShooterRPM() > (RPM - 60) && (getUpperShooterRPM() < (RPM + 60)))
-        && (getLowerShooterRPM() > (RPM - 60) && (getLowerShooterRPM() < (RPM + 60)))){
+        if((getUpperShooterRPM() > (RPM - 30) && (getUpperShooterRPM() < (RPM + 60)))
+        && (getLowerShooterRPM() > (RPM - 30) && (getLowerShooterRPM() < (RPM + 60)))){
 
             return true;
         }
@@ -176,9 +176,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-         
-        // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
-        // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
+        SmartDashboard.putBoolean("Note sensor value", getSensorValue());
+        SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
+        SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
     }
 
 

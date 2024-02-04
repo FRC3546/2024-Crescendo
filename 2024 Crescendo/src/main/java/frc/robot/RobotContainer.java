@@ -109,7 +109,7 @@ public class RobotContainer {
     shooterJoystick.button(2).whileTrue(new IntakeNoteCommandGroup());
     shooterJoystick.button(3).whileTrue(new RunIntakeCommand(intakeShooterSubsystem, 0.6));
     shooterJoystick.button(1).whileTrue
-                    (new FireNoteCommandGroup(4800));
+                    (new FireNoteCommandGroup(4400));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
                       //  SmartDashboard.getNumber("lower motor speed", 0.0)));
 

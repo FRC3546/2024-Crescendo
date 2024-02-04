@@ -27,13 +27,13 @@ public class SensorReverseIntakeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        new WaitCommand(1);
+        new WaitCommand(0.1);
         intakeSubsystem.stopIntake();
     }
 
     @Override
     public boolean isFinished() {
-        return !intakeSubsystem.getSensorValue();
+        return intakeSubsystem.getSensorValue();
     }
 }
 
