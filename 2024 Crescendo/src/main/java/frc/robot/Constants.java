@@ -27,6 +27,17 @@ public final class Constants {
   public static final class Shooter{
 
     public static final int maxShooterRMP = 5450;
+    public static final int speakerRPM = 3000;
+    
+  }
+
+  public static final class Arm{
+
+    public static final double ampArmAngle = 0;
+    public static final double speakerArmAngle = 0;
+    public static final double intakeArmAngle = 0;
+    public static final double trapArmAngle = 0;
+
   }
 
   public static final class Auton
