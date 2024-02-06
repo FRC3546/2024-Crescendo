@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.revrobotics.SparkAbsoluteEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class ArmSubsystem extends SubsystemBase{
@@ -25,6 +27,10 @@ public class ArmSubsystem extends SubsystemBase{
 
         leftArmMotor = new CANSparkMax (28, MotorType.kBrushless);
         rightArmMotor = new CANSparkMax (29, MotorType.kBrushless);
+
+        leftArmMotor.setIdleMode(IdleMode.kBrake);
+        rightArmMotor.setIdleMode(IdleMode.kBrake);
+        leftArmMotor.follow(rightArmMotor);
         // throughBoreEncoder = new SparkAbsoluteEncoder(leftArmMotor, )
         //create CANSparkMax IDs
         extendSolenoid = new DoubleSolenoid (PneumaticsModuleType.CTREPCM, 0, 1);
