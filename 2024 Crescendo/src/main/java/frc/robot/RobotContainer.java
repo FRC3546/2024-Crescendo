@@ -22,7 +22,7 @@ import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.AmpScoreCommand;
 // import frc.robot.commands.Swerve.AbsoluteDriveAdv;
-// import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 //SUBSYSTEMS
@@ -30,7 +30,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 // import frc.robot.subsystems.SwerveSubsystem;
 
-import java.io.File;
+
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -49,7 +49,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   // private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
   public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
-  // public final ArmSubsystem armSubsystem = new ArmSubsystem();
+  public final ArmSubsystem armSubsystem = new ArmSubsystem();
   
   private XboxController driverXbox = new XboxController(0);
   private CommandJoystick shooterJoystick = new CommandJoystick(1);

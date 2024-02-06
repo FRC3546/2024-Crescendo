@@ -10,25 +10,27 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.revrobotics.SparkAbsoluteEncoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class ArmSubsystem extends SubsystemBase{
 
 
-    private CANSparkMax rotateMotor1;
-    private CANSparkMax rotateMotor2;
-    private SparkAbsoluteEncoder throughBoreEncoder;
+    private CANSparkMax leftArmMotor;
+    private CANSparkMax rightArmMotor;
+    private DutyCycleEncoder throughBoreEncoder;
     private DoubleSolenoid extendSolenoid;
 
 
     public ArmSubsystem(){
 
-        rotateMotor1 = new CANSparkMax (0, MotorType.kBrushless);
-        rotateMotor2 = new CANSparkMax (1, MotorType.kBrushless);
-        // throughBoreEncoder = new SparkAbsoluteEncoder(rotateMotor1, )
+        leftArmMotor = new CANSparkMax (28, MotorType.kBrushless);
+        rightArmMotor = new CANSparkMax (29, MotorType.kBrushless);
+        // throughBoreEncoder = new SparkAbsoluteEncoder(leftArmMotor, )
         //create CANSparkMax IDs
         extendSolenoid = new DoubleSolenoid (PneumaticsModuleType.CTREPCM, 0, 1);
+        throughBoreEncoder = new DutyCycleEncoder(0);
 
-        rotateMotor2.follow(rotateMotor1);
+        leftArmMotor.follow(rightArmMotor);
         
 
     } 
@@ -37,17 +39,21 @@ public class ArmSubsystem extends SubsystemBase{
     
     public void rotateArmUp(){
         
-        rotateMotor1.set(1);
+        leftArmMotor.set(1);
         // rotateMotor2.set(1);
         
     }
     public void rotateArmDown(){
-        rotateMotor1.set(-1);
+        leftArmMotor.set(-1);
         // rotateMotor2.set(-1);
     }
     public void StopArm(){
-        rotateMotor1.stopMotor();
+        leftArmMotor.stopMotor();
         // rotateMotor2.set(0);
+    }
+
+    public void rotateArm(double value){
+        leftArmMotor.set(value);
     }
 
 
@@ -65,6 +71,12 @@ public class ArmSubsystem extends SubsystemBase{
          
         extendSolenoid.toggle();
     }
+
+    public double getArmPosition(){
+        return throughBoreEncoder.getAbsolutePosition();
+    }
+
+
 } 
 
 

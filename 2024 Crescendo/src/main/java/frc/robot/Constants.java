@@ -38,6 +38,9 @@ public final class Constants {
     public static final double intakeArmAngle = 0;
     public static final double trapArmAngle = 0;
 
+    public static final double lowestArmAngle = 0;
+    public static final double highestArmAngle = 0;
+
   }
 
   public static final class Auton
