@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -30,15 +32,13 @@ public class ArmSubsystem extends SubsystemBase{
 
         leftArmMotor.setIdleMode(IdleMode.kBrake);
         rightArmMotor.setIdleMode(IdleMode.kBrake);
-        leftArmMotor.follow(rightArmMotor);
+        leftArmMotor.follow(rightArmMotor, true);
+        rightArmMotor.setInverted(true);
         // throughBoreEncoder = new SparkAbsoluteEncoder(leftArmMotor, )
         //create CANSparkMax IDs
         extendSolenoid = new DoubleSolenoid (PneumaticsModuleType.CTREPCM, 0, 1);
-        throughBoreEncoder = new DutyCycleEncoder(0);
-
-        leftArmMotor.follow(rightArmMotor);
-        
-
+        throughBoreEncoder = new DutyCycleEncoder(6);     
+        throughBoreEncoder.reset();   
     } 
 
     
@@ -54,12 +54,12 @@ public class ArmSubsystem extends SubsystemBase{
         // rotateMotor2.set(-1);
     }
     public void StopArm(){
-        leftArmMotor.stopMotor();
+        rightArmMotor.stopMotor();
         // rotateMotor2.set(0);
     }
 
     public void rotateArm(double value){
-        leftArmMotor.set(value);
+        rightArmMotor.set(value);
     }
 
 
@@ -82,6 +82,11 @@ public class ArmSubsystem extends SubsystemBase{
         return throughBoreEncoder.getAbsolutePosition();
     }
 
+
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Through Bore Encoder Value", getArmPosition());
+    }
 
 } 
 

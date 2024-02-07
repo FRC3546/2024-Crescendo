@@ -7,9 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.commands.Arm.RotateArmCommand;
 
 
 /**
@@ -54,8 +56,8 @@ public class Robot extends TimedRobot {;
     // immediately when disabled, but then also let it be pushed more 
     // disabledTimer = new Timer();
 
-    SmartDashboard.putNumber("upper rpm", RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
-    SmartDashboard.putNumber("lower rpm", RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
+    // SmartDashboard.putNumber("upper rpm", RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
+    // SmartDashboard.putNumber("lower rpm", RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
   }
 
   /**
@@ -128,7 +130,11 @@ public class Robot extends TimedRobot {;
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    // RobotContainer.armSubsystem.setDefaultCommand(new RotateArmCommand(() -> RobotContainer.shooterJoystick.getRawAxis(1)));
+
+  }
 
   @Override
   public void testInit() {

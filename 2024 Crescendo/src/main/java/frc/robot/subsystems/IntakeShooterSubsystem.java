@@ -176,9 +176,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-        SmartDashboard.putBoolean("Note sensor value", getSensorValue());
-        SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
-        SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
+        // SmartDashboard.putBoolean("Note sensor value", getSensorValue());
+        // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
+        // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
     }
 
 

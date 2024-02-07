@@ -1,22 +1,22 @@
-package frc.robot.commandgroups;
+// package frc.robot.commandgroups;
 
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.Intake.SensorIntakeCommand;
-import frc.robot.commands.Shooter.PIDShooterCommand;
-import frc.robot.commands.Intake.IntakeCommand;
+// import edu.wpi.first.wpilibj2.command.PIDCommand;
+// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+// import frc.robot.RobotContainer;
+// import frc.robot.commands.Intake.SensorIntakeCommand;
+// import frc.robot.commands.Shooter.PIDShooterCommand;
+// import frc.robot.commands.Intake.IntakeCommand;
 
-public class SpeakerScoreCommandGroup extends SequentialCommandGroup{
+// public class SpeakerScoreCommandGroup extends SequentialCommandGroup{
 
-    public SpeakerScoreCommandGroup(int RPM){
+//     public SpeakerScoreCommandGroup(int RPM){
 
-        addCommands(
-            new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, RPM),
+//         addCommands(
+//             new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, RPM),
             
-            new IntakeCommand(RobotContainer.intakeShooterSubsystem, 1)
-        );
-    }
+//             new IntakeCommand(RobotContainer.intakeShooterSubsystem, 1)
+//         );
+//     }
     
 
-}
+// }

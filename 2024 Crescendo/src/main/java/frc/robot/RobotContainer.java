@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.XboxController;
 
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commandgroups.SpeakerScoreCommandGroup;
-import frc.robot.commandgroups.IntakeNoteCommandGroup;
+// import frc.robot.commandgroups.SpeakerScoreCommandGroup;
+// import frc.robot.commandgroups.IntakeNoteCommandGroup;
 //COMMANDS
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Arm.RotateArmCommand;
 // import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -48,15 +49,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   // private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
-  public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
-  public final ArmSubsystem armSubsystem = new ArmSubsystem();
+  // public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   
   private XboxController driverXbox = new XboxController(0);
-  private CommandJoystick shooterJoystick = new CommandJoystick(1);
+  public static CommandJoystick shooterJoystick = new CommandJoystick(1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    armSubsystem.setDefaultCommand(new RotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
+
+    // m_flipperSubsystem.setDefaultCommand(new FlipperArmCommand(() -> m_flipperController.getRawAxis(1)));
     // Configure the trigger bindings
     configureBindings();
 
@@ -106,12 +110,12 @@ public class RobotContainer {
 
   private void configureBindings() {
     
-    shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
-    shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
-    shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
-    shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
-    shooterJoystick.button(1).whileTrue
-                    (new SpeakerScoreCommandGroup(4400));
+    // shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
+    // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
+    // shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
+    // shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
+    // shooterJoystick.button(1).whileTrue
+    //                 (new SpeakerScoreCommandGroup(4400));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
                       //  SmartDashboard.getNumber("lower motor speed", 0.0)));
 
