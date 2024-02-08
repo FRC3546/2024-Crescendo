@@ -13,62 +13,50 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class RotateArmCommand extends Command{
 
-    DoubleSupplier motorValue;
+    double setPosition;
+    double speed;
+    boolean lowering;
     ArmSubsystem armSubsystem = RobotContainer.armSubsystem;
     // private FlipperSubsystem m_flipperSubsystem = RobotContainer.m_flipperSubsystem;
     
-    public RotateArmCommand(DoubleSupplier motorValue){
+    public RotateArmCommand(double setPosition, double speed){
         
-        this.motorValue = motorValue;
+        this.setPosition = setPosition;
+        this.speed = speed;
         // this.armSubsystem = armSubsystem;
         addRequirements(armSubsystem);
     }
 
-    // @Override
-    // public void initialize(){
-        
-
-
-    // }
-
     @Override
-    public void execute() {
-
-        if(armSubsystem.getArmPosition() > Constants.Arm.lowestArmAngle &&
-        armSubsystem.getArmPosition() < Constants.Arm.highestArmAngle){
-            armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("in bounds");
+    public void initialize(){
+        
+        if(armSubsystem.getArmPosition() < setPosition){
+            armSubsystem.rotateArm(speed);
+            lowering = false;
         }
 
-        else if(armSubsystem.getArmPosition() <= Constants.Arm.lowestArmAngle && motorValue.getAsDouble() > 0.1){
-            armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("Going back up into bounds");
-        }
-
-        else if(armSubsystem.getArmPosition() >= Constants.Arm.highestArmAngle && motorValue.getAsDouble() < -0.1){
-            armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("Going back down into bounds");
-
+        else if(armSubsystem.getArmPosition() > setPosition){
+            armSubsystem.rotateArm(-speed);
+            lowering = true;
         }
 
         else{
             armSubsystem.StopArm();
-            System.out.println("stopping");
-            System.out.println(motorValue);
-            System.out.println(armSubsystem.getArmPosition());
         }
-
-        // armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
 
     }
 
-    // @Override
-    // public void end(boolean interrupted) {
-    //     armSubsystem.StopArm();
-    // }
+    @Override
+    public void execute() {}
 
-    // @Override
-    // public boolean isFinished() {
-    //     return false;
-    // }
+    @Override
+    public void end(boolean interrupted) {
+        armSubsystem.StopArm();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return ((lowering && armSubsystem.getArmPosition() <= setPosition) ||
+        !lowering && armSubsystem.getArmPosition() >= setPosition);
+    }
 }

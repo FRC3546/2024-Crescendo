@@ -16,7 +16,9 @@ import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
+import frc.robot.commands.Arm.JoystickRotateArmCommand;
 // import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -58,7 +60,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    armSubsystem.setDefaultCommand(new RotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
+    armSubsystem.setDefaultCommand(new JoystickRotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
 
     // m_flipperSubsystem.setDefaultCommand(new FlipperArmCommand(() -> m_flipperController.getRawAxis(1)));
     // Configure the trigger bindings
@@ -109,6 +111,9 @@ public class RobotContainer {
 
 
   private void configureBindings() {
+
+    shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
+    shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
     
     // shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
