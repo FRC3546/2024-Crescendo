@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     private CANSparkMax leftArmMotor;
     private CANSparkMax rightArmMotor;
-    private DutyCycleEncoder throughBoreEncoder;
+    private SparkAbsoluteEncoder throughBoreEncoder;
     private DoubleSolenoid extendSolenoid;
 
 
@@ -34,11 +34,12 @@ public class ArmSubsystem extends SubsystemBase{
         rightArmMotor.setIdleMode(IdleMode.kBrake);
         leftArmMotor.follow(rightArmMotor, true);
         rightArmMotor.setInverted(true);
-        // throughBoreEncoder = new SparkAbsoluteEncoder(leftArmMotor, )
+        throughBoreEncoder = rightArmMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         //create CANSparkMax IDs
         extendSolenoid = new DoubleSolenoid (PneumaticsModuleType.CTREPCM, 0, 1);
-        throughBoreEncoder = new DutyCycleEncoder(6);     
-        throughBoreEncoder.reset();   
+        
+        // throughBoreEncoder = new DutyCycleEncoder(6);     
+        // throughBoreEncoder.reset();   
     } 
 
     
@@ -79,7 +80,7 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
     public double getArmPosition(){
-        return throughBoreEncoder.getAbsolutePosition();
+        return throughBoreEncoder.getPosition();
     }
 
 
