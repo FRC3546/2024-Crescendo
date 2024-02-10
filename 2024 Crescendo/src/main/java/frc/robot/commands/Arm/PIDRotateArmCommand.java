@@ -25,7 +25,7 @@ public class PIDRotateArmCommand extends Command{
         
         this.setPosition = setPosition;
         pidLoop = new PIDController(0, 0, 0);
-        pidLoop.setTolerance(0.01);
+        pidLoop.setTolerance(0.05);
         pidLoop.setSetpoint(setPosition);
 
         addRequirements(armSubsystem);

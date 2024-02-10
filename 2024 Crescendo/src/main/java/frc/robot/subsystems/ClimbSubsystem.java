@@ -25,4 +25,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
     }
 
+    public void stopClimber(){
+
+        rightClimbMotor.stopMotor();
+    }
+
 }
