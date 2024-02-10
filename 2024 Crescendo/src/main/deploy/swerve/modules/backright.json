@@ -26,5 +26,6 @@
     "inverted": {
       "drive": false,
       "angle": false
-    }
+    },
+    "absoluteEncoderInverted": false
   }
