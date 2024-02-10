@@ -1,21 +1,21 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//robot
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+
+//wpilib
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.networktables.GenericSubscriber;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
+//vendordeps
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeShooterSubsystem extends SubsystemBase{
 
@@ -24,33 +24,31 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
     private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
 
-
-
     //motors
     private VictorSP intakeMotor;
     private CANSparkMax upperShooterMotor;
     private CANSparkMax lowerShooterMotor;
 
+    //pid controllers
     private SparkPIDController lowerPIDController;
     private SparkPIDController upperPIDController;
 
+    //sensor
     DigitalInput noteSensor;
 
+    //not used but please leave
     private double upperShooterSpeed;
     private double lowerShooterSpeed;
     
-
-
     public IntakeShooterSubsystem(){
 
+        noteSensor = new DigitalInput(0);
+
         intakeMotor = new VictorSP(0);
+        intakeMotor.setInverted(true);
+
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
-        
-        noteSensor = new DigitalInput(0);
-        
-        
-        intakeMotor.setInverted(true);
 
         upperShooterMotor.restoreFactoryDefaults();
         lowerShooterMotor.restoreFactoryDefaults();
@@ -85,14 +83,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     public void intake(double speed){
         
         intakeMotor.set(speed);
-
     }
-
-    // public void reverseIntake(){
-        
-    //     intakeMotor.set(-1);
-
-    // }
 
     public void stopIntake(){
 
@@ -108,11 +99,12 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
     }
 
+    @Deprecated
     public void inputRunShooter(){
         upperShooterMotor.set(Math.abs(inputUpperShooterSpeed.getDouble(0)));
         lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
     }
-
+    
     public boolean getSensorValue(){
         
         // the note sensor returns true by default, so the value needs to be 
