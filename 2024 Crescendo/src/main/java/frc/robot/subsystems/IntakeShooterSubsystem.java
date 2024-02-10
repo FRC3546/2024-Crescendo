@@ -58,7 +58,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerPIDController = lowerShooterMotor.getPIDController();
         upperPIDController = upperShooterMotor.getPIDController();
 
-        lowerPIDController.setP(0.001);
+        lowerPIDController.setP(0.008);
         lowerPIDController.setI(0);
         lowerPIDController.setD(0.0001);
         lowerPIDController.setIZone(0);

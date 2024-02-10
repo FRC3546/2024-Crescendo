@@ -17,7 +17,6 @@ public class RotateArmCommand extends Command{
     double speed;
     boolean lowering;
     ArmSubsystem armSubsystem = RobotContainer.armSubsystem;
-    // private FlipperSubsystem m_flipperSubsystem = RobotContainer.m_flipperSubsystem;
     
     public RotateArmCommand(double setPosition, double speed){
         
