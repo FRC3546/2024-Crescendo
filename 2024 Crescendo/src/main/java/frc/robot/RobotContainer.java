@@ -8,8 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.XboxController;
-
-
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.Constants.OperatorConstants;
 // import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 // import frc.robot.commandgroups.IntakeNoteCommandGroup;
@@ -38,6 +37,7 @@ import frc.robot.subsystems.IntakeShooterSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -56,9 +56,12 @@ public class RobotContainer {
   
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
+  PowerDistribution powerDistribution;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    powerDistribution = new PowerDistribution();
 
     armSubsystem.setDefaultCommand(new JoystickRotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
 
@@ -142,4 +145,18 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
   }
+
+  public void trackPowerMetrics() {
+    double voltage = powerDistribution.getVoltage();
+    double temperatureFahrenheit = (powerDistribution.getTemperature() * 1.8) + 32;
+    double totalCurrent = powerDistribution.getTotalCurrent();
+    double totalPower = powerDistribution.getTotalPower();
+    double totalEnergy = powerDistribution.getTotalEnergy();
+    SmartDashboard.putNumber("TotalEnergy", totalEnergy);
+    SmartDashboard.putNumber("TotalPower", totalPower);
+    SmartDashboard.putNumber("Total Current", totalCurrent);
+    SmartDashboard.putNumber("Temperature", temperatureFahrenheit);
+    SmartDashboard.putNumber("Voltage", voltage);
+  }
+
 }

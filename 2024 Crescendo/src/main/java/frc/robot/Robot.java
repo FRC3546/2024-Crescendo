@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {;
 
     // upperShooterSpeed = SmartDashboard.getNumber("upper motor speed", 0);
     // lowerShooterSpeed = SmartDashboard.getNumber("lower motor speed", 0);
+    m_robotContainer.trackPowerMetrics();
 
     // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
     // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
