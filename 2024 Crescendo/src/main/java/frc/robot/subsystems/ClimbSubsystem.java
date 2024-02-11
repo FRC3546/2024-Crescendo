@@ -12,22 +12,20 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public ClimbSubsystem() {
 
-        leftClimbMotor = new CANSparkMax(41, MotorType.kBrushless);
-        rightClimbMotor = new CANSparkMax(40, MotorType.kBrushless);
+        leftClimbMotor = new CANSparkMax(40, MotorType.kBrushless);
+        rightClimbMotor = new CANSparkMax(41, MotorType.kBrushless);
 
         leftClimbMotor.follow(rightClimbMotor);
 
     }
 
-    public void rotateClimbers(double value) {
+    public void rotateClimbers(double speed) {
 
-        rightClimbMotor.set(value);
-
+        rightClimbMotor.set(speed);
     }
 
     public void stopClimber(){
 
         rightClimbMotor.stopMotor();
     }
-
 }

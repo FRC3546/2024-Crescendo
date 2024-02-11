@@ -10,7 +10,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 
 
@@ -38,7 +38,7 @@ public class PIDRotateArmCommand extends Command{
     public void execute() {
 
         SmartDashboard.putNumber("pidLoop calculating value", setPosition);
-        armSubsystem.rotateArm(pidLoop.calculate(armSubsystem.getArmPosition()));
+        armSubsystem.rotateArm(MathUtil.clamp((pidLoop.calculate(armSubsystem.getArmPosition())), -0.25, 0.25));
     }
 
     @Override

@@ -122,12 +122,11 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         upperPIDController.setReference(RPM, ControlType.kVelocity);
     }
 
+    //detects ifthe shooter is at a certain range of RPM
     public boolean isShooterAtRPM(int RPM){
 
-        
-
-        if((getUpperShooterRPM() > (RPM - 30) && (getUpperShooterRPM() < (RPM + 60)))
-        && (getLowerShooterRPM() > (RPM - 30) && (getLowerShooterRPM() < (RPM + 60)))){
+        if((getUpperShooterRPM() > (RPM - 30) && (getUpperShooterRPM() < (RPM + 30)))
+        && (getLowerShooterRPM() > (RPM - 30) && (getLowerShooterRPM() < (RPM + 30)))){
 
             return true;
         }

@@ -38,7 +38,7 @@ public class ArmSubsystem extends SubsystemBase{
         leftArmMotor.follow(rightArmMotor, true);
         rightArmMotor.setInverted(true);
         throughBoreEncoder = rightArmMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
-        //create CANSparkMax IDs
+        
         extendSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
 
     } 
@@ -64,7 +64,8 @@ public class ArmSubsystem extends SubsystemBase{
 
 
     public void rotateArm(double value){
-
+        //negative value moves the arm down
+        //postive value moves the arm up
         rightArmMotor.set(value);
     }
 
