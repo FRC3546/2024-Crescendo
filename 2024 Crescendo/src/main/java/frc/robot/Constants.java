@@ -38,6 +38,7 @@ public final class Constants {
     public static final double intakeArmAngle = 0;
     public static final double trapArmAngle = 0;
 
+    public static final double midArmAngle = 0;
     public static final double lowestArmAngle = 0.49000000;
     public static final double highestArmAngle = 0.5500000;
 

@@ -20,6 +20,7 @@ import frc.robot.commandgroups.IntakeNoteCommandGroup;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
+import frc.robot.commands.Arm.PIDRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 
@@ -62,12 +63,12 @@ public class RobotContainer {
   
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
-  PowerDistribution powerDistribution;
+  PowerDistribution powerDistribution = new PowerDistribution(1, ModuleType.kRev);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    powerDistribution = new PowerDistribution();
+    setMotorBrake(true);
 
     armSubsystem.setDefaultCommand(new JoystickRotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
 
@@ -81,8 +82,8 @@ public class RobotContainer {
     // // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverXbox.getRawAxis(2));
+        () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRawAxis(2));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -99,6 +100,10 @@ public class RobotContainer {
 
     shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
     shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
+
+    shooterJoystick.button(5).onTrue(new PIDRotateArmCommand(Constants.Arm.lowestArmAngle));
+    shooterJoystick.button(3).onTrue(new PIDRotateArmCommand(Constants.Arm.highestArmAngle));
+    
     // shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     // shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
@@ -139,6 +144,12 @@ public class RobotContainer {
     SmartDashboard.putNumber("Total Current", totalCurrent);
     SmartDashboard.putNumber("Temperature", temperatureFahrenheit);
     SmartDashboard.putNumber("Voltage", voltage);
+  }
+
+  public void joystickValues(){
+    SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
+    SmartDashboard.putNumber("X value", driverXbox.getLeftX());
+    SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));
   }
 
 }
