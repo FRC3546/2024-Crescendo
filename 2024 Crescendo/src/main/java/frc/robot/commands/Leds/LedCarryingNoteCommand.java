@@ -27,7 +27,7 @@ public class LedCarryingNoteCommand extends Command{
     ledSubsystem.LEDOrange();
     new WaitCommand(0.5);
     ledSubsystem.LEDOff();
-    new WaitCommand(0.5)
+    new WaitCommand(0.5);
     
   }
 

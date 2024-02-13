@@ -42,7 +42,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     
     public IntakeShooterSubsystem(){
 
-        noteSensor = new DigitalInput(0);
+        noteSensor = new DigitalInput(1);
 
         intakeMotor = new VictorSP(0);
         intakeMotor.setInverted(true);

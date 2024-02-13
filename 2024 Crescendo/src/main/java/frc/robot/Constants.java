@@ -33,9 +33,9 @@ public final class Constants {
 
   public static final class Arm{
 
-    public static final double ampArmAngle = 0;
+    public static final double ampArmAngle = 0.570000;
     public static final double speakerArmAngle = 0.4213289;
-    public static final double intakeArmAngle = 0;
+    public static final double intakeArmAngle = 0.399;
     public static final double trapArmAngle = 0;
 
     public static final double midArmAngle = 0;
