@@ -24,7 +24,7 @@ public class PIDRotateArmCommand extends Command{
     public PIDRotateArmCommand(double setPosition){
         
         this.setPosition = setPosition;
-        pidLoop = new PIDController(1, 0, 0.001);
+        pidLoop = new PIDController(8, 0.005, 1.3);
         pidLoop.setTolerance(0.05);
         pidLoop.setSetpoint(setPosition);
 

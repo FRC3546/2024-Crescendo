@@ -100,9 +100,11 @@ public class RobotContainer {
     shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
     shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
 
-    shooterJoystick.button(5).onTrue(new PIDRotateArmCommand(Constants.Arm.lowestArmAngle));
+    shooterJoystick.button(5).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
     shooterJoystick.button(3).onTrue(new PIDRotateArmCommand(Constants.Arm.highestArmAngle));
     
+    
+
     // shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     // shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
