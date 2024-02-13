@@ -24,9 +24,9 @@ public class LedCarryingNoteCommand extends Command{
   @Override
   public void execute() {
     
-    ledSubsystem.LEDOrange();
+    ledSubsystem.orange();
     new WaitCommand(0.5);
-    ledSubsystem.LEDOff();
+    ledSubsystem.off();
     new WaitCommand(0.5);
     
   }
