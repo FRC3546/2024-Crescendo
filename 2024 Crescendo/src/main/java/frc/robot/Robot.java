@@ -70,9 +70,11 @@ public class Robot extends TimedRobot {;
   @Override
   public void robotPeriodic() {
 
+
     // upperShooterSpeed = SmartDashboard.getNumber("upper motor speed", 0);
     // lowerShooterSpeed = SmartDashboard.getNumber("lower motor speed", 0);
     m_robotContainer.trackPowerMetrics();
+    m_robotContainer.joystickValues();
 
     // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
     // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
