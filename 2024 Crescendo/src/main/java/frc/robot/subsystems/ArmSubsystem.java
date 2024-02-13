@@ -38,7 +38,13 @@ public class ArmSubsystem extends SubsystemBase{
         rightArmMotor.setInverted(true);
         throughBoreEncoder = rightArmMotor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         
-        extendSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+        leftArmMotor.setSmartCurrentLimit(50);
+        rightArmMotor.setSmartCurrentLimit(50);
+
+        leftArmMotor.burnFlash();
+        rightArmMotor.burnFlash();
+
+        extendSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, 0, 1);
 
     } 
 

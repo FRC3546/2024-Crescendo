@@ -69,6 +69,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         upperPIDController.setIZone(0);
         upperPIDController.setFF(0.0002);
         upperPIDController.setOutputRange(0, 1);
+
+        lowerShooterMotor.setSmartCurrentLimit(40);
+        upperShooterMotor.setSmartCurrentLimit(40);
         
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();
