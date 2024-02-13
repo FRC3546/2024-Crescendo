@@ -23,7 +23,7 @@ import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 
-// import frc.robot.commands.Arm.ToggleArmCommand;
+import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
@@ -36,6 +36,7 @@ import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
 
 
@@ -98,7 +99,6 @@ public class RobotContainer {
 
     shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
     shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
-    
     // shooterJoystick.button(6).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     // shooterJoystick.button(2).toggleOnTrue((new IntakeNoteCommandGroup()));
@@ -107,6 +107,7 @@ public class RobotContainer {
     //                 (new SpeakerScoreCommandGroup(4400));
                       //  SmartDashboard.getNumber("upper motor speed", 0.0),
                       //  SmartDashboard.getNumber("lower motor speed", 0.0)));
+    shooterJoystick.button(11).toggleOnTrue(new ToggleArmCommand(null));
 
     
     
