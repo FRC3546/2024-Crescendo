@@ -6,47 +6,37 @@ package frc.robot;
 
 import java.io.File;
 
-//WPILIB
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+//WPILIB
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commandgroups.SpeakerScoreCommandGroup;
-import frc.robot.commandgroups.IntakeNoteCommandGroup;
-
 //COMMANDS
+import frc.robot.commands.Autos;
+import frc.robot.commands.Arm.JoystickRotateArmCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.PIDRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
-
 import frc.robot.commands.Arm.ToggleArmCommand;
-import frc.robot.commands.Intake.ReverseIntakeCommand;
-import frc.robot.commands.Intake.SensorIntakeCommand;
-import frc.robot.commands.Shooter.RunShooterCommand;
+import frc.robot.commandgroups.IntakeNoteCommandGroup;
+import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.commands.Shooter.InputRunShooterCommand;
-import frc.robot.commands.Shooter.PIDShooterCommand;
 
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
-
-
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -97,6 +87,8 @@ public class RobotContainer {
 
 
   private void configureBindings() {
+
+
 
     shooterJoystick.button(11).toggleOnTrue(new ToggleArmCommand(armSubsystem));
 
