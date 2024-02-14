@@ -141,6 +141,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Total Current", totalCurrent);
     SmartDashboard.putNumber("Temperature", temperatureFahrenheit);
     SmartDashboard.putNumber("Voltage", voltage);
+    SmartDashboard.putBoolean("Sensor Value", intakeShooterSubsystem.getSensorValue());
   }
 
   public void joystickValues(){
