@@ -95,6 +95,7 @@ public class RobotContainer {
     shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
     shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
 
+    //use the following buttons, they use the PID control.
     shooterJoystick.button(8).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
     shooterJoystick.button(10).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
     shooterJoystick.button(12).onTrue(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle));
