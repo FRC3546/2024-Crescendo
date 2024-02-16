@@ -32,7 +32,7 @@ import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
-
+import frc.robot.commands.Shooter.RunShooterCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
@@ -90,17 +90,17 @@ public class RobotContainer {
 
 
 
-    shooterJoystick.button(11).toggleOnTrue(new ToggleArmCommand(armSubsystem));
+    shooterJoystick.button(3).toggleOnTrue(new ToggleArmCommand(armSubsystem));
 
-    shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
-    shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
+    // shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
+    // shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
 
-    shooterJoystick.button(8).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
-    shooterJoystick.button(10).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
-    shooterJoystick.button(12).onTrue(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle));
+    shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
+    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
+    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM, Constants.Shooter.speakerRPM));
+    shooterJoystick.button(11).toggleOnTrue(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle)); 
     
-    shooterJoystick.button(2).toggleOnTrue(new IntakeNoteCommandGroup());
-    shooterJoystick.button(1).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
+    
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
     
     // shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
