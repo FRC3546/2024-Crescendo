@@ -43,8 +43,6 @@ public class PIDRotateArmCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // Should finish when the arm is at the set PID setpoint.
-        // return setPosition == armSubsystem.getArmPosition();
-        return pidLoop.atSetpoint();
+        return false;
     }
 }
