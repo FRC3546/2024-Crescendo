@@ -20,7 +20,6 @@ public class JoystickRotateArmCommand extends Command{
     public JoystickRotateArmCommand(DoubleSupplier motorValue){
         
         this.motorValue = motorValue;
-         this.armSubsystem = armSubsystem;
         addRequirements(armSubsystem);
     }
 
