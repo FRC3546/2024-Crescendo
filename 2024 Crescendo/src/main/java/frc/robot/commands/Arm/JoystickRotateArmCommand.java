@@ -15,21 +15,21 @@ public class JoystickRotateArmCommand extends Command{
 
     DoubleSupplier motorValue;
     ArmSubsystem armSubsystem = RobotContainer.armSubsystem;
-    // private FlipperSubsystem m_flipperSubsystem = RobotContainer.m_flipperSubsystem;
+     //private FlipperSubsystem m_flipperSubsystem = RobotContainer.m_flipperSubsystem;
     
     public JoystickRotateArmCommand(DoubleSupplier motorValue){
         
         this.motorValue = motorValue;
-        // this.armSubsystem = armSubsystem;
+         this.armSubsystem = armSubsystem;
         addRequirements(armSubsystem);
     }
 
-    // @Override
-    // public void initialize(){
+     @Override
+     public void initialize(){
         
 
 
-    // }
+     }
 
     @Override
     public void execute() {
@@ -58,17 +58,17 @@ public class JoystickRotateArmCommand extends Command{
             System.out.println(armSubsystem.getArmPosition());
         }
 
-        // armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
+         armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
 
     }
 
-    // @Override
-    // public void end(boolean interrupted) {
-    //     armSubsystem.StopArm();
-    // }
+     @Override
+     public void end(boolean interrupted) {
+         armSubsystem.StopArm();
+     }
 
-    // @Override
-    // public boolean isFinished() {
-    //     return false;
-    // }
+     @Override
+     public boolean isFinished() {
+         return false;
+     }
 }

@@ -29,7 +29,9 @@ import frc.robot.commands.Arm.PIDRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.ToggleArmCommand;
+import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
+import frc.robot.commandgroups.IntakeWithArmCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
@@ -98,7 +100,9 @@ public class RobotContainer {
     shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
     shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM, Constants.Shooter.speakerRPM));
-    shooterJoystick.button(11).toggleOnTrue(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle)); 
+    shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
+    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6)); 
+    
     
     
     // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
