@@ -26,7 +26,7 @@ public class IntakeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-
+        new WaitCommand(2);
         intakeSubsystem.stopIntake();
     }
 

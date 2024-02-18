@@ -93,14 +93,14 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         intakeMotor.stopMotor();
     }
 
-    public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
+     public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
         
-        this.upperShooterSpeed = upperShooterSpeed;
-        this.lowerShooterSpeed = lowerShooterSpeed;
+         this.upperShooterSpeed = upperShooterSpeed;
+         this.lowerShooterSpeed = lowerShooterSpeed;
 
-        upperShooterMotor.set(Math.abs(upperShooterSpeed));
-        lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
-    }
+         upperShooterMotor.set(Math.abs(upperShooterSpeed));
+         lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
+     }
 
     @Deprecated
     public void inputRunShooter(){
@@ -115,15 +115,15 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         return !noteSensor.get();
     }
 
-    public void runShooter(int RPM){
+     public void runShooter(int RPM){
 
-        if(RPM > Constants.Shooter.maxShooterRMP){
-            RPM = Constants.Shooter.maxShooterRMP;
-        }
+         if(RPM > Constants.Shooter.maxShooterRMP){
+             RPM = Constants.Shooter.maxShooterRMP;
+         }
 
-        lowerPIDController.setReference(RPM, ControlType.kVelocity);
-        upperPIDController.setReference(RPM, ControlType.kVelocity);
-    }
+         lowerPIDController.setReference(RPM, ControlType.kVelocity);
+         upperPIDController.setReference(RPM, ControlType.kVelocity);
+     }
 
     //detects ifthe shooter is at a certain range of RPM
     public boolean isShooterAtRPM(int RPM){

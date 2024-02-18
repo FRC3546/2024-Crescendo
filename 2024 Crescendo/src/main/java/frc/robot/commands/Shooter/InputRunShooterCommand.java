@@ -20,7 +20,7 @@ public class InputRunShooterCommand extends Command{
 
     @Override
     public void initialize(){
-        shooterSubsystem.inputRunShooter();
+         shooterSubsystem.inputRunShooter();
     }
 
     @Override

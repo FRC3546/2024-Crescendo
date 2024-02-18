@@ -26,7 +26,7 @@ public class PIDShooterCommand extends Command{
 
     @Override
     public void initialize(){
-        shooterSubsystem.runShooter(RPM);
+         shooterSubsystem.runShooter(RPM);
     }
 
     @Override

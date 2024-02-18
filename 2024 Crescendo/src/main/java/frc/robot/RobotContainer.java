@@ -29,21 +29,27 @@ import frc.robot.commands.Arm.PIDRotateArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.ToggleArmCommand;
+import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
 import frc.robot.commandgroups.IntakeWithArmCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
+import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
+// import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -52,12 +58,14 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
   public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
-  
+
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
   PowerDistribution powerDistribution = new PowerDistribution(1, ModuleType.kRev);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
 
     setMotorBrake(true);
@@ -86,40 +94,18 @@ public class RobotContainer {
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
-
-
   private void configureBindings() {
-
-
-
     shooterJoystick.button(3).toggleOnTrue(new ToggleArmCommand(armSubsystem));
-
-    // shooterJoystick.button(6).toggleOnTrue(new RotateArmCommand(Constants.Arm.lowestArmAngle, 0.2));
-    // shooterJoystick.button(4).toggleOnTrue(new RotateArmCommand(Constants.Arm.highestArmAngle, 0.2));
-
     shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
+    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
-    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM, Constants.Shooter.speakerRPM));
+    shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM));
     shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
-    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6)); 
-    
-    
-    
-    // shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeShooterSubsystem));
-    
-    // shooterJoystick.button(3).whileTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.6));
-    // shooterJoystick.button(1).whileTrue
-    //                 (new SpeakerScoreCommandGroup(4400));
-                      //  SmartDashboard.getNumber("upper motor speed", 0.0),
-                      //  SmartDashboard.getNumber("lower motor speed", 0.0)));
-
-
-    
-    
+    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.7));
+    shooterJoystick.button(1).onTrue(new IntakeCommand(intakeShooterSubsystem, 0.7));
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 
@@ -147,7 +133,7 @@ public class RobotContainer {
     SmartDashboard.putBoolean("Sensor Value", intakeShooterSubsystem.getSensorValue());
   }
 
-  public void joystickValues(){
+  public void joystickValues() {
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));
