@@ -12,7 +12,7 @@ public class IntakeWithArmCommandGroup extends ParallelDeadlineGroup {
     public IntakeWithArmCommandGroup() {
 
         super(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle),
-                new SensorIntakeCommand(RobotContainer.intakeShooterSubsystem, 0.6));
+                new SensorIntakeCommand(RobotContainer.intakeShooterSubsystem, 0.8));
 
     }
 }
