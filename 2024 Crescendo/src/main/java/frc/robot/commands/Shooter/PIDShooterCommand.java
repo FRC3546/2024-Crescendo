@@ -16,8 +16,8 @@ public class PIDShooterCommand extends Command{
 
         this.RPM = RPM;
 
-        if(RPM > Constants.Shooter.maxShooterRMP){
-            RPM = Constants.Shooter.maxShooterRMP;
+        if(RPM > Constants.Shooter.maxShooterRPM){
+            RPM = Constants.Shooter.maxShooterRPM;
         }
 
         this.shooterSubsystem = shooterSubsystem;

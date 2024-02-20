@@ -26,13 +26,14 @@ public class IntakeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        new WaitCommand(2);
-        intakeSubsystem.stopIntake();
+      
     }
 
     @Override
     public boolean isFinished() {
-        return false;
-    }
+     new WaitCommand(2);
+        intakeSubsystem.stopIntake(); 
+        return true;  
+    }  
 }
 

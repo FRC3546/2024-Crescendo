@@ -56,16 +56,16 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerPIDController = lowerShooterMotor.getPIDController();
         upperPIDController = upperShooterMotor.getPIDController();
 
-        lowerPIDController.setP(0.008);
+        lowerPIDController.setP(0.007);
         lowerPIDController.setI(0);
-        lowerPIDController.setD(0.0001);
+        lowerPIDController.setD(0.0002);
         lowerPIDController.setIZone(0);
         lowerPIDController.setFF(0.0002);
         lowerPIDController.setOutputRange(0, 1);
 
-        upperPIDController.setP(0.0008);
+        upperPIDController.setP(0.0007);
         upperPIDController.setI(0);
-        upperPIDController.setD(0.000);
+        upperPIDController.setD(0.0002);
         upperPIDController.setIZone(0);
         upperPIDController.setFF(0.0002);
         upperPIDController.setOutputRange(0, 1);
@@ -117,8 +117,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
      public void runShooter(int RPM){
 
-         if(RPM > Constants.Shooter.maxShooterRMP){
-             RPM = Constants.Shooter.maxShooterRMP;
+         if(RPM > Constants.Shooter.maxShooterRPM){
+             RPM = Constants.Shooter.maxShooterRPM;
          }
 
          lowerPIDController.setReference(RPM, ControlType.kVelocity);

@@ -26,8 +26,9 @@ public final class Constants {
 
   public static final class Shooter{
 
-    public static final int maxShooterRMP = 1000;
-    public static final int speakerRPM = 1000;
+    public static final int maxShooterRPM = 5450;
+    public static final int speakerRPM = 3000;
+    public static final int ampRPM = 1600;
     
   }
 

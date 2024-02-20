@@ -33,6 +33,9 @@ import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
 import frc.robot.commandgroups.IntakeWithArmCommandGroup;
+import frc.robot.commandgroups.ManualArmControlCommandGroup;
+import frc.robot.commandgroups.RotateAmpCommandGroup;
+import frc.robot.commandgroups.RotateSpeakerCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
@@ -70,7 +73,6 @@ public class RobotContainer {
 
     setMotorBrake(true);
 
-    armSubsystem.setDefaultCommand(new JoystickRotateArmCommand(() -> shooterJoystick.getRawAxis(1)));
 
     // Configure the trigger bindings
     configureBindings();
@@ -95,14 +97,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
     shooterJoystick.button(3).toggleOnTrue(new ToggleArmCommand(armSubsystem));
-    shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(Constants.Arm.ampArmAngle));
+    shooterJoystick.button(7).onTrue(new RotateAmpCommandGroup());
     shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
-    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(Constants.Arm.speakerArmAngle));
+    shooterJoystick.button(9).onTrue(new RotateSpeakerCommandGroup());
     shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM));
     shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
-    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.7));
-    shooterJoystick.button(1).onTrue(new IntakeCommand(intakeShooterSubsystem, 0.7));
+    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.8));
+    shooterJoystick.button(1).onTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));
   }
 
   public void setMotorBrake(boolean brake) {
