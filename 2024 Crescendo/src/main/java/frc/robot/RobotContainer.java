@@ -97,7 +97,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
+    // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
     shooterJoystick.button(3).toggleOnTrue(new ToggleArmCommand(armSubsystem));
     shooterJoystick.button(7).onTrue(new RotateAmpCommandGroup());
     shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));

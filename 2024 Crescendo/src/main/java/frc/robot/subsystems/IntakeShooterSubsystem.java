@@ -58,14 +58,14 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         lowerPIDController.setP(0.007);
         lowerPIDController.setI(0);
-        lowerPIDController.setD(0.0002);
+        lowerPIDController.setD(0.0007);
         lowerPIDController.setIZone(0);
         lowerPIDController.setFF(0.0002);
         lowerPIDController.setOutputRange(0, 1);
 
         upperPIDController.setP(0.0007);
         upperPIDController.setI(0);
-        upperPIDController.setD(0.0002);
+        upperPIDController.setD(0.0007);
         upperPIDController.setIZone(0);
         upperPIDController.setFF(0.0002);
         upperPIDController.setOutputRange(0, 1);
