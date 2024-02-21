@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
+import frc.robot.commands.Arm.HoldArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.Autos;
@@ -73,6 +74,8 @@ public class RobotContainer {
 
     setMotorBrake(true);
 
+    // armSubsystem.setDefaultCommand(new PIDRotateArmCommand(armSubsystem.getArmPosition()));
+    armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
 
     // Configure the trigger bindings
     configureBindings();

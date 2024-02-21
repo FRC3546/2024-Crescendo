@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //vendordeps
 import com.revrobotics.CANSparkMax;
@@ -58,14 +59,14 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
         lowerPIDController.setP(0.007);
         lowerPIDController.setI(0);
-        lowerPIDController.setD(0.0007);
+        lowerPIDController.setD(0.0015);
         lowerPIDController.setIZone(0);
         lowerPIDController.setFF(0.0002);
         lowerPIDController.setOutputRange(0, 1);
 
         upperPIDController.setP(0.0007);
         upperPIDController.setI(0);
-        upperPIDController.setD(0.0007);
+        upperPIDController.setD(0.0015);
         upperPIDController.setIZone(0);
         upperPIDController.setFF(0.0002);
         upperPIDController.setOutputRange(0, 1);
@@ -171,8 +172,8 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
         // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
         // SmartDashboard.putBoolean("Note sensor value", getSensorValue());
-        // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
-        // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
+        // SmartDashboard.putNumber("upper shooter value",getUpperShooterRPM());
+        // SmartDashboard.putNumber("lower shooter value",getLowerShooterRPM());
     }
 
 
