@@ -42,7 +42,8 @@ public class PIDShooterCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return shooterSubsystem.isShooterAtRPM(RPM);
+        // return shooterSubsystem.isShooterAtRPM(RPM);
+        return false;
     }
 }
 

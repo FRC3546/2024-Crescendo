@@ -105,7 +105,7 @@ public class RobotContainer {
     shooterJoystick.button(7).onTrue(new RotateAmpCommandGroup());
     shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     shooterJoystick.button(9).onTrue(new RotateSpeakerCommandGroup());
-    shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, Constants.Shooter.speakerRPM));
+    shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, 4000));
     shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
     shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.8));
     shooterJoystick.button(1).onTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));

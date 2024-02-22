@@ -57,19 +57,19 @@ public class IntakeShooterSubsystem extends SubsystemBase{
         lowerPIDController = lowerShooterMotor.getPIDController();
         upperPIDController = upperShooterMotor.getPIDController();
 
-        lowerPIDController.setP(0.007);
+        lowerPIDController.setP(0.003);
         lowerPIDController.setI(0);
-        lowerPIDController.setD(0.0015);
+        lowerPIDController.setD(0.055);
         lowerPIDController.setIZone(0);
-        lowerPIDController.setFF(0.0002);
-        lowerPIDController.setOutputRange(0, 1);
+        lowerPIDController.setFF(0);
+        lowerPIDController.setOutputRange(0, 0.8);
 
-        upperPIDController.setP(0.0007);
+        upperPIDController.setP(0.003);
         upperPIDController.setI(0);
-        upperPIDController.setD(0.0015);
+        upperPIDController.setD(0.055);
         upperPIDController.setIZone(0);
-        upperPIDController.setFF(0.0002);
-        upperPIDController.setOutputRange(0, 1);
+        upperPIDController.setFF(0);
+        upperPIDController.setOutputRange(0, 0.8);
 
         lowerShooterMotor.setSmartCurrentLimit(40);
         upperShooterMotor.setSmartCurrentLimit(40);

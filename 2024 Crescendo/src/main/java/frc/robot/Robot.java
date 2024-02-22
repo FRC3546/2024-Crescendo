@@ -76,8 +76,8 @@ public class Robot extends TimedRobot {;
     m_robotContainer.trackPowerMetrics();
     m_robotContainer.joystickValues();
 
-    // SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
-    // SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
+    SmartDashboard.putNumber("upper shooter value",RobotContainer.intakeShooterSubsystem.getUpperShooterRPM());
+    SmartDashboard.putNumber("lower shooter value",RobotContainer.intakeShooterSubsystem.getLowerShooterRPM());
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
