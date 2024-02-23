@@ -22,7 +22,8 @@ public class ClimbSubsystem extends SubsystemBase {
         leftClimbMotor = new CANSparkMax(40, MotorType.kBrushless);
         rightClimbMotor = new CANSparkMax(41, MotorType.kBrushless);
 
-        leftClimbMotor.follow(rightClimbMotor);
+        leftClimbMotor.follow(rightClimbMotor, true);
+        rightClimbMotor.setInverted(true);
 
         leftClimbMotor.setSmartCurrentLimit(40);
         rightClimbMotor.setSmartCurrentLimit(40);
@@ -55,5 +56,13 @@ public class ClimbSubsystem extends SubsystemBase {
     public void toggleClimberPiston(){
 
         climberPiston.toggle();
+    }
+
+    public double getRightEncoder(){
+        return rightClimbMotor.getEncoder().getPosition();
+    }
+
+    public double getLeftEncoder(){
+        return leftClimbMotor.getEncoder().getPosition();
     }
 }

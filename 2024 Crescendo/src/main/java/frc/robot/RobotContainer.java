@@ -19,6 +19,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Auto.AutoCommandGroup;
+import frc.robot.Auto.AutoRotate;
+import frc.robot.Auto.TimedDrive;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
@@ -26,6 +29,7 @@ import frc.robot.commands.Arm.ExtendArmCommand;
 import frc.robot.commands.Arm.HoldArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
@@ -68,6 +72,7 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
   public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
+  public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
@@ -92,8 +97,8 @@ public class RobotContainer {
     // // left stick controls translation
     // // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverXbox.getRawAxis(1),
+        () -> -driverXbox.getRawAxis(0),
         () -> -driverXbox.getRawAxis(2));
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
@@ -108,7 +113,14 @@ public class RobotContainer {
 
   private void configureBindings() {
     // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
-    shooterJoystick.button(3).toggleOnTrue(new RetractArmCommand(armSubsystem));
+    shooterJoystick.button(3).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
+    shooterJoystick.button(5).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
+
+    // shooterJoystick.button(4).toggleOnTrue(new TimedDrive(drivebase, 1, 0, 0, 3));
+    shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
+
+
+    shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle));
     shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
     shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle));
@@ -118,7 +130,7 @@ public class RobotContainer {
     shooterJoystick.button(1).toggleOnTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));
 
     // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> armSubsystem.getArmInput()));
-    shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
+    shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.retractedSpeakerArmAngle));
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
     shooterJoystick.button(10).onTrue(new RunShooterCommand(intakeShooterSubsystem, () -> intakeShooterSubsystem.getInputShooterSpeed(), () -> intakeShooterSubsystem.getInputShooterSpeed()));
 
@@ -156,6 +168,9 @@ public class RobotContainer {
   public void joystickValues() {
 
     SmartDashboard.putNumber("input shooter speed value", intakeShooterSubsystem.getInputShooterSpeed());
+    SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
+    SmartDashboard.putNumber("right climber motor", climbSubsystem.getRightEncoder());
+
 
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());

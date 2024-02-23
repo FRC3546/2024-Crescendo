@@ -45,6 +45,8 @@ public final class Constants {
     public static final double lowestArmAngle = 0.399;
     public static final double highestArmAngle = 0.65;
 
+    public static final double retractedSpeakerArmAngle = 0.6223;
+
   }
 
   public static final class Auton
@@ -68,9 +70,9 @@ public final class Constants {
 
     public static final int kDriverControllerPort = 0;
     // Joystick Deadband
-    public static final double LEFT_X_DEADBAND  = 0.01;
-    public static final double LEFT_Y_DEADBAND  = 0.01;
-    public static final double RIGHT_X_DEADBAND = 0.01;
+    public static final double LEFT_X_DEADBAND  = 0;
+    public static final double LEFT_Y_DEADBAND  = 0;
+    public static final double RIGHT_X_DEADBAND = 0;
     public static final double TURN_CONSTANT    = 6;
   }
 }
