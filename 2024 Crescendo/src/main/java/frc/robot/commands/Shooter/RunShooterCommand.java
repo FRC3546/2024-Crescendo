@@ -1,5 +1,9 @@
 package frc.robot.commands.Shooter;
 
+import java.util.function.DoubleSupplier;
+
+import com.fasterxml.jackson.databind.ser.std.NumberSerializers.DoubleSerializer;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 
@@ -7,28 +11,33 @@ public class RunShooterCommand extends Command{
 
     IntakeShooterSubsystem shooterSubsystem;
 
-    double upperShooterSpeed;
-    double lowerShooterSpeed;
+    DoubleSupplier upperShooterSpeed;
+    DoubleSupplier lowerShooterSpeed;
     
-    public RunShooterCommand(IntakeShooterSubsystem shooterSubsystem, double upperShooterSpeed, double lowerShooterSpeed){
+    public RunShooterCommand(IntakeShooterSubsystem shooterSubsystem, DoubleSupplier upperShooterSpeed, DoubleSupplier lowerShooterSpeed){
 
         this.upperShooterSpeed = upperShooterSpeed;
         this.lowerShooterSpeed = lowerShooterSpeed;
 
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
+        System.out.println(upperShooterSpeed.getAsDouble() +" "+ lowerShooterSpeed.getAsDouble());
     }
 
     @Override
     public void initialize(){
-        shooterSubsystem.runShooter(upperShooterSpeed, lowerShooterSpeed);
+        
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        shooterSubsystem.runShooter(upperShooterSpeed.getAsDouble(), lowerShooterSpeed.getAsDouble());
+        // System.out.println(upperShooterSpeed.getAsDouble() +" "+ lowerShooterSpeed.getAsDouble());
+    }
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("command ended");
         shooterSubsystem.stopShooter();
     }
 

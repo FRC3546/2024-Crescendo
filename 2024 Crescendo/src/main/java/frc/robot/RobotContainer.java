@@ -5,6 +5,7 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -17,9 +18,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 import frc.robot.commands.Autos;
+import frc.robot.commands.Arm.ExtendArmCommand;
 import frc.robot.commands.Arm.HoldArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -27,6 +30,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.PIDRotateArmCommand;
+import frc.robot.commands.Arm.RetractArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.ToggleArmCommand;
@@ -39,6 +43,7 @@ import frc.robot.commandgroups.RotateAmpCommandGroup;
 import frc.robot.commandgroups.RotateSpeakerCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
 import frc.robot.commands.Shooter.AmpScoreCommand;
+// import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
@@ -46,6 +51,7 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -99,16 +105,24 @@ public class RobotContainer {
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
+
   private void configureBindings() {
     // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
-    shooterJoystick.button(3).toggleOnTrue(new ToggleArmCommand(armSubsystem));
-    shooterJoystick.button(7).onTrue(new RotateAmpCommandGroup());
+    shooterJoystick.button(3).toggleOnTrue(new RetractArmCommand(armSubsystem));
+    shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle));
     shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
-    shooterJoystick.button(9).onTrue(new RotateSpeakerCommandGroup());
-    shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, 4000));
+    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle));
+    // shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, 2000));
     shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
     shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.8));
-    shooterJoystick.button(1).onTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));
+    shooterJoystick.button(1).toggleOnTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));
+
+    // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> armSubsystem.getArmInput()));
+    shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
+    // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
+    shooterJoystick.button(10).onTrue(new RunShooterCommand(intakeShooterSubsystem, () -> intakeShooterSubsystem.getInputShooterSpeed(), () -> intakeShooterSubsystem.getInputShooterSpeed()));
+
+    new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
   public void setMotorBrake(boolean brake) {
@@ -140,6 +154,9 @@ public class RobotContainer {
   }
 
   public void joystickValues() {
+
+    SmartDashboard.putNumber("input shooter speed value", intakeShooterSubsystem.getInputShooterSpeed());
+
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));

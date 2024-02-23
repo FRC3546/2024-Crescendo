@@ -9,7 +9,7 @@ public class RotateIntakeCommandGroup extends ParallelDeadlineGroup {
 
     public RotateIntakeCommandGroup() {
 
-        super(new PIDRotateArmCommand(Constants.Arm.intakeArmAngle),
+        super(new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle),
                 new IntakeNoteCommandGroup());
     }
 }

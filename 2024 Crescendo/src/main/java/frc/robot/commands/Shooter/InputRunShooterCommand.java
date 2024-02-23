@@ -1,39 +1,39 @@
-package frc.robot.commands.Shooter;
+// package frc.robot.commands.Shooter;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.subsystems.IntakeShooterSubsystem;
 
-public class InputRunShooterCommand extends Command{
+// public class InputRunShooterCommand extends Command{
 
-    IntakeShooterSubsystem shooterSubsystem;
+//     IntakeShooterSubsystem shooterSubsystem;
 
-    double upperShooterSpeed;
-    double lowerShooterSpeed;
+//     double upperShooterSpeed;
+//     double lowerShooterSpeed;
     
-    public InputRunShooterCommand(IntakeShooterSubsystem shooterSubsystem){
+//     public InputRunShooterCommand(IntakeShooterSubsystem shooterSubsystem){
 
         
 
-        this.shooterSubsystem = shooterSubsystem;
-        addRequirements(shooterSubsystem);
-    }
+//         this.shooterSubsystem = shooterSubsystem;
+//         addRequirements(shooterSubsystem);
+//     }
 
-    @Override
-    public void initialize(){
-         shooterSubsystem.inputRunShooter();
-    }
+//     @Override
+//     public void initialize(){
+//          shooterSubsystem.inputRunShooter();
+//     }
 
-    @Override
-    public void execute() {}
+//     @Override
+//     public void execute() {}
 
-    @Override
-    public void end(boolean interrupted) {
-        shooterSubsystem.stopShooter();
-    }
+//     @Override
+//     public void end(boolean interrupted) {
+//         shooterSubsystem.stopShooter();
+//     }
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
-}
+//     @Override
+//     public boolean isFinished() {
+//         return false;
+//     }
+// }
 

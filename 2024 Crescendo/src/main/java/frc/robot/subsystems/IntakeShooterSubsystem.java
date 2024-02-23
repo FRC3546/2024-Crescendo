@@ -22,8 +22,9 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     //dashboard
     private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
-    private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
-    private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
+    // private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
+    // private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
+    private GenericEntry inputShooterSpeed = tab.add("PLEASE WORK speed", 0).getEntry();
 
     //motors
     private VictorSP intakeMotor;
@@ -103,11 +104,10 @@ public class IntakeShooterSubsystem extends SubsystemBase{
          lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
      }
 
-    @Deprecated
-    public void inputRunShooter(){
-        upperShooterMotor.set(Math.abs(inputUpperShooterSpeed.getDouble(0)));
-        lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
-    }
+    // public void inputRunShooter(){
+    //     upperShooterMotor.set(Math.abs(inputUpperShooterSpeed.getDouble(0)));
+    //     lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
+    // }
     
     public boolean getSensorValue(){
         
@@ -160,6 +160,10 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     public double getLowerShooterRPM(){
         return lowerShooterMotor.getEncoder().getVelocity();
+    }
+
+    public double getInputShooterSpeed(){
+        return inputShooterSpeed.getDouble(0);
     }
 
     @Override

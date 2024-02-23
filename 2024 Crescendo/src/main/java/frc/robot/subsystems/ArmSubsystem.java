@@ -6,10 +6,14 @@ import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -20,6 +24,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ArmSubsystem extends SubsystemBase{
 
+    private ShuffleboardTab tab = Shuffleboard.getTab("Arm");
+    private GenericEntry armAngle = tab.add("arm angle", 0.5).getEntry();
 
     private CANSparkMax leftArmMotor;
     private CANSparkMax rightArmMotor;
@@ -94,9 +100,15 @@ public class ArmSubsystem extends SubsystemBase{
         return throughBoreEncoder.getPosition();
     }
 
+    public double getArmInput(){
+        return armAngle.getDouble(0.5);
+    }
+
 
     @Override
     public void periodic(){
+
+        Shuffleboard.update();
         SmartDashboard.putNumber("Through Bore Encoder Value", getArmPosition());
     }
 

@@ -3,24 +3,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 
 public class PIDRotateArmCommand extends Command {
 
-    double setPosition;
+    DoubleSupplier setPosition;
 
     ArmSubsystem armSubsystem = RobotContainer.armSubsystem;
     PIDController pidLoop;
 
-    public PIDRotateArmCommand(double setPosition) {
+    public PIDRotateArmCommand(DoubleSupplier setPosition) {
 
         this.setPosition = setPosition;
         pidLoop = new PIDController(8, 0, 1.3);
         pidLoop.setTolerance(0.05);
         // position here means a value between 0.0 and 1.0 as measured by the motor
         // encoder
-        pidLoop.setSetpoint(setPosition);
+        pidLoop.setSetpoint(setPosition.getAsDouble());
 
         addRequirements(armSubsystem);
     }
