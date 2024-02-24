@@ -19,14 +19,15 @@ import frc.robot.commands.Intake.TimedIntakeCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
 public class TwoNoteAuto extends SequentialCommandGroup{
 
 
-    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeShooterSubsystem intakeShooterSubsystem){
+    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem){
 
         
         addCommands(
@@ -39,10 +40,10 @@ public class TwoNoteAuto extends SequentialCommandGroup{
                 //
                 new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle),
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(intakeShooterSubsystem, () -> 0.6, () -> 0.6, 3),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
                     new SequentialCommandGroup(
                         new WaitCommand(0.7), 
-                        new TimedIntakeCommand(intakeShooterSubsystem, 1, 1.5))
+                        new TimedIntakeCommand(intakeSubsystem, 1, 1.5))
             )),
 
             
@@ -56,10 +57,10 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             ),
 
             new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(intakeShooterSubsystem, () -> 0.6, () -> 0.6, 3),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
                     new SequentialCommandGroup(
                         new WaitCommand(0.7), 
-                        new TimedIntakeCommand(intakeShooterSubsystem, 1, 1.5)))
+                        new TimedIntakeCommand(intakeSubsystem, 1, 1.5)))
                         
         );
     }

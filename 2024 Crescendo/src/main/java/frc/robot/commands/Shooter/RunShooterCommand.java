@@ -2,19 +2,17 @@ package frc.robot.commands.Shooter;
 
 import java.util.function.DoubleSupplier;
 
-import com.fasterxml.jackson.databind.ser.std.NumberSerializers.DoubleSerializer;
-
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterCommand extends Command{
 
-    IntakeShooterSubsystem shooterSubsystem;
+    ShooterSubsystem shooterSubsystem;
 
     DoubleSupplier upperShooterSpeed;
     DoubleSupplier lowerShooterSpeed;
     
-    public RunShooterCommand(IntakeShooterSubsystem shooterSubsystem, DoubleSupplier upperShooterSpeed, DoubleSupplier lowerShooterSpeed){
+    public RunShooterCommand(ShooterSubsystem shooterSubsystem, DoubleSupplier upperShooterSpeed, DoubleSupplier lowerShooterSpeed){
 
         this.upperShooterSpeed = upperShooterSpeed;
         this.lowerShooterSpeed = lowerShooterSpeed;

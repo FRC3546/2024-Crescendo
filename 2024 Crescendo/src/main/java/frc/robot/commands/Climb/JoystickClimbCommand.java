@@ -1,14 +1,16 @@
 package frc.robot.commands.Climb;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class JoystickClimbCommand extends Command {
 
     private final ClimbSubsystem climbSubsystem;
-    private double speed;
+    private DoubleSupplier speed;
 
-    public JoystickClimbCommand(ClimbSubsystem climbSubsystem, double speed) {
+    public JoystickClimbCommand(ClimbSubsystem climbSubsystem, DoubleSupplier speed) {
 
         this.climbSubsystem = climbSubsystem;
         this.speed = speed;
@@ -21,7 +23,7 @@ public class JoystickClimbCommand extends Command {
 
     @Override
     public void execute() {
-        climbSubsystem.rotateClimbers(speed);
+        climbSubsystem.rotateClimbers(speed.getAsDouble()/4);
     }
 
     @Override

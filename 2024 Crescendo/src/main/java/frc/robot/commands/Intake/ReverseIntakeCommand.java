@@ -1,12 +1,12 @@
 package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class ReverseIntakeCommand extends Command{
 
-    IntakeShooterSubsystem intakeSubsystem;
+    IntakeSubsystem intakeSubsystem;
     
-    public ReverseIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
+    public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem){
         
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);

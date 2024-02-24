@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -38,6 +39,7 @@ import frc.robot.commands.Arm.RetractArmCommand;
 import frc.robot.commands.Arm.RotateArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.ToggleArmCommand;
+import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
@@ -53,7 +55,8 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.util.function.DoubleSupplier;
 
@@ -70,12 +73,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
-  public final static IntakeShooterSubsystem intakeShooterSubsystem = new IntakeShooterSubsystem();
+  public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
+  private CommandJoystick climberJoystick = new CommandJoystick(2);
+
   PowerDistribution powerDistribution = new PowerDistribution(1, ModuleType.kRev);
 
   /**
@@ -112,27 +118,32 @@ public class RobotContainer {
 
 
   private void configureBindings() {
+
+    climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
+
+
     // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
     shooterJoystick.button(3).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     shooterJoystick.button(5).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
 
     // shooterJoystick.button(4).toggleOnTrue(new TimedDrive(drivebase, 1, 0, 0, 3));
-    shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
+    // shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
 
-
+    shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
+    
     shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle));
-    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeShooterSubsystem));
-    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle));
+    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeSubsystem, shooterSubsystem));
+    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
     // shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, 2000));
     shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
-    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeShooterSubsystem, 0.8));
-    shooterJoystick.button(1).toggleOnTrue(new IntakeCommand(intakeShooterSubsystem, 0.8));
+    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
+    shooterJoystick.button(1).toggleOnTrue(new IntakeCommand(intakeSubsystem, 0.8));
 
     // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> armSubsystem.getArmInput()));
-    shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.retractedSpeakerArmAngle));
+    // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
-    shooterJoystick.button(10).onTrue(new RunShooterCommand(intakeShooterSubsystem, () -> intakeShooterSubsystem.getInputShooterSpeed(), () -> intakeShooterSubsystem.getInputShooterSpeed()));
+    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> shooterSubsystem.getInputShooterSpeed(), () -> shooterSubsystem.getInputShooterSpeed()));
 
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
@@ -162,12 +173,12 @@ public class RobotContainer {
     SmartDashboard.putNumber("Total Current", totalCurrent);
     SmartDashboard.putNumber("Temperature", temperatureFahrenheit);
     SmartDashboard.putNumber("Voltage", voltage);
-    SmartDashboard.putBoolean("Sensor Value", intakeShooterSubsystem.getSensorValue());
+    SmartDashboard.putBoolean("Sensor Value", intakeSubsystem.getSensorValue());
   }
 
   public void joystickValues() {
 
-    SmartDashboard.putNumber("input shooter speed value", intakeShooterSubsystem.getInputShooterSpeed());
+    SmartDashboard.putNumber("input shooter speed value", shooterSubsystem.getInputShooterSpeed());
     SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("right climber motor", climbSubsystem.getRightEncoder());
 

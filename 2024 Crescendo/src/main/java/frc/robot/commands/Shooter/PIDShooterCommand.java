@@ -3,16 +3,16 @@ package frc.robot.commands.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import java.lang.Thread;
 
 public class PIDShooterCommand extends Command{
 
-    IntakeShooterSubsystem shooterSubsystem;
+    ShooterSubsystem shooterSubsystem;
 
     int RPM;
     
-    public PIDShooterCommand(IntakeShooterSubsystem shooterSubsystem, int RPM){
+    public PIDShooterCommand(ShooterSubsystem shooterSubsystem, int RPM){
 
         this.RPM = RPM;
 

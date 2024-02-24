@@ -1,13 +1,13 @@
 package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class SensorReverseIntakeCommand extends Command{
 
-    IntakeShooterSubsystem intakeSubsystem;
+    IntakeSubsystem intakeSubsystem;
     
-    public SensorReverseIntakeCommand(IntakeShooterSubsystem intakeSubsystem){
+    public SensorReverseIntakeCommand(IntakeSubsystem intakeSubsystem){
         
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
@@ -17,7 +17,7 @@ public class SensorReverseIntakeCommand extends Command{
     @Override
     public void initialize(){
         // intakeSubsystem.intake();
-        intakeSubsystem.intake(-0.13);
+        intakeSubsystem.intake(-0.18);
     }
 
     @Override

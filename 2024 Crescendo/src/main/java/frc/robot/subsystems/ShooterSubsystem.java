@@ -18,7 +18,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
-public class IntakeShooterSubsystem extends SubsystemBase{
+public class ShooterSubsystem extends SubsystemBase{
 
     //dashboard
     private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
@@ -27,7 +27,6 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private GenericEntry inputShooterSpeed = tab.add("PLEASE WORK speed", 0).getEntry();
 
     //motors
-    private VictorSP intakeMotor;
     private CANSparkMax upperShooterMotor;
     private CANSparkMax lowerShooterMotor;
 
@@ -35,19 +34,15 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     private SparkPIDController lowerPIDController;
     private SparkPIDController upperPIDController;
 
-    //sensor
-    DigitalInput noteSensor;
+
 
     //not used but please leave
     private double upperShooterSpeed;
     private double lowerShooterSpeed;
     
-    public IntakeShooterSubsystem(){
+    public ShooterSubsystem(){
 
-        noteSensor = new DigitalInput(1);
-
-        intakeMotor = new VictorSP(0);
-        intakeMotor.setInverted(true);
+        
 
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
@@ -85,15 +80,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
 
     }
 
-    public void intake(double speed){
-        
-        intakeMotor.set(speed);
-    }
-
-    public void stopIntake(){
-
-        intakeMotor.stopMotor();
-    }
+    
 
      public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
         
@@ -109,12 +96,7 @@ public class IntakeShooterSubsystem extends SubsystemBase{
     //     lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
     // }
     
-    public boolean getSensorValue(){
-        
-        // the note sensor returns true by default, so the value needs to be 
-        // flipped so it returns true when detecting a piece
-        return !noteSensor.get();
-    }
+
 
      public void runShooter(int RPM){
 

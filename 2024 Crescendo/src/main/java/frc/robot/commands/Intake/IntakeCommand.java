@@ -1,14 +1,13 @@
 package frc.robot.commands.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeCommand extends Command{
 
-    IntakeShooterSubsystem intakeSubsystem;
+    IntakeSubsystem intakeSubsystem;
     double speed;
     
-    public IntakeCommand(IntakeShooterSubsystem intakeSubsystem, double speed){
+    public IntakeCommand(IntakeSubsystem intakeSubsystem, double speed){
         
         this.speed = speed;
         this.intakeSubsystem = intakeSubsystem;

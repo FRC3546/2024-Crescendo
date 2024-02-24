@@ -12,7 +12,7 @@ public class RotateSpeakerCommandGroup extends ParallelDeadlineGroup {
 
         super(new PIDRotateArmCommand(() -> 
         Constants.Arm.speakerArmAngle),
-                new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, Constants.Shooter.speakerRPM));
+                new PIDShooterCommand(RobotContainer.shooterSubsystem, Constants.Shooter.speakerRPM));
 
     }
 }

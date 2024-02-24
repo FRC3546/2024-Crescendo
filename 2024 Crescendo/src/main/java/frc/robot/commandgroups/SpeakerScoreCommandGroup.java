@@ -10,9 +10,9 @@ public class SpeakerScoreCommandGroup extends SequentialCommandGroup{
     public SpeakerScoreCommandGroup(int RPM){
 
         addCommands(
-            new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, RPM),
+            new PIDShooterCommand(RobotContainer.shooterSubsystem, RPM),
             
-            new IntakeCommand(RobotContainer.intakeShooterSubsystem, 1)
+            new IntakeCommand(RobotContainer.intakeSubsystem, 1)
         );
     }
     

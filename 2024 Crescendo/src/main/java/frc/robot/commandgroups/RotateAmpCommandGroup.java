@@ -11,7 +11,7 @@ public class RotateAmpCommandGroup extends ParallelDeadlineGroup {
     public RotateAmpCommandGroup() {
 
         super(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle),
-        new PIDShooterCommand(RobotContainer.intakeShooterSubsystem, Constants.Shooter.ampRPM));
+        new PIDShooterCommand(RobotContainer.shooterSubsystem, Constants.Shooter.ampRPM));
 
     }
 }

@@ -5,18 +5,18 @@ import java.util.function.DoubleSupplier;
 import com.fasterxml.jackson.databind.ser.std.NumberSerializers.DoubleSerializer;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 public class TimedRunShooterCommand extends Command{
 
-    IntakeShooterSubsystem shooterSubsystem;
+    ShooterSubsystem shooterSubsystem;
     Timer timer = new Timer();
     DoubleSupplier upperShooterSpeed;
     DoubleSupplier lowerShooterSpeed;
     double time;
     
-    public TimedRunShooterCommand(IntakeShooterSubsystem shooterSubsystem, DoubleSupplier upperShooterSpeed, DoubleSupplier lowerShooterSpeed, double time){
+    public TimedRunShooterCommand(ShooterSubsystem shooterSubsystem, DoubleSupplier upperShooterSpeed, DoubleSupplier lowerShooterSpeed, double time){
 
         this.upperShooterSpeed = upperShooterSpeed;
         this.lowerShooterSpeed = lowerShooterSpeed;

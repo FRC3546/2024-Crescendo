@@ -2,18 +2,21 @@ package frc.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.IntakeShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class AmpScoreCommand extends Command{
 
-    IntakeShooterSubsystem shooterSubsystem;
+    IntakeSubsystem intakeSubsystem;
+    ShooterSubsystem shooterSubsystem;
     boolean previousSensorValue;
     boolean currentSensorValue;
     boolean done;
     
-    public AmpScoreCommand(IntakeShooterSubsystem shooterSubsystem){
+    public AmpScoreCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem){
 
         this.shooterSubsystem = shooterSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
         addRequirements(shooterSubsystem);
     }
 
@@ -22,9 +25,9 @@ public class AmpScoreCommand extends Command{
         
         done = false;
         previousSensorValue = true;
-        currentSensorValue = shooterSubsystem.getSensorValue(); 
+        currentSensorValue = intakeSubsystem.getSensorValue(); 
         
-        shooterSubsystem.intake(0.4);
+        intakeSubsystem.intake(0.4);
         shooterSubsystem.runShooter(0.3, 0.3);
         
     }
@@ -33,7 +36,7 @@ public class AmpScoreCommand extends Command{
     public void execute() {
 
         previousSensorValue = currentSensorValue;
-        currentSensorValue = shooterSubsystem.getSensorValue();
+        currentSensorValue = intakeSubsystem.getSensorValue();
 
         if (currentSensorValue && !previousSensorValue){
         //if(previousSensorValue == false && currentSensorValue == true){
@@ -56,7 +59,7 @@ public class AmpScoreCommand extends Command{
     public void end(boolean interrupted) {
         new WaitCommand(1);
         shooterSubsystem.stopShooter();
-        shooterSubsystem.stopIntake();
+        intakeSubsystem.stopIntake();
     }
 
     @Override
