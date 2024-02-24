@@ -21,10 +21,10 @@ import com.revrobotics.CANSparkBase.ControlType;
 public class IntakeSubsystem extends SubsystemBase{
 
     //dashboard
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+    // private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
     // private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
     // private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
-    private GenericEntry inputShooterSpeed = tab.add("PLEASE WORK speed", 0).getEntry();
+    // private GenericEntry inputShooterSpeed = tab.add("PLEASE WORK speed", 0).getEntry();
 
     //motors
     private VictorSP intakeMotor;

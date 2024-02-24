@@ -13,15 +13,19 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Auto.AutoCommandGroup;
+import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.AutoRotate;
+import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.TimedDrive;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
@@ -41,7 +45,9 @@ import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.commands.Arm.ToggleArmCommand;
 import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
+import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
+import frc.robot.commandgroups.AmpScoreCommandGroup;
 import frc.robot.commandgroups.IntakeNoteCommandGroup;
 import frc.robot.commandgroups.IntakeWithArmCommandGroup;
 import frc.robot.commandgroups.ManualArmControlCommandGroup;
@@ -70,6 +76,9 @@ import java.util.function.DoubleSupplier;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
+  SendableChooser<Command> autos = new SendableChooser<>();
+
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
@@ -88,6 +97,12 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    autos.addOption("Backup Auto", new AutoLeave(drivebase, shooterSubsystem));
+    autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
+    // autos.addOption("Score and Leave", getAutonomousCommand());
+
+    SmartDashboard.putData("Autonomous", autos);
 
     setMotorBrake(true);
 
@@ -114,37 +129,47 @@ public class RobotContainer {
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+
+    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
   }
 
 
   private void configureBindings() {
 
+    //CLIMBER
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
+    climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
+    climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
 
 
+    //SHOOTER
     // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
-    shooterJoystick.button(3).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
-    shooterJoystick.button(5).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
-
     // shooterJoystick.button(4).toggleOnTrue(new TimedDrive(drivebase, 1, 0, 0, 3));
     // shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
+    shooterJoystick.button(1).whileTrue(new IntakeCommand(intakeSubsystem, 1));
+    shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.startingConfigArmAngle));
+    shooterJoystick.button(3).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle));
 
-    shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
-    shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
+    shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeSubsystem));
+
+    shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
+    shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     
-    shooterJoystick.button(7).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle));
-    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommand(intakeSubsystem, shooterSubsystem));
+    shooterJoystick.button(7).onTrue(new ParallelDeadlineGroup(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle), new RunShooterCommand(shooterSubsystem, () -> 0.15, () -> 0.15)));
     shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
-    // shooterJoystick.button(10).toggleOnTrue(new PIDShooterCommand(intakeShooterSubsystem, 2000));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup());
+    shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup(shooterSubsystem));
+
+    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
+    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
     shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
-    shooterJoystick.button(1).toggleOnTrue(new IntakeCommand(intakeSubsystem, 0.8));
+    
+    
 
     // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> armSubsystem.getArmInput()));
     // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
-    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> shooterSubsystem.getInputShooterSpeed(), () -> shooterSubsystem.getInputShooterSpeed()));
 
+    //DRIVER CONTROLLER
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
@@ -159,7 +184,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return autos.getSelected();
   }
 
   public void trackPowerMetrics() {

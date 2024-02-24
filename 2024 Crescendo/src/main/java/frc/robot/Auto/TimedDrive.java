@@ -33,7 +33,7 @@ public class TimedDrive extends Command{
 
         timer.reset();
         timer.start();
-        swerveSubsystem.setChassisSpeeds(new ChassisSpeeds(vx,vy,vr));
+        swerveSubsystem.drive(new ChassisSpeeds(vx,vy,vr));
 
     }
 
@@ -44,7 +44,7 @@ public class TimedDrive extends Command{
     public void end(boolean interrupted) {
         timer.stop();
         timer.reset();
-        swerveSubsystem.setChassisSpeeds(new ChassisSpeeds(0,0,0));
+        swerveSubsystem.drive(new ChassisSpeeds(0,0,0));
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ShooterSubsystem extends SubsystemBase{
 
@@ -69,6 +70,9 @@ public class ShooterSubsystem extends SubsystemBase{
 
         lowerShooterMotor.setSmartCurrentLimit(40);
         upperShooterMotor.setSmartCurrentLimit(40);
+
+        lowerShooterMotor.setIdleMode(IdleMode.kBrake);
+        upperShooterMotor.setIdleMode(IdleMode.kBrake);
         
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();

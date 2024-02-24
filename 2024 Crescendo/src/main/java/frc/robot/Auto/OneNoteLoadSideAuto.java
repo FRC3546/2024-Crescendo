@@ -20,20 +20,27 @@ import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
-public class TwoNoteAuto extends SequentialCommandGroup{
+public class OneNoteLoadSideAuto extends SequentialCommandGroup{
 
 
-    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem){
+    public OneNoteLoadSideAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem){
 
         
         addCommands(
 
         // get wheel in position
+            new InstantCommand(() -> armSubsystem.extendArm()),
             new InstantCommand(() -> swerveSubsystem.lock()),
+
+            new ParallelDeadlineGroup(
+                new WaitCommand(2.5),
+                new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6)
+            ),
 
             new ParallelRaceGroup(
                 
@@ -42,25 +49,35 @@ public class TwoNoteAuto extends SequentialCommandGroup{
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
                     new SequentialCommandGroup(
-                        new WaitCommand(0.7), 
-                        new TimedIntakeCommand(intakeSubsystem, 1, 1.5))
+                        new WaitCommand(1), 
+                        new TimedIntakeCommand(intakeSubsystem, 1, 2))
             )),
 
-            
-            new ParallelDeadlineGroup(
-                new TimedDrive(swerveSubsystem, 1, 0, 0, 2.5),
-                new IntakeWithArmCommandGroup(shooterSubsystem)),
-            
-            new ParallelDeadlineGroup(
-                new TimedDrive(swerveSubsystem, 1, 0, 0, 2.5),
-                new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle)
-            ),
+            // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
-                    new SequentialCommandGroup(
-                        new WaitCommand(0.7), 
-                        new TimedIntakeCommand(intakeSubsystem, 1, 1.5)))
+            new TimedDrive(swerveSubsystem, 3, 0, 0, 1.25),
+
+            // new InstantCommand(() -> swerveSubsystem.lock()),
+            // new WaitCommand(0.5),
+            
+            new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
+
+            new TimedDrive(swerveSubsystem, 0, 2, 0, 3)
+            
+            // new ParallelDeadlineGroup(
+            //     new TimedDrive(swerveSubsystem, 1, 0, 0, 2),
+            //     new IntakeWithArmCommandGroup(shooterSubsystem)),
+            
+            // new ParallelDeadlineGroup(
+            //     new TimedDrive(swerveSubsystem, 1, 0, 0, 2.5),
+            //     new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle)
+            // ),
+
+            // new ParallelDeadlineGroup(
+            //         new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
+            //         new SequentialCommandGroup(
+            //             new WaitCommand(0.7), 
+            //             new TimedIntakeCommand(intakeSubsystem, 1, 1.5)))
                         
         );
     }

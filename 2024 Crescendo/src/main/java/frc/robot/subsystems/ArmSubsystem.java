@@ -81,12 +81,12 @@ public class ArmSubsystem extends SubsystemBase{
     }
 
 
-    public void extendArm(){
+    public void retractArm(){
 
         extendSolenoid.set(Value.kForward);
     }
 
-    public void retractArm(){
+    public void extendArm(){
 
         extendSolenoid.set(Value.kReverse);
     }    
