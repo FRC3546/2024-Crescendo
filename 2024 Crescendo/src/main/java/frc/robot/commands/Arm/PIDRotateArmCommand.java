@@ -36,7 +36,7 @@ public class PIDRotateArmCommand extends Command {
     public void execute() {
 
         SmartDashboard.putNumber("pidLoop calculating value", pidLoop.calculate(armSubsystem.getArmPosition()));
-        armSubsystem.rotateArm(MathUtil.clamp((pidLoop.calculate(armSubsystem.getArmPosition())), -0.5, 0.5));
+        armSubsystem.rotateArm(MathUtil.clamp((pidLoop.calculate(armSubsystem.getArmPosition())), -1, 1));
     }
 
     @Override

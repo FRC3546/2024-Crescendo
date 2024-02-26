@@ -17,8 +17,8 @@ public class IntakeWithArmCommandGroup extends ParallelDeadlineGroup {
     public IntakeWithArmCommandGroup(ShooterSubsystem shooterSubsystem) {
 
         super(
-            new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle),
+            new IntakeNoteCommandGroup(),
             new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0),
-            new IntakeNoteCommandGroup());
+            new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle));
     }
 }
