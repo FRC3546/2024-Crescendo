@@ -95,6 +95,11 @@ public class IntakeSubsystem extends SubsystemBase{
         intakeMotor.stopMotor();
     }
 
+    public double getIntakeSpeed(){
+
+        return intakeMotor.get();
+    }
+
     //  public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
         
     //      this.upperShooterSpeed = upperShooterSpeed;

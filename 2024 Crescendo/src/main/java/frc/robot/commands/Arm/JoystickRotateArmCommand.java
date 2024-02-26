@@ -33,28 +33,30 @@ public class JoystickRotateArmCommand extends Command{
     @Override
     public void execute() {
 
-        if(armSubsystem.getArmPosition() > Constants.Arm.lowestArmAngle &&
-        armSubsystem.getArmPosition() < Constants.Arm.highestArmAngle){
+        if(armSubsystem.getArmPosition() > Constants.Arm.intakeArmAngle &&
+        armSubsystem.getArmPosition() < Constants.Arm.ampArmAngle){
             armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("in bounds");
+            // System.out.println("in bounds");
         }
 
-        else if(armSubsystem.getArmPosition() <= Constants.Arm.lowestArmAngle && motorValue.getAsDouble() > 0.1){
+        else if(armSubsystem.getArmPosition() <= Constants.Arm.intakeArmAngle && motorValue.getAsDouble() > 0.25){
             armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("Going back up into bounds");
+            // System.out.println("Going back up into bounds");
         }
 
-        else if(armSubsystem.getArmPosition() >= Constants.Arm.highestArmAngle && motorValue.getAsDouble() < -0.1){
+        else if(armSubsystem.getArmPosition() >= Constants.Arm.ampArmAngle && motorValue.getAsDouble() < -0.25){
             armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
-            System.out.println("Going back down into bounds");
+            // System.out.println("Going back down into bounds");
 
         }
 
         else{
-            armSubsystem.StopArm();
-            System.out.println("stopping");
-            System.out.println(motorValue);
-            System.out.println(armSubsystem.getArmPosition());
+
+            new HoldArmCommand(armSubsystem.getArmPosition());
+            // armSubsystem.StopArm();
+            // // System.out.println("stopping");
+            // System.out.println(motorValue);
+            // System.out.println(armSubsystem.getArmPosition());
         }
 
          armSubsystem.rotateArm((motorValue.getAsDouble() / 4));

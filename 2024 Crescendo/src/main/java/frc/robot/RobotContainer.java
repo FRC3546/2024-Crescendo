@@ -54,6 +54,10 @@ import frc.robot.commandgroups.ManualArmControlCommandGroup;
 import frc.robot.commandgroups.RotateAmpCommandGroup;
 import frc.robot.commandgroups.RotateSpeakerCommandGroup;
 import frc.robot.commandgroups.SpeakerScoreCommandGroup;
+import frc.robot.commandgroups.JoystickActions.IntakeButton;
+import frc.robot.commandgroups.JoystickActions.StowedButton;
+import frc.robot.commandgroups.JoystickActions.AmpButton;
+import frc.robot.commandgroups.JoystickActions.CloseSpeakerButton;
 import frc.robot.commands.Shooter.AmpScoreCommand;
 // import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
@@ -130,7 +134,9 @@ public class RobotContainer {
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
-    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
+    // shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
+    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.75,  () -> 0.75));
+
   }
 
 
@@ -142,26 +148,30 @@ public class RobotContainer {
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
 
 
+
     //SHOOTER
     // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
     // shooterJoystick.button(4).toggleOnTrue(new TimedDrive(drivebase, 1, 0, 0, 3));
     // shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
     shooterJoystick.button(1).whileTrue(new IntakeCommand(intakeSubsystem, 1));
     shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.startingConfigArmAngle));
-    shooterJoystick.button(3).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle));
+    shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY()));
+    
 
-    shooterJoystick.button(5).whileTrue(new ReverseIntakeCommand(intakeSubsystem));
+    shooterJoystick.button(3).whileTrue(new ReverseIntakeCommand(intakeSubsystem));
 
     shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     
-    shooterJoystick.button(7).onTrue(new ParallelDeadlineGroup(new PIDRotateArmCommand(() -> Constants.Arm.ampArmAngle), new RunShooterCommand(shooterSubsystem, () -> 0.15, () -> 0.15)));
-    shooterJoystick.button(9).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeWithArmCommandGroup(shooterSubsystem));
+    shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
+    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem));
+    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem));
 
-    shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
+    //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
+    shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
-    shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
+    shooterJoystick.button(12).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle));    
+    // shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
     
     
 
@@ -202,6 +212,8 @@ public class RobotContainer {
   }
 
   public void joystickValues() {
+
+    SmartDashboard.putNumber("intake motor speed", intakeSubsystem.getIntakeSpeed());
 
     SmartDashboard.putNumber("input shooter speed value", shooterSubsystem.getInputShooterSpeed());
     SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
