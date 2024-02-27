@@ -109,7 +109,6 @@ public class RobotContainer {
 
     SmartDashboard.putData("Autonomous", autos);
 
-    setMotorBrake(true);
 
     // armSubsystem.setDefaultCommand(new PIDRotateArmCommand(armSubsystem.getArmPosition()));
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
