@@ -226,4 +226,10 @@ public class RobotContainer {
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));
   }
 
+  public void limelightValues(){
+    SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
+    SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
+    SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
+  }
+
 }
