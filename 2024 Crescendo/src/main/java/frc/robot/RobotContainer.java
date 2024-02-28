@@ -67,6 +67,7 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.util.function.DoubleSupplier;
@@ -91,6 +92,7 @@ public class RobotContainer {
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
