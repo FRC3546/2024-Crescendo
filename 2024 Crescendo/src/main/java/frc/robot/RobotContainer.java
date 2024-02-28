@@ -136,7 +136,7 @@ public class RobotContainer {
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
     // shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
-    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.75,  () -> 0.75));
+    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.6,  () -> 0.6));
 
   }
 
@@ -165,13 +165,13 @@ public class RobotContainer {
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     
     shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
-    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem));
+    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
     shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem));
 
     //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
-    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem));    
+    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
     // shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
     
     

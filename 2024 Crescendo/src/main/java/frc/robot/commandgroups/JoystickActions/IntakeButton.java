@@ -22,7 +22,7 @@ public class IntakeButton extends SequentialCommandGroup{
             
             new ParallelDeadlineGroup(
                 new StowedButton(shooterSubsystem, armSubsystem),
-                new RunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75))
+                new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
         );
     }
     
