@@ -109,7 +109,6 @@ public class RobotContainer {
 
     SmartDashboard.putData("Autonomous", autos);
 
-    setMotorBrake(true);
 
     // armSubsystem.setDefaultCommand(new PIDRotateArmCommand(armSubsystem.getArmPosition()));
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
@@ -224,6 +223,12 @@ public class RobotContainer {
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));
+  }
+
+  public void limelightValues(){
+    SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
+    SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
+    SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
   }
 
 }
