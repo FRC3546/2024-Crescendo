@@ -67,6 +67,7 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.util.function.DoubleSupplier;
@@ -91,6 +92,7 @@ public class RobotContainer {
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
@@ -110,7 +112,6 @@ public class RobotContainer {
 
     SmartDashboard.putData("Autonomous", autos);
 
-    setMotorBrake(true);
 
     // armSubsystem.setDefaultCommand(new PIDRotateArmCommand(armSubsystem.getArmPosition()));
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
@@ -137,7 +138,7 @@ public class RobotContainer {
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
     // shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
-    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.75,  () -> 0.75));
+    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.6,  () -> 0.6));
 
   }
 
@@ -166,13 +167,13 @@ public class RobotContainer {
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     
     shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
-    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem));
+    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
     shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem));
 
     //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
-    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem));    
+    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
     // shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
     
     
@@ -225,6 +226,12 @@ public class RobotContainer {
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));
+  }
+
+  public void limelightValues(){
+    SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
+    SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
+    SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
   }
 
 }
