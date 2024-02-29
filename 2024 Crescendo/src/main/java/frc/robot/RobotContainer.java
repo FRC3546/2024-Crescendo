@@ -105,6 +105,7 @@ public class RobotContainer {
 
     autos.addOption("Backup Auto", new AutoLeave(drivebase, shooterSubsystem));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
+    autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     // autos.addOption("Score and Leave", getAutonomousCommand());
 
     SmartDashboard.putData("Autonomous", autos);

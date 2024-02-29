@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Translation3d;
 // import swervelib.math.Matter;
 // import swervelib.parser.PIDFConfig;
 import edu.wpi.first.math.util.Units;
+import swervelib.math.Matter;
+import swervelib.parser.PIDFConfig;
 
 
 /**
@@ -56,8 +58,8 @@ public final class Constants {
   public static final class Auton
   {
 
-    // public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
-    // public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
+    public static final PIDFConfig TranslationPID = new PIDFConfig(0.7, 0, 0);
+    public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_ACCELERATION = 2;
   }

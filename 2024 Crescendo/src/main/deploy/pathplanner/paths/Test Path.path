@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.0,
-        "y": 7.0
+        "x": 0.45119076153645304,
+        "y": 4.133554182601324
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0,
-        "y": 7.0
+        "x": 1.451190761536452,
+        "y": 4.133554182601324
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.253483461731119,
-        "y": 5.7722312172247054
+        "x": 3.0238223856729407,
+        "y": 5.058545328358263
       },
       "prevControl": {
-        "x": 4.253483461731119,
-        "y": 5.7722312172247054
+        "x": 2.5943996841533545,
+        "y": 4.833609627562289
+      },
+      "nextControl": {
+        "x": 3.630847825075932,
+        "y": 5.376511034712211
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6191387594042794,
+        "y": 7.342117219445707
+      },
+      "prevControl": {
+        "x": 3.3562410786793406,
+        "y": 6.89407463321969
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +46,25 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "CloseSpeakerButton"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -39,7 +73,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
