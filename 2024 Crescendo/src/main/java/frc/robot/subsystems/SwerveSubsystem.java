@@ -249,6 +249,13 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.driveFieldOriented(velocity);
   }
 
+  public void driveFieldOrientedMaxVelocity(double xTranslation, double yTranslation, double rotation){
+    swerveDrive.driveFieldOriented(new ChassisSpeeds(
+                                      (xTranslation * swerveDrive.getMaximumVelocity()),
+                                      (yTranslation * swerveDrive.getMaximumVelocity()),
+                                      (rotation)));
+  }
+
   /**
    * Drive according to the chassis robot oriented velocity.
    *

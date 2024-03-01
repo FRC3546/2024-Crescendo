@@ -5,7 +5,6 @@
 package frc.robot;
 
 import java.io.File;
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -18,59 +17,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Auto.AutoCommandGroup;
 import frc.robot.Auto.AutoLeave;
-import frc.robot.Auto.AutoRotate;
 import frc.robot.Auto.OneNoteLoadSideAuto;
-import frc.robot.Auto.TimedDrive;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
-import frc.robot.commands.Autos;
-import frc.robot.commands.Arm.ExtendArmCommand;
+
 import frc.robot.commands.Arm.HoldArmCommand;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.Arm.JoystickRotateArmCommand;
+
 import frc.robot.commands.Arm.PIDRotateArmCommand;
-import frc.robot.commands.Arm.RetractArmCommand;
-import frc.robot.commands.Arm.RotateArmCommand;
-import frc.robot.commands.Arm.JoystickRotateArmCommand;
-import frc.robot.commands.Arm.ToggleArmCommand;
+
 import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
-import frc.robot.commands.Intake.SensorIntakeCommand;
-import frc.robot.commandgroups.AmpScoreCommandGroup;
-import frc.robot.commandgroups.IntakeNoteCommandGroup;
-import frc.robot.commandgroups.IntakeWithArmCommandGroup;
-import frc.robot.commandgroups.ManualArmControlCommandGroup;
-import frc.robot.commandgroups.RotateAmpCommandGroup;
-import frc.robot.commandgroups.RotateSpeakerCommandGroup;
-import frc.robot.commandgroups.SpeakerScoreCommandGroup;
+import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commandgroups.JoystickActions.IntakeButton;
 import frc.robot.commandgroups.JoystickActions.StowedButton;
 import frc.robot.commandgroups.JoystickActions.AmpButton;
 import frc.robot.commandgroups.JoystickActions.CloseSpeakerButton;
 import frc.robot.commandgroups.JoystickActions.FarSpeakerButton;
-import frc.robot.commands.Shooter.AmpScoreCommand;
 // import frc.robot.commands.Shooter.InputRunShooterCommand;
-import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -86,7 +64,6 @@ public class RobotContainer {
   SendableChooser<Command> autos = new SendableChooser<>();
 
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve"));
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -183,6 +160,7 @@ public class RobotContainer {
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
 
     //DRIVER CONTROLLER
+    new JoystickButton(driverXbox, 1).onTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> driverXbox.getRawAxis(1), () -> driverXbox.getRawAxis(0), () -> 0));
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
