@@ -2,55 +2,51 @@ package frc.robot.subsystems;
 
 //wpilib
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.CANdleConfiguration;
 
 //vendordeps
-import com.ctre.phoenix.CANifier;
+ 
 
 public class LedSubsystem extends SubsystemBase{
+    
+    private CANdle leds;
+    
+    public LedSubsystem(){
+        
+        leds= new CANdle(9);
+        CANdleConfiguration ledconfig = new CANdleConfiguration();
+        ledconfig.stripType = LEDStripType.RGB;
+        ledconfig.brightnessScalar = 0.5;
+        leds.configAllSettings(ledconfig);
+        
 
-    public CANifier led = new CANifier(9);
-
-    //enter value RGB values from 0-255
-    //converts the RGB values into percentages to given to the Canifier
-    public void LEDSet(int red, int green, int blue){
-        led.setLEDOutput(red/255, CANifier.LEDChannel.LEDChannelB); // Red
-        led.setLEDOutput(green/255, CANifier.LEDChannel.LEDChannelC); // Green
-        led.setLEDOutput(blue/255, CANifier.LEDChannel.LEDChannelA); // Blue
     }
+    
+    
+    
+    
 
-    public void red(){
-        int red = 255;
-        int blue = 0;
-        int green = 0;
-        LEDSet(red, green, blue);
+    public static LedSubsystem ledSubsystem;
+     public void red(){
+        leds.setLEDs(255, 0, 0);
     }
 
     public void green(){
-        int red = 0;
-        int blue = 0;
-        int green = 255;
-        LEDSet(red, green, blue);
+        leds.setLEDs(0, 255, 0);
     }
 
     public void blue(){
-        int red = 0;
-        int blue = 255;
-        int green = 0;
-        LEDSet(red, green, blue);
+        leds.setLEDs(0, 0, 255);
     }
 
     public void orange(){
-        int red = 255;
-        int blue = 0;
-        int green = 0;
-        LEDSet(red, green, blue);
+        leds.setLEDs(255, 136, 0);
     }
     
     public void off(){
-        int red = 0;
-        int blue = 0;
-        int green = 0;
-        LEDSet(red, green, blue);
+        leds.setLEDs(0, 0, 0);
     }
 
 
