@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Swerve;
 import frc.robot.subsystems.ExampleSubsystem;
 
 import java.util.function.DoubleSupplier;
@@ -7,12 +7,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
 
-public class TargetAprilTagCommand extends Command {
+public class RotateToAngle extends Command {
 
-    private DoubleSupplier setPosition;
-    private final LimelightSubsystem limelightSubsystem;
+    private DoubleSupplier angle;
     PIDController pidLoop;
     SwerveSubsystem swerveSubsystem;
     
@@ -22,15 +21,14 @@ public class TargetAprilTagCommand extends Command {
    *
    * @param LimelightSubsystem The subsystem used by this command.
    */
-  public TargetAprilTagCommand(LimelightSubsystem limelightSubsystem, SwerveSubsystem swerveSubsystem, DoubleSupplier setPosition) {
+  public RotateToAngle(SwerveSubsystem swerveSubsystem, DoubleSupplier angle) {
     
-    this.setPosition = setPosition;
+    this.angle = angle;
     pidLoop = new PIDController(0.1, 0, 0);
-    pidLoop.setTolerance(1);
+    pidLoop.setTolerance(0.3);
 
-    pidLoop.setSetpoint(setPosition.getAsDouble());
+    pidLoop.setSetpoint(angle.getAsDouble());
 
-    this.limelightSubsystem = limelightSubsystem;
     this.swerveSubsystem = swerveSubsystem;
     addRequirements(swerveSubsystem);
   }
@@ -42,7 +40,7 @@ public class TargetAprilTagCommand extends Command {
   @Override
   public void execute() {
 
-    swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0,0, pidLoop.calculate(limelightSubsystem.getLimelightX())));
+    swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0,0, pidLoop.calculate(swerveSubsystem.getHeading().getDegrees())));
 
   }
   
@@ -55,6 +53,6 @@ public class TargetAprilTagCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return pidLoop.atSetpoint();
   }
 }

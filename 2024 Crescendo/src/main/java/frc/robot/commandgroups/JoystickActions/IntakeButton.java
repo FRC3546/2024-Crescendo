@@ -18,11 +18,11 @@ public class IntakeButton extends SequentialCommandGroup{
         addCommands(
             new InstantCommand(() -> armSubsystem.extendArm()),
             new WaitCommand(1),
-            new IntakeWithArmCommandGroup(shooterSubsystem),
+            new IntakeWithArmCommandGroup(shooterSubsystem)
             
-            new ParallelDeadlineGroup(
-                new StowedButton(shooterSubsystem, armSubsystem),
-                new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
+            // new ParallelDeadlineGroup(
+            //     new StowedButton(shooterSubsystem, armSubsystem),
+            //     new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
         );
     }
     
