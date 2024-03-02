@@ -16,15 +16,14 @@ import frc.robot.commands.Intake.SensorIntakeCommand;
 
 public class IntakeNoteCommandGroup extends SequentialCommandGroup{
 
-    public IntakeNoteCommandGroup(){
+    public IntakeNoteCommandGroup(LedSubsystem ledSubsystem){
 
         addCommands(
             new SensorIntakeCommand(RobotContainer.intakeSubsystem, 1),
-            new LedCarryingNoteCommand(LedSubsystem.ledSubsystem),
+            
             new WaitCommand(0.5),
             new SensorReverseIntakeCommand(RobotContainer.intakeSubsystem),
-            new LedGreenCommand(LedSubsystem.ledSubsystem)
-        );
+            new LedCarryingNoteCommand(ledSubsystem));
     }
     
 

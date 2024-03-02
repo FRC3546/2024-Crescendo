@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
+import frc.robot.Auto.TwoNoteAuto;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 
@@ -87,6 +88,7 @@ public class RobotContainer {
 
     autos.addOption("Backup Auto", new AutoLeave(drivebase, shooterSubsystem));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
+    autos.addOption("2 note auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
     autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     // autos.addOption("Score and Leave", getAutonomousCommand());
 
@@ -151,7 +153,7 @@ public class RobotContainer {
     
     shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem));
+    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem));
 
     //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));

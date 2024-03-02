@@ -19,11 +19,13 @@ import frc.robot.commands.Intake.TimedIntakeCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
+import frc.robot.commands.Swerve.RotateToAngle;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
+
 
 import java.util.Optional;
 
@@ -73,15 +75,21 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
 
             // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, vx, 0, 0, 3),
+            new TimedDrive(swerveSubsystem, vx, 0, () -> 0, 3),
 
-            new InstantCommand(() -> swerveSubsystem.lock()),
-            new WaitCommand(0.5),
+            // new InstantCommand(() -> swerveSubsystem.lock()),
+            // new WaitCommand(0.5),
+            new ParallelDeadlineGroup(
+                new WaitCommand(4),
+                new RotateToAngle(swerveSubsystem, () -> 0)),
 
             
             // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, 0, vy, 0, 2)
+            new TimedDrive(swerveSubsystem, vx, 0, () -> 0, 3)
+
+
+            // new TimedDrive(swerveSubsystem, 0, vy, 0, 2)
             
             // new ParallelDeadlineGroup(
             //     new TimedDrive(swerveSubsystem, 1, 0, 0, 2),

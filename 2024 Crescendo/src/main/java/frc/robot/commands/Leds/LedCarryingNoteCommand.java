@@ -24,9 +24,9 @@ public class LedCarryingNoteCommand extends Command{
   public void execute() {
     
     ledSubsystem.red();
-    new WaitCommand(0.5);
+    new WaitCommand(1);
     ledSubsystem.off();
-    new WaitCommand(0.5);
+    new WaitCommand(1);
     
   }
 

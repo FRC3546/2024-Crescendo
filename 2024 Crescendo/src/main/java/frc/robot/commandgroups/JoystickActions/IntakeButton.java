@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commandgroups.IntakeWithArmCommandGroup;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class IntakeButton extends SequentialCommandGroup{
 
-    public IntakeButton(ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem){
+    public IntakeButton(ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LedSubsystem ledSubsystem){
 
         addCommands(
             new InstantCommand(() -> armSubsystem.extendArm()),
             new WaitCommand(1),
-            new IntakeWithArmCommandGroup(shooterSubsystem)
+            new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem)
             
             // new ParallelDeadlineGroup(
             //     new StowedButton(shooterSubsystem, armSubsystem),
