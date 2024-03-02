@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Constants.OperatorConstants;
@@ -46,6 +47,7 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -70,6 +72,7 @@ public class RobotContainer {
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final LedSubsystem ledSubsystem = new LedSubsystem();
 
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
@@ -127,6 +130,9 @@ public class RobotContainer {
     climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
 
+    climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
+    climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
+
 
 
     //SHOOTER
@@ -152,6 +158,7 @@ public class RobotContainer {
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
     // shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
+
     
     
 
@@ -160,7 +167,7 @@ public class RobotContainer {
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
 
     //DRIVER CONTROLLER
-    new JoystickButton(driverXbox, 1).onTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> driverXbox.getRawAxis(1), () -> driverXbox.getRawAxis(0), () -> 0));
+    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> driverXbox.getRawAxis(1), () -> driverXbox.getRawAxis(0), () -> 0));
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 

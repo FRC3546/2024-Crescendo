@@ -1,5 +1,6 @@
 package frc.robot.Auto;
 
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -25,11 +26,27 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+
 public class AutoLeave extends SequentialCommandGroup{
 
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    int redSide = -1;
+    double vx = 1.5;
+    double vy = 1.5;
 
     public AutoLeave(SwerveSubsystem swerveSubsystem, ShooterSubsystem shooterSubsystem){
 
+        if(ally.isPresent()){
+            if (ally.get() == Alliance.Red) {
+                vy = vy * redSide;                
+            }
+            if (ally.get() == Alliance.Blue) {
+
+            }
+        }
         
         addCommands(
 

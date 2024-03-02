@@ -15,7 +15,7 @@ public class LedSubsystem extends SubsystemBase{
     
     public LedSubsystem(){
         
-        leds= new CANdle(9);
+        leds = new CANdle(9);
         CANdleConfiguration ledconfig = new CANdleConfiguration();
         ledconfig.stripType = LEDStripType.RGB;
         ledconfig.brightnessScalar = 0.5;

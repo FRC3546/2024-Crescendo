@@ -25,11 +25,29 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+
 public class OneNoteLoadSideAuto extends SequentialCommandGroup{
+
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    int redSide = -1;
+    double vx = 1.5;
+    double vy = 1.5;
 
 
     public OneNoteLoadSideAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem){
 
+        if(ally.isPresent()){
+            if (ally.get() == Alliance.Red) {
+                vy = vy * redSide;                
+            }
+            if (ally.get() == Alliance.Blue) {
+
+            }
+        }
         
         addCommands(
 
@@ -55,14 +73,15 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
 
             // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, 3, 0, 0, 1.25),
+            new TimedDrive(swerveSubsystem, vx, 0, 0, 3),
 
-            // new InstantCommand(() -> swerveSubsystem.lock()),
-            // new WaitCommand(0.5),
+            new InstantCommand(() -> swerveSubsystem.lock()),
+            new WaitCommand(0.5),
+
             
-            new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
+            // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, 0, 2, 0, 3)
+            new TimedDrive(swerveSubsystem, 0, vy, 0, 2)
             
             // new ParallelDeadlineGroup(
             //     new TimedDrive(swerveSubsystem, 1, 0, 0, 2),

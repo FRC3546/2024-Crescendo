@@ -45,12 +45,12 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public void extendClimberPiston(){
 
-        climberPiston.set(Value.kReverse);
+        climberPiston.set(Value.kForward);
     }
 
     public void retractClimberPiston(){
 
-        climberPiston.set(Value.kForward);
+        climberPiston.set(Value.kReverse);
     }
 
     public void toggleClimberPiston(){

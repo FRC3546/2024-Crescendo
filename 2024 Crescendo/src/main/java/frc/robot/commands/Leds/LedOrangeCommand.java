@@ -3,11 +3,11 @@ import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class LedGreenCommand extends Command{
+public class LedOrangeCommand extends Command{
 
     private final LedSubsystem ledSubsystem;
 
-    public LedGreenCommand(LedSubsystem ledSubsystem){
+    public LedOrangeCommand(LedSubsystem ledSubsystem){
        
         this.ledSubsystem = ledSubsystem;
 
