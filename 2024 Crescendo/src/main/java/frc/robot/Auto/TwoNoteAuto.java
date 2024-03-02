@@ -1,5 +1,9 @@
 package frc.robot.Auto;
 
+import java.util.Optional;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -31,9 +35,21 @@ import frc.robot.commands.Intake.SensorIntakeCommand;
 
 public class TwoNoteAuto extends SequentialCommandGroup{
 
+    Optional<Alliance> ally = DriverStation.getAlliance();
+    int blueSide = -1;
 
     public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
 
+        if(ally.isPresent()){
+            if (ally.get() == Alliance.Red) {
+                blueSide = 1;                
+            }
+            if (ally.get() == Alliance.Blue) {
+                blueSide = -1;
+            }
+        }
+
+        System.out.println(blueSide);
         
         addCommands(
 
@@ -55,13 +71,13 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             // rotate to angle 0
             new ParallelDeadlineGroup(
                 new WaitCommand(2),
-                new RotateToAngle(swerveSubsystem, () -> -5),
+                new RotateToAngle(swerveSubsystem, () -> (0 * blueSide)),
                 new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle)
                 ),
             
             // backup and pick up note
             new ParallelRaceGroup(
-                new TimedDrive(swerveSubsystem, 2, 0, () -> 0, 1.25),
+                new TimedDrive(swerveSubsystem, 2, 0, () -> (0 * blueSide), 1.25),
                 new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem)
                 ),
 
@@ -74,7 +90,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             // aim at speaker
             new ParallelDeadlineGroup(
                 new WaitCommand(1.5),
-                new RotateToAngle(swerveSubsystem, () -> -18)),
+                new RotateToAngle(swerveSubsystem, () -> (-18 * blueSide))),
 
             // new TimedDrive(swerveSubsystem, -1, 0, () -> -18, 1),
 
@@ -82,7 +98,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             new ParallelRaceGroup(
                 
             
-                new PIDRotateArmCommand(() -> (Constants.Arm.stageShotArmAngle)),
+                new PIDRotateArmCommand(() -> (Constants.Arm.stageShotArmAngle + 0.01)),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 4),
                     new SequentialCommandGroup(
