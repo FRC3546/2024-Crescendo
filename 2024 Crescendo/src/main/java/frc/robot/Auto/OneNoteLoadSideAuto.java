@@ -75,7 +75,7 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
 
             // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, vx, 0, () -> 0, 3),
+            new TimedDrive(swerveSubsystem, vx, 0, 0, 2),
 
             // new InstantCommand(() -> swerveSubsystem.lock()),
             // new WaitCommand(0.5),
@@ -86,7 +86,7 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
             
             // new TimedDrive(swerveSubsystem, 0, 0, 1, 1.5),
 
-            new TimedDrive(swerveSubsystem, vx, 0, () -> 0, 3)
+            new TimedDrive(swerveSubsystem, vx, 0, 0, 3)
 
 
             // new TimedDrive(swerveSubsystem, 0, vy, 0, 2)

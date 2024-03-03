@@ -12,19 +12,22 @@ import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 
-public class TimedDrive extends Command{
+public class TimedDriveGyro extends Command{
 
     PIDController pidLoop;
     Timer timer = new Timer();
     SwerveSubsystem swerveSubsystem;
-    double vr;
+    DoubleSupplier vr;
     double vx;
     double vy;
     double time;
     
-    public TimedDrive(SwerveSubsystem swerveSubsystem, double vx, double vy, double vr, double time){
+    public TimedDriveGyro(SwerveSubsystem swerveSubsystem, double vx, double vy, DoubleSupplier vr, double time){
         
-        
+        pidLoop = new PIDController(0.12, 0.1, 0);
+        pidLoop.setTolerance(0);
+
+        pidLoop.setSetpoint(vr.getAsDouble());
 
         this.vr = vr;
         this.vx = vx;
@@ -47,7 +50,7 @@ public class TimedDrive extends Command{
     @Override
     public void execute() {
 
-        swerveSubsystem.drive(new ChassisSpeeds(vx,vy,vr));
+        swerveSubsystem.drive(new ChassisSpeeds(vx,vy,pidLoop.calculate(swerveSubsystem.getHeading().getDegrees())));
     }
 
     @Override

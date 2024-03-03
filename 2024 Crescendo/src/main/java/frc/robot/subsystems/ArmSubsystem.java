@@ -24,6 +24,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ArmSubsystem extends SubsystemBase{
 
+    private boolean isExtended;
+
     private ShuffleboardTab tab = Shuffleboard.getTab("Arm");
     private GenericEntry armAngle = tab.add("arm angle", 0.5).getEntry();
 
@@ -83,17 +85,23 @@ public class ArmSubsystem extends SubsystemBase{
 
     public void retractArm(){
 
+        isExtended = false;
         extendSolenoid.set(Value.kForward);
     }
 
     public void extendArm(){
 
+        isExtended = true;
         extendSolenoid.set(Value.kReverse);
     }    
 
     public void toggleArm(){
-         
+        isExtended = !isExtended;
         extendSolenoid.toggle();
+    }
+
+    public boolean getArmExtension(){
+        return isExtended;
     }
 
     public double getArmPosition(){

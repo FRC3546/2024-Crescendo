@@ -55,7 +55,7 @@ public class AutoLeave extends SequentialCommandGroup{
                 new SequentialCommandGroup(
                     new InstantCommand(() -> swerveSubsystem.lock()),
                     new WaitCommand(0.5),
-                    new TimedDrive(swerveSubsystem, 1, 0, () -> 0, 2)),
+                    new TimedDriveGyro(swerveSubsystem, 1, 0, () -> 0, 2)),
                 
                 new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0))
                         

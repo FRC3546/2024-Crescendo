@@ -8,6 +8,10 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
  public class LimelightSubsystem extends SubsystemBase{
 
+  public void setPipeline(int pipeline){
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
+  }
+
   public double getLimelightY(){
     return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
   }
