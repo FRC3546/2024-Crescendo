@@ -1,13 +1,14 @@
 package frc.robot.commands.Leds;
+import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.subsystems.LedSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-public class LedCarryingNoteCommand extends Command{
+public class LedRedCommand extends Command{
 
     private final LedSubsystem ledSubsystem;
 
-    public LedCarryingNoteCommand(LedSubsystem ledSubsystem){
+    public LedRedCommand(LedSubsystem ledSubsystem){
        
         this.ledSubsystem = ledSubsystem;
 
@@ -24,9 +25,7 @@ public class LedCarryingNoteCommand extends Command{
   public void execute() {
     
     ledSubsystem.red();
-    new WaitCommand(1);
-    ledSubsystem.off();
-    new WaitCommand(1);
+    
     
   }
 
@@ -37,6 +36,6 @@ public class LedCarryingNoteCommand extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return SensorReverseIntakeCommand.doneIntaking;
   }
 }
