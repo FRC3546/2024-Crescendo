@@ -1,10 +1,13 @@
 package frc.robot.commands.Limelight;
 import frc.robot.subsystems.ExampleSubsystem;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -18,6 +21,8 @@ public class TargetOnTheMove extends Command {
 
     DoubleSupplier xTranslation;
     DoubleSupplier yTranslation;
+
+    Optional<Alliance> ally;
     
 
   /**
@@ -27,6 +32,7 @@ public class TargetOnTheMove extends Command {
    */
   public TargetOnTheMove(LimelightSubsystem limelightSubsystem, SwerveSubsystem swerveSubsystem, DoubleSupplier xTranslation, DoubleSupplier yTranslation, DoubleSupplier setPosition) {
 
+    ally = DriverStation.getAlliance();
     this.xTranslation = xTranslation;
     this.yTranslation = yTranslation;
     
@@ -43,7 +49,18 @@ public class TargetOnTheMove extends Command {
 
   
   @Override
-  public void initialize() {}
+  public void initialize() {
+
+    if(ally.isPresent()){
+            if (ally.get() == Alliance.Red) {
+              limelightSubsystem.setPipeline(2);
+            }
+            if (ally.get() == Alliance.Blue) {
+                limelightSubsystem.setPipeline(1);
+            }
+        }
+  
+  }
 
   @Override
   public void execute() {
@@ -58,7 +75,6 @@ public class TargetOnTheMove extends Command {
 
   @Override 
   public void end(boolean interrupted) {
-    System.out.println("command ended");
     swerveSubsystem.driveCommand(() -> 0, () -> 0, () -> 0);
   }
 

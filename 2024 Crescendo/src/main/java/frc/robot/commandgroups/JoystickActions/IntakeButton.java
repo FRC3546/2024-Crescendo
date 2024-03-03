@@ -17,6 +17,8 @@ public class IntakeButton extends SequentialCommandGroup{
     public IntakeButton(ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LedSubsystem ledSubsystem){
 
         addCommands(
+
+            
             new InstantCommand(() -> armSubsystem.extendArm()),
             new WaitCommand(1),
             new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem)
