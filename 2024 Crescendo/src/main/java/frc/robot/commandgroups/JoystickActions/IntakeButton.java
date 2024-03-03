@@ -11,22 +11,31 @@ import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-
+import java.util.function.BooleanSupplier;
 public class IntakeButton extends SequentialCommandGroup{
 
-    public IntakeButton(ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LedSubsystem ledSubsystem){
+    public IntakeButton(ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, LedSubsystem ledSubsystem, BooleanSupplier armExtended){
 
-        addCommands(
+        if(armExtended.getAsBoolean()){
+            System.out.println(armSubsystem.getArmExtension());
+            addCommands(
+            new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem));
+        }
 
-            
-            new InstantCommand(() -> armSubsystem.extendArm()),
-            new WaitCommand(1),
-            new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem)
-            
-            // new ParallelDeadlineGroup(
-            //     new StowedButton(shooterSubsystem, armSubsystem),
-            //     new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
+        else{
+            System.out.println("no " + armSubsystem.getArmExtension());
+            addCommands(
+
+                
+                new InstantCommand(() -> armSubsystem.extendArm()),
+                new WaitCommand(0.3),
+                new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem)
+                
+                // new ParallelDeadlineGroup(
+                //     new StowedButton(shooterSubsystem, armSubsystem),
+                //     new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
         );
+    }
     }
     
 

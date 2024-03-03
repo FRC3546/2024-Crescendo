@@ -22,7 +22,7 @@ public class AutoCommandGroup extends SequentialCommandGroup{
         addCommands(
             new InstantCommand(() -> swerveSubsystem.lock()),
             new WaitCommand(0.25),
-            new TimedDrive(swerveSubsystem, 1, 0, () -> 0, 3)
+            new TimedDriveGyro(swerveSubsystem, 1, 0, () -> 0, 3)
         );
     }
     

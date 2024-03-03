@@ -77,8 +77,8 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             
             // backup and pick up note
             new ParallelRaceGroup(
-                new TimedDrive(swerveSubsystem, 2, 0, () -> (0 * blueSide), 1.25),
-                new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem)
+                new TimedDriveGyro(swerveSubsystem, 2, 0, () -> (0 * blueSide), 1.25),
+                new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem, () -> false)
                 ),
 
             new ParallelDeadlineGroup(new WaitCommand(0.4), new IntakeCommand(intakeSubsystem, 1)),

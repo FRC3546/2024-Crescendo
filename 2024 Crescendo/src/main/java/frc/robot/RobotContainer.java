@@ -153,7 +153,7 @@ public class RobotContainer {
     
     shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem));
+    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
 
     //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
@@ -169,7 +169,7 @@ public class RobotContainer {
     // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
 
     //DRIVER CONTROLLER
-    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> driverXbox.getRawAxis(1), () -> driverXbox.getRawAxis(0), () -> 0));
+    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -2.13));
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
