@@ -91,8 +91,8 @@ public class ShooterSubsystem extends SubsystemBase{
          this.upperShooterSpeed = upperShooterSpeed;
          this.lowerShooterSpeed = lowerShooterSpeed;
 
-         upperShooterMotor.set(Math.abs(upperShooterSpeed));
-         lowerShooterMotor.set(Math.abs(lowerShooterSpeed));
+         upperShooterMotor.set(upperShooterSpeed);
+         lowerShooterMotor.set(lowerShooterSpeed);
      }
 
     // public void inputRunShooter(){

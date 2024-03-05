@@ -35,7 +35,7 @@ public class RunShooterCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("command ended");
+        // System.out.println("command ended");
         shooterSubsystem.stopShooter();
     }
 

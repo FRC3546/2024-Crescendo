@@ -52,14 +52,14 @@ public class JoystickRotateArmCommand extends Command{
 
         else{
 
-            new HoldArmCommand(armSubsystem.getArmPosition());
-            // armSubsystem.StopArm();
+            // new HoldArmCommand(armSubsystem.getArmPosition());
+            armSubsystem.StopArm();
             // // System.out.println("stopping");
             // System.out.println(motorValue);
             // System.out.println(armSubsystem.getArmPosition());
         }
 
-         armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
+        //  armSubsystem.rotateArm((motorValue.getAsDouble() / 4));
 
     }
 
