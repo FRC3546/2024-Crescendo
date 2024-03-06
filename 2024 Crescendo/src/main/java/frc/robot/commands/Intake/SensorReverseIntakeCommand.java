@@ -6,7 +6,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class SensorReverseIntakeCommand extends Command{
 
     IntakeSubsystem intakeSubsystem;
-    public static boolean doneIntaking = false;
     
     public SensorReverseIntakeCommand(IntakeSubsystem intakeSubsystem){
         
@@ -28,7 +27,6 @@ public class SensorReverseIntakeCommand extends Command{
     public void end(boolean interrupted) {
         new WaitCommand(0.1);
         intakeSubsystem.stopIntake();
-        doneIntaking = true;
     }
 
     @Override
