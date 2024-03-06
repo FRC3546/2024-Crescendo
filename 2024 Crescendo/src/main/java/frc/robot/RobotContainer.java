@@ -80,6 +80,7 @@ public class RobotContainer {
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   private final LedSubsystem ledSubsystem = new LedSubsystem();
 
+  //JOYSTICKS
   private XboxController driverXbox = new XboxController(0);
   public static CommandJoystick shooterJoystick = new CommandJoystick(1);
   private CommandJoystick climberJoystick = new CommandJoystick(2);
@@ -90,27 +91,16 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 2));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
     autos.addOption("2 note auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
-    // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
-    // autos.addOption("Score and Leave", getAutonomousCommand());
-
     SmartDashboard.putData("Autonomous", autos);
 
-
-    // armSubsystem.setDefaultCommand(new PIDRotateArmCommand(armSubsystem.getArmPosition()));
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
 
-    // Configure the trigger bindings
     configureBindings();
-
-    // // Applies deadbands and inverts controls because joysticks
-    // // are back-right positive while robot
-    // // controls are front-left positive
-    // // left stick controls translation
-    // // right stick controls the angular velocity of the robot
+    // left stick controls translation
+    // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> driverXbox.getRawAxis(1),
         () -> -driverXbox.getRawAxis(0),
@@ -124,9 +114,7 @@ public class RobotContainer {
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
-    // shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> shooterSubsystem.getInputShooterSpeed(),  () -> shooterSubsystem.getInputShooterSpeed()));
     shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.6,  () -> 0.6));
-
   }
 
 
@@ -136,21 +124,14 @@ public class RobotContainer {
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
     climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
-
     climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
     climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
 
-
-
-    //SHOOTER
-    // shooterJoystick.button(2).onTrue(new ManualArmControlCommandGroup());
-    // shooterJoystick.button(4).toggleOnTrue(new TimedDrive(drivebase, 1, 0, 0, 3));
-    // shooterJoystick.button(4).toggleOnTrue(new AutoCommandGroup(drivebase));
+    //SHOOTER, INTAKE AND ARM CONTROL
     shooterJoystick.button(1).whileTrue(new IntakeCommand(intakeSubsystem, 1));
     shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.startingConfigArmAngle));
-    shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY()));
     
-
+    shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY()));
     shooterJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 2)));
 
     shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
@@ -160,18 +141,9 @@ public class RobotContainer {
     shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
     shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
 
-    //shooterJoystick.button(8).toggleOnTrue(new AmpScoreCommandGroup(intakeSubsystem, shooterSubsystem));
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
-    // shooterJoystick.button(12).toggleOnTrue(new SensorIntakeCommand(intakeSubsystem, 0.8));
-
-    
-    
-
-    // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> armSubsystem.getArmInput()));
-    // shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle));
-    // DoubleSupplier shooterSpeed = () -> intakeShooterSubsystem.getInputShooterSpeed();
 
     //DRIVER CONTROLLER
     new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -2.13));
@@ -188,7 +160,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
     return autos.getSelected();
   }
 
@@ -207,13 +178,10 @@ public class RobotContainer {
   }
 
   public void joystickValues() {
-
     SmartDashboard.putNumber("intake motor speed", intakeSubsystem.getIntakeSpeed());
-
     SmartDashboard.putNumber("input shooter speed value", shooterSubsystem.getInputShooterSpeed());
     SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
     SmartDashboard.putNumber("right climber motor", climbSubsystem.getRightEncoder());
-
 
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
@@ -225,5 +193,4 @@ public class RobotContainer {
     SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
     SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
   }
-
 }

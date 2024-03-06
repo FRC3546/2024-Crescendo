@@ -23,9 +23,7 @@ public class ShooterSubsystem extends SubsystemBase{
 
     //dashboard
     private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
-    // private GenericEntry inputUpperShooterSpeed = tab.add("upper shooter speed", 0).getEntry();
-    // private GenericEntry inputLowerShooterSpeed = tab.add("lower shooter speed", 0).getEntry();
-    private GenericEntry inputShooterSpeed = tab.add("PLEASE WORK speed", 0).getEntry();
+    private GenericEntry inputShooterSpeed = tab.add("Input Shooter Speed", 0).getEntry();
 
     //motors
     private CANSparkMax upperShooterMotor;
@@ -35,16 +33,11 @@ public class ShooterSubsystem extends SubsystemBase{
     private SparkPIDController lowerPIDController;
     private SparkPIDController upperPIDController;
 
-
-
     //not used but please leave
     private double upperShooterSpeed;
     private double lowerShooterSpeed;
-    
+
     public ShooterSubsystem(){
-
-        
-
         lowerShooterMotor = new CANSparkMax (31, MotorType.kBrushless);
         upperShooterMotor = new CANSparkMax (30, MotorType.kBrushless);
 
@@ -76,18 +69,9 @@ public class ShooterSubsystem extends SubsystemBase{
         
         lowerShooterMotor.burnFlash();
         upperShooterMotor.burnFlash();
-
-        // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
-        // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-        // Shuffleboard.getTab("Shooter").add("sensor value", noteSensor);
-        // Shuffleboard.getTab("Shooter").add("note sensor boolean", getSensorValue());
-
     }
 
-    
-
-     public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
-        
+    public void runShooter(double upperShooterSpeed, double lowerShooterSpeed){
          this.upperShooterSpeed = upperShooterSpeed;
          this.lowerShooterSpeed = lowerShooterSpeed;
 
@@ -95,24 +79,15 @@ public class ShooterSubsystem extends SubsystemBase{
          lowerShooterMotor.set(lowerShooterSpeed);
      }
 
-    // public void inputRunShooter(){
-    //     upperShooterMotor.set(Math.abs(inputUpperShooterSpeed.getDouble(0)));
-    //     lowerShooterMotor.set(Math.abs(inputLowerShooterSpeed.getDouble(0)));
-    // }
-    
-
-
      public void runShooter(int RPM){
-
          if(RPM > Constants.Shooter.maxShooterRPM){
              RPM = Constants.Shooter.maxShooterRPM;
          }
-
          lowerPIDController.setReference(RPM, ControlType.kVelocity);
          upperPIDController.setReference(RPM, ControlType.kVelocity);
      }
 
-    //detects ifthe shooter is at a certain range of RPM
+    //detects if the shooter is at a certain range of RPM
     public boolean isShooterAtRPM(int RPM){
 
         if((getUpperShooterRPM() > (RPM - 30) && (getUpperShooterRPM() < (RPM + 30)))
@@ -127,7 +102,6 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void stopShooter(){
-        
         upperShooterMotor.stopMotor();
         lowerShooterMotor.stopMotor();
     }
@@ -154,17 +128,6 @@ public class ShooterSubsystem extends SubsystemBase{
 
     @Override
     public void periodic(){
-
         Shuffleboard.update();
-    
-
-
-        // Shuffleboard.getTab("Shooter").add("upper shooter RPM", getUpperShooterRPM());
-        // Shuffleboard.getTab("Shooter").add("lower shooter RPM", getLowerShooterRPM());
-        // SmartDashboard.putBoolean("Note sensor value", getSensorValue());
-        // SmartDashboard.putNumber("upper shooter value",getUpperShooterRPM());
-        // SmartDashboard.putNumber("lower shooter value",getLowerShooterRPM());
     }
-
-
 }
