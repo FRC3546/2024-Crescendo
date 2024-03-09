@@ -23,7 +23,7 @@ public class JoystickClimbCommand extends Command {
 
     @Override
     public void execute() {
-        climbSubsystem.rotateClimbers(speed.getAsDouble()/1.5);
+        climbSubsystem.rotateClimbers(speed.getAsDouble());
     }
 
     @Override
