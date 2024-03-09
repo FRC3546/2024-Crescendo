@@ -25,7 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.TimedDrive;
-import frc.robot.Auto.TwoNoteAuto;
+import frc.robot.Auto.TwoNoteAutoBlue;
+import frc.robot.Auto.TwoNoteAutoRed;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 
@@ -78,7 +79,7 @@ public class RobotContainer {
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final LedSubsystem ledSubsystem = new LedSubsystem();
+  public final static LedSubsystem ledSubsystem = new LedSubsystem();
 
   //JOYSTICKS
   private XboxController driverXbox = new XboxController(0);
@@ -93,7 +94,8 @@ public class RobotContainer {
   public RobotContainer() {
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 2));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
-    autos.addOption("2 note auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
+    autos.addOption("BLUE 2 Note Auto", new TwoNoteAutoBlue(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
+    autos.addOption("RED 2 Note Auto", new TwoNoteAutoRed(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
     SmartDashboard.putData("Autonomous", autos);
 
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));

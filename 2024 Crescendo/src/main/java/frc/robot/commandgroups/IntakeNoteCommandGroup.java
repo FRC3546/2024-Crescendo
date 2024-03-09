@@ -21,7 +21,7 @@ public class IntakeNoteCommandGroup extends SequentialCommandGroup{
         addCommands(
             new SensorIntakeCommand(RobotContainer.intakeSubsystem, 1),
             
-            new WaitCommand(0.5),
+            // new WaitCommand(0.5),
             new SensorReverseIntakeCommand(RobotContainer.intakeSubsystem),
             new LedCarryingNoteCommand(ledSubsystem));
     }

@@ -33,21 +33,21 @@ import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
-public class TwoNoteAuto extends SequentialCommandGroup{
+public class TwoNoteAutoBlue extends SequentialCommandGroup{
 
     Optional<Alliance> ally = DriverStation.getAlliance();
     int blueSide = -1;
 
-    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
+    public TwoNoteAutoBlue(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
 
-        if(ally.isPresent()){
-            if (ally.get() == Alliance.Red) {
-                blueSide = 1;                
-            }
-            if (ally.get() == Alliance.Blue) {
-                blueSide = -1;
-            }
-        }
+        // if(ally.isPresent()){
+        //     if (ally.get() == Alliance.Red) {
+        //         blueSide = 1;                
+        //     }
+        //     if (ally.get() == Alliance.Blue) {
+        //         blueSide = -1;
+        //     }
+        // }
 
         System.out.println(blueSide);
         

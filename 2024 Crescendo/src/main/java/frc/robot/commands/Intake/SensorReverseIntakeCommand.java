@@ -25,7 +25,7 @@ public class SensorReverseIntakeCommand extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        new WaitCommand(0.1);
+        //new WaitCommand(0.1);
         intakeSubsystem.stopIntake();
     }
 
