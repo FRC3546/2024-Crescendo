@@ -98,6 +98,7 @@ public class RobotContainer {
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
     autos.addOption("BLUE 2 Note Auto", new TwoNoteAutoBlue(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
     autos.addOption("RED 2 Note Auto", new TwoNoteAutoRed(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
+    autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     SmartDashboard.putData("Autonomous", autos);
 
     armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
