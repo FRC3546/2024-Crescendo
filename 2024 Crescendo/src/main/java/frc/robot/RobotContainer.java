@@ -92,6 +92,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 2));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
     autos.addOption("BLUE 2 Note Auto", new TwoNoteAutoBlue(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
@@ -126,15 +128,17 @@ public class RobotContainer {
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
     climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
-    climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
-    climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
+    // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
+    // climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
+    climberJoystick.button(7).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
+
 
     //SHOOTER, INTAKE AND ARM CONTROL
     shooterJoystick.button(1).whileTrue(new IntakeCommand(intakeSubsystem, 1));
     shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.startingConfigArmAngle));
     
     shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY()));
-    shooterJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 2)));
+    shooterJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -1), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 2)));
 
     shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));

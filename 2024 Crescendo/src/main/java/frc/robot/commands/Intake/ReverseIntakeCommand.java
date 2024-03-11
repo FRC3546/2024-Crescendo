@@ -4,10 +4,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class ReverseIntakeCommand extends Command{
 
+    double speed;
     IntakeSubsystem intakeSubsystem;
     
-    public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem){
-        
+    public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem, double speed){
+        this.speed = speed;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
 
@@ -15,7 +16,7 @@ public class ReverseIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.intake(-1);
+        intakeSubsystem.intake(speed);
     }
 
     @Override
