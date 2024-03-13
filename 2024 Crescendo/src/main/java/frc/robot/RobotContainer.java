@@ -184,12 +184,15 @@ public class RobotContainer {
     SmartDashboard.putBoolean("Sensor Value", intakeSubsystem.getSensorValue());
   }
 
-  public void joystickValues() {
-    SmartDashboard.putNumber("intake motor speed", intakeSubsystem.getIntakeSpeed());
-    SmartDashboard.putNumber("input shooter speed value", shooterSubsystem.getInputShooterSpeed());
-    SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
-    SmartDashboard.putNumber("right climber motor", climbSubsystem.getRightEncoder());
+  public void robotSystemValues(){
+    SmartDashboard.putBoolean("climber limit switch value", climbSubsystem.getLimitSwitchValue());
+  //   SmartDashboard.putNumber("intake motor speed", intakeSubsystem.getIntakeSpeed());
+  //   SmartDashboard.putNumber("input shooter speed value", shooterSubsystem.getInputShooterSpeed());
+  //   SmartDashboard.putNumber("left climber motor", climbSubsystem.getLeftEncoder());
+  //   SmartDashboard.putNumber("right climber motor", climbSubsystem.getRightEncoder());
+  }
 
+  public void joystickValues() {
     SmartDashboard.putNumber("Y value", driverXbox.getLeftY());
     SmartDashboard.putNumber("X value", driverXbox.getLeftX());
     SmartDashboard.putNumber("Rotation value", driverXbox.getRawAxis(2));

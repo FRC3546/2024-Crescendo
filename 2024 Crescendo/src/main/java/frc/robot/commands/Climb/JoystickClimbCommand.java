@@ -19,7 +19,8 @@ public class JoystickClimbCommand extends Command {
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+    }
 
     @Override
     public void execute() {
@@ -33,7 +34,6 @@ public class JoystickClimbCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return climbSubsystem.getLimitSwitchValue();
     }
-
 }

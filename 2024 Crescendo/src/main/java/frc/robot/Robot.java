@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {;
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    
 
     
     
@@ -76,6 +77,7 @@ public class Robot extends TimedRobot {;
   public void robotPeriodic() {
 
     m_robotContainer.limelightValues();
+    m_robotContainer.robotSystemValues();
     // upperShooterSpeed = SmartDashboard.getNumber("upper motor speed", 0);
     // lowerShooterSpeed = SmartDashboard.getNumber("lower motor speed", 0);
     // m_robotContainer.trackPowerMetrics();
