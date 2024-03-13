@@ -5,7 +5,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.Shooter;
 import frc.robot.commands.Arm.PIDRotateArmCommand;
-
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.LedSubsystem;
@@ -15,10 +15,10 @@ public class IntakeWithArmCommandGroup extends ParallelDeadlineGroup {
     
     
 
-    public IntakeWithArmCommandGroup(ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem) {
+    public IntakeWithArmCommandGroup(ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem) {
 
         super(
-            new IntakeNoteCommandGroup(ledSubsystem),
+            new IntakeNoteCommandGroup(ledSubsystem, intakeSubsystem),
             new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0),
             new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle));
     }

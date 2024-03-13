@@ -80,6 +80,7 @@ public class RobotContainer {
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public final static LedSubsystem ledSubsystem = new LedSubsystem();
+  
 
   //JOYSTICKS
   private XboxController driverXbox = new XboxController(0);
@@ -146,7 +147,7 @@ public class RobotContainer {
     
     shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
+    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
 
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));

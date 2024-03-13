@@ -42,7 +42,7 @@ public class IntakeSubsystem extends SubsystemBase{
         return intakeMotor.get();
     }
 
-    public boolean getSensorValue(){
+    public  boolean getSensorValue(){
         // the note sensor returns true by default, so the value needs to be 
         // flipped so it returns true when detecting a piece
         return !noteSensor.get();

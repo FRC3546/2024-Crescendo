@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdleConfiguration;
+import com.ctre.phoenix.led.RainbowAnimation;
 
 //vendordeps
  
@@ -12,6 +13,7 @@ import com.ctre.phoenix.led.CANdleConfiguration;
 public class LedSubsystem extends SubsystemBase{
     
     private CANdle leds;
+    RainbowAnimation shootAnimation = new RainbowAnimation(0.5, 0.5, 8);
     
     public LedSubsystem(){
         
@@ -20,6 +22,7 @@ public class LedSubsystem extends SubsystemBase{
         ledconfig.stripType = LEDStripType.RGB;
         ledconfig.brightnessScalar = 0.5;
         leds.configAllSettings(ledconfig);
+       
         
 
     }
@@ -43,6 +46,10 @@ public class LedSubsystem extends SubsystemBase{
     
     public void off(){
         leds.setLEDs(0, 0, 0);
+    }
+
+    public void rainbow(){
+        leds.animate(shootAnimation);
     }
 
 
