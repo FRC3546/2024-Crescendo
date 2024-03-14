@@ -7,15 +7,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ClimbSubsystem extends SubsystemBase {
 
+    private DigitalInput climberLimitSwitch;
     private CANSparkMax leftClimbMotor;
     private CANSparkMax rightClimbMotor;
     private DoubleSolenoid climberPiston;
 
 
     public ClimbSubsystem() {
+
+        climberLimitSwitch = new DigitalInput(2);
 
         climberPiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 3);
 
@@ -64,5 +68,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public double getLeftEncoder(){
         return leftClimbMotor.getEncoder().getPosition();
+    }
+
+    public boolean getLimitSwitchValue(){
+        return climberLimitSwitch.get();
     }
 }
