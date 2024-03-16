@@ -12,7 +12,9 @@ public class LedCarryingNoteCommand extends Command {
 
   public LedCarryingNoteCommand(LedSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem) {
 
+    this.intakeSubsystem = intakeSubsystem;
     this.ledSubsystem = ledSubsystem;
+
 
     addRequirements(ledSubsystem);
 
