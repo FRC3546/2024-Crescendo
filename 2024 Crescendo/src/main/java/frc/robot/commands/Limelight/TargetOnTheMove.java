@@ -37,8 +37,8 @@ public class TargetOnTheMove extends Command {
     this.yTranslation = yTranslation;
     
     this.setPosition = setPosition;
-    pidLoop = new PIDController(0.07, 0, 0.3);
-    pidLoop.setTolerance(1);
+    pidLoop = new PIDController(0.06, 0, 0.3);
+    pidLoop.setTolerance(0.5);
 
     pidLoop.setSetpoint(setPosition.getAsDouble());
 

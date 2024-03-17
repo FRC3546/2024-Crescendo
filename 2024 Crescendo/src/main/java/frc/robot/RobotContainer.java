@@ -158,7 +158,7 @@ public class RobotContainer {
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
 
     //DRIVER CONTROLLER
-    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -2.13));
+    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
