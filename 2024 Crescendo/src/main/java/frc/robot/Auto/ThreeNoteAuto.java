@@ -3,6 +3,9 @@ package frc.robot.Auto;
 import java.util.Optional;
 
 import javax.naming.PartialResultException;
+import javax.swing.text.html.Option;
+
+import org.opencv.features2d.FlannBasedMatcher;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -35,10 +38,14 @@ import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
-public class TwoNoteAutoRed extends SequentialCommandGroup{
+public class ThreeNoteAuto extends SequentialCommandGroup{
 
-    public TwoNoteAutoRed(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
+    private int blueMultiplier;
+
+    public ThreeNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, boolean isRed){
         
+        blueMultiplier = isRed ? 1 : -1;
+
         addCommands(
 
         // get wheel in position
@@ -46,13 +53,13 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
             
             // scoring
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -46.32).withTimeout(3.75),
+                new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMultiplier).withTimeout(3.35),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.005555),
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.75),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.35),
                     new SequentialCommandGroup(
-                        new WaitCommand(2.25), 
-                        new TimedIntakeCommand(intakeSubsystem, 1, 1.5))
+                        new WaitCommand(2), 
+                        new TimedIntakeCommand(intakeSubsystem, 1, 1.35))
             )),
 
             // new ParallelDeadlineGroup(
@@ -61,7 +68,7 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
 
             // rotate to angle 0
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(1),
+                new RotateToAngle(swerveSubsystem, () -> 0 * blueMultiplier).withTimeout(0.75),
                 new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle)
             ),
 
@@ -74,40 +81,52 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
             
             // backup and pick up note
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 2, 0, () -> (0), 1),
+                new TimedDriveGyro(swerveSubsystem, 2, 0, () -> 0 * blueMultiplier, 1),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
                 ),
 
             new ParallelDeadlineGroup(new WaitCommand(0.4), new IntakeCommand(intakeSubsystem, 1)),
 
             new ParallelDeadlineGroup(
-                new WaitCommand(0.5),
+                new WaitCommand(0.25),
                 new SensorReverseIntakeCommand(intakeSubsystem)),
 
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -25).withTimeout(3),
+                new RotateToAngle(swerveSubsystem, () -> -25 * blueMultiplier).withTimeout(3),
                 //Stage shot angle plus offset to make note not miss high
                 new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 3),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.75),
                     new SequentialCommandGroup(
-                        new WaitCommand(2.5), 
-                        new TimedIntakeCommand(intakeSubsystem, 1, 2.5))
+                        new WaitCommand(2), 
+                        new TimedIntakeCommand(intakeSubsystem, 1, 1))
             )),
 
-            new TimedDrive(swerveSubsystem, 2.5, 0, 0, 0.5),
+            new ParallelDeadlineGroup(
+                new RotateToAngle(swerveSubsystem, () -> 83 * blueMultiplier).withTimeout(1.75),
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+            ),
 
+
+            new ParallelDeadlineGroup(
+                new WaitCommand(1.5),
+                new TimedDriveGyro(swerveSubsystem, 2.15, 0, () -> 83 * blueMultiplier, 1),
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+            ),
+
+
+            new ParallelDeadlineGroup(
+                new RotateToAngle(swerveSubsystem, () -> 0 * blueMultiplier).withTimeout(2.5),
+                //Stage shot angle plus offset to make note not miss high
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
+                new ParallelDeadlineGroup(
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.5),
+                    new SequentialCommandGroup(
+                        new WaitCommand(1.5), 
+                        new TimedIntakeCommand(intakeSubsystem, 1, 1))
+            ))
             
 
-            new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 4.25, 0, () -> 0, 1.5),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
-                ),
-
-            new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0, 1.5),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
-                )
 
             
 

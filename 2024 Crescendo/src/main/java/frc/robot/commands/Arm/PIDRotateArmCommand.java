@@ -20,7 +20,7 @@ public class PIDRotateArmCommand extends Command {
 
         this.setPosition = setPosition;
         pidLoop = new PIDController(8, 0, 1.3);
-        pidLoop.setTolerance(0.05);
+        pidLoop.setTolerance(0.02);
         // position here means a value between 0.0 and 1.0 as measured by the motor
         // encoder
         pidLoop.setSetpoint(setPosition.getAsDouble());
