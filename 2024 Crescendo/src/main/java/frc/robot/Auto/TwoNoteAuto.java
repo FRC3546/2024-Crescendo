@@ -35,10 +35,14 @@ import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
-public class TwoNoteAutoRed extends SequentialCommandGroup{
+public class TwoNoteAuto extends SequentialCommandGroup{
 
-    public TwoNoteAutoRed(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
+    private int blueMuliplier;
+
+    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, boolean isRed){
         
+        blueMuliplier = isRed ? 1 : -1;
+
         addCommands(
 
         // get wheel in position
@@ -46,7 +50,7 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
             
             // scoring
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -46.32).withTimeout(3.75),
+                new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMuliplier).withTimeout(3.75),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.005555),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.75),
@@ -61,7 +65,7 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
 
             // rotate to angle 0
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(1),
+                new RotateToAngle(swerveSubsystem, () -> 0 * blueMuliplier).withTimeout(1),
                 new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle)
             ),
 
@@ -74,7 +78,7 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
             
             // backup and pick up note
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 2, 0, () -> (0), 1),
+                new TimedDriveGyro(swerveSubsystem, 2, 0, () -> 0 * blueMuliplier, 1),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
                 ),
 
@@ -85,7 +89,7 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
                 new SensorReverseIntakeCommand(intakeSubsystem)),
 
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -25).withTimeout(3),
+                new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),
                 //Stage shot angle plus offset to make note not miss high
                 new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
                 new ParallelDeadlineGroup(
@@ -100,12 +104,12 @@ public class TwoNoteAutoRed extends SequentialCommandGroup{
             
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 4.25, 0, () -> 0, 1.5),
+                new TimedDriveGyro(swerveSubsystem, 4.25, 0, () -> 0 * blueMuliplier, 1.5),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
                 ),
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0, 1.5),
+                new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0 * blueMuliplier, 1.5),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
                 )
 

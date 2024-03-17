@@ -27,7 +27,7 @@ import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.ThreeNoteAuto;
 import frc.robot.Auto.TimedDrive;
 import frc.robot.Auto.TwoNoteAutoBlue;
-import frc.robot.Auto.TwoNoteAutoRed;
+import frc.robot.Auto.TwoNoteAuto;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 
@@ -96,11 +96,11 @@ public class RobotContainer {
   public RobotContainer() {
 
 
-    autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 2));
+    autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
     autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
-    autos.addOption("BLUE 2 Note Auto", new TwoNoteAutoBlue(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
-    autos.addOption("RED 2 Note Auto", new TwoNoteAutoRed(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem));
-    autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
+    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, false));
+    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, true));
+    // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, true));
     autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, false));
 
