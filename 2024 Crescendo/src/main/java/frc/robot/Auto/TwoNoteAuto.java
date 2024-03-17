@@ -104,14 +104,14 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 4.25, 0, () -> 0 * blueMuliplier, 1.5),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
-                ),
-
-            new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0 * blueMuliplier, 1.5),
+                new TimedDriveGyro(swerveSubsystem, 4, 0, () -> 0 * blueMuliplier, 1.25),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
                 )
+
+            // new ParallelRaceGroup(
+            //     new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0 * blueMuliplier, 1.5),
+            //     new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+            //     )
 
             
 

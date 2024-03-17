@@ -132,11 +132,11 @@ public class RobotContainer {
 
     //CLIMBER
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
-    climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
+    climberJoystick.button(5).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
     // climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
-    climberJoystick.button(7).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
+    climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
 
 
     //SHOOTER, INTAKE AND ARM CONTROL
@@ -158,8 +158,8 @@ public class RobotContainer {
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
 
     //DRIVER CONTROLLER
-    new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));
-    new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
+    new JoystickButton(driverXbox, 2).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));
+    new JoystickButton(driverXbox, 1).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
   public void setMotorBrake(boolean brake) {

@@ -37,9 +37,11 @@ public class TargetOnTheMove extends Command {
     this.yTranslation = yTranslation;
     
     this.setPosition = setPosition;
-    pidLoop = new PIDController(0.06, 0, 0.3);
-    pidLoop.setTolerance(0.5);
-
+    pidLoop = new PIDController(0.04, 0, 0);
+    pidLoop.setTolerance(3);
+    //0.03
+    // 0
+    // 2
     pidLoop.setSetpoint(setPosition.getAsDouble());
 
     this.limelightSubsystem = limelightSubsystem;
@@ -51,6 +53,20 @@ public class TargetOnTheMove extends Command {
   @Override
   public void initialize() {
 
+    // if(ally.isPresent()){
+    //         if (ally.get() == Alliance.Red) {
+    //           limelightSubsystem.setPipeline(2);
+    //         }
+    //         if (ally.get() == Alliance.Blue) {
+    //             limelightSubsystem.setPipeline(1);
+    //         }
+    //     }
+  
+  }
+
+  @Override
+  public void execute() {
+
     if(ally.isPresent()){
             if (ally.get() == Alliance.Red) {
               limelightSubsystem.setPipeline(2);
@@ -59,11 +75,6 @@ public class TargetOnTheMove extends Command {
                 limelightSubsystem.setPipeline(1);
             }
         }
-  
-  }
-
-  @Override
-  public void execute() {
 
     // System.out.println(xTranslation.getAsDouble() + " " + yTranslation.getAsDouble() + " " + setPosition.getAsDouble());
     swerveSubsystem.driveFieldOrientedMaxVelocity(xTranslation.getAsDouble(), yTranslation.getAsDouble(), pidLoop.calculate(limelightSubsystem.getLimelightX()));
