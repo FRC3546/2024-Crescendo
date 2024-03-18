@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+
 //WPILIB
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -31,6 +32,8 @@ import frc.robot.Constants.OperatorConstants;
 //COMMANDS
 
 import frc.robot.commands.Arm.HoldArmCommand;
+import frc.robot.commands.Limelight.TargetClimbing;
+import frc.robot.commands.Limelight.TargetClimbing;
 import frc.robot.commands.Arm.JoystickRotateArmCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -81,6 +84,7 @@ public class RobotContainer {
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public final static LedSubsystem ledSubsystem = new LedSubsystem();
   
+  
 
   //JOYSTICKS
   private XboxController driverXbox = new XboxController(0);
@@ -130,6 +134,7 @@ public class RobotContainer {
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
     climberJoystick.button(3).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
+    climberJoystick.button(11).toggleOnTrue(new TargetClimbing(limelightSubsystem, drivebase, () -> -2.13 ));
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
     // climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
     climberJoystick.button(7).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
@@ -156,6 +161,8 @@ public class RobotContainer {
     //DRIVER CONTROLLER
     new JoystickButton(driverXbox, 1).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -2.13));
     new JoystickButton(driverXbox, 2).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
+    
+
   }
 
   public void setMotorBrake(boolean brake) {
@@ -182,6 +189,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Total Current", totalCurrent);
     SmartDashboard.putNumber("Temperature", temperatureFahrenheit);
     SmartDashboard.putNumber("Voltage", voltage);
+    SmartDashboard.putNumberArray("botpose", limelightSubsystem.getBotPose());
     SmartDashboard.putBoolean("Sensor Value", intakeSubsystem.getSensorValue());
   }
 
