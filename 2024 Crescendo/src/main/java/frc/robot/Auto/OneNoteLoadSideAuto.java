@@ -65,7 +65,7 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
             new ParallelRaceGroup(
                 
                 //
-                new PIDRotateArmCommand(() -> Constants.Arm.testArmAngle),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
                     new SequentialCommandGroup(
