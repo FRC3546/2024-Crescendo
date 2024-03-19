@@ -33,8 +33,8 @@ public class IntakeButton extends SequentialCommandGroup {
             System.out.println("no " + armSubsystem.getArmExtension());
             addCommands(
 
-                    new InstantCommand(() -> armSubsystem.extendArm()),
-                    new WaitCommand(0.3),
+                    // new InstantCommand(() -> armSubsystem.extendArm()),
+                    // new WaitCommand(0.3),
                     new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem, intakeSubsystem)
 
             // new ParallelDeadlineGroup(
