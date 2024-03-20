@@ -97,12 +97,12 @@ public class RobotContainer {
 
 
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
-    autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem));
-    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, false));
-    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, true));
+    autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
+    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
+    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
     // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
-    autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, true));
-    autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, false));
+    autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
+    autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
 
     SmartDashboard.putData("Autonomous", autos);
 
@@ -149,13 +149,13 @@ public class RobotContainer {
     shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
     shooterJoystick.button(6).toggleOnTrue(new InstantCommand(() -> armSubsystem.retractArm()));
     
-    shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem));
-    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem));
-    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
+    shooterJoystick.button(7).onTrue(new AmpButton(shooterSubsystem, armSubsystem, climbSubsystem));
+    shooterJoystick.button(9).onTrue(new CloseSpeakerButton(armSubsystem, shooterSubsystem, climbSubsystem));
+    shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> armSubsystem.getArmExtension()));
 
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
     shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0));
-    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
+    shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem, climbSubsystem));    
 
     //DRIVER CONTROLLER
     new JoystickButton(driverXbox, 2).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));

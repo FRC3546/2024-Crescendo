@@ -28,6 +28,7 @@ import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.commands.Swerve.RotateToAngle;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -38,7 +39,7 @@ public class TwoNoteAutoBlue extends SequentialCommandGroup{
     Optional<Alliance> ally = DriverStation.getAlliance();
     int blueSide = -1;
 
-    public TwoNoteAutoBlue(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem){
+    public TwoNoteAutoBlue(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem){
 
         // if(ally.isPresent()){
         //     if (ally.get() == Alliance.Red) {
@@ -78,7 +79,7 @@ public class TwoNoteAutoBlue extends SequentialCommandGroup{
             // backup and pick up note
             new ParallelRaceGroup(
                 new TimedDriveGyro(swerveSubsystem, 2, 0, () -> (0 * blueSide), 1.25),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
                 ),
 
             new ParallelDeadlineGroup(new WaitCommand(0.4), new IntakeCommand(intakeSubsystem, 1)),

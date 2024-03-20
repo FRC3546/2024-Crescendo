@@ -33,6 +33,7 @@ import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.commands.Swerve.RotateToAngle;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -42,7 +43,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
 
     private int blueMultiplier;
 
-    public ThreeNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, boolean isRed){
+    public ThreeNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, boolean isRed){
         
         blueMultiplier = isRed ? 1 : -1;
 
@@ -82,7 +83,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             // backup and pick up note
             new ParallelRaceGroup(
                 new TimedDriveGyro(swerveSubsystem, 2, 0, () -> 0 * blueMultiplier, 1),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
                 ),
 
             new ParallelDeadlineGroup(new WaitCommand(0.4), new IntakeCommand(intakeSubsystem, 1)),
@@ -104,14 +105,14 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
 
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> 83 * blueMultiplier).withTimeout(1.75),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
             ),
 
 
             new ParallelDeadlineGroup(
                 new WaitCommand(1.5),
                 new TimedDriveGyro(swerveSubsystem, 2.15, 0, () -> 83 * blueMultiplier, 1),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
             ),
 
 

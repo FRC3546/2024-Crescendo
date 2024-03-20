@@ -22,6 +22,7 @@ import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.commands.Swerve.RotateToAngle;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -40,7 +41,7 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
     double vy = 1.5;
 
 
-    public OneNoteLoadSideAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem){
+    public OneNoteLoadSideAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem){
 
         if(ally.isPresent()){
             if (ally.get() == Alliance.Red) {
@@ -59,7 +60,7 @@ public class OneNoteLoadSideAuto extends SequentialCommandGroup{
 
             new ParallelDeadlineGroup(
                 new WaitCommand(2.5),
-                new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6)
+                new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.6, () -> 0.6)
             ),
 
             new ParallelRaceGroup(

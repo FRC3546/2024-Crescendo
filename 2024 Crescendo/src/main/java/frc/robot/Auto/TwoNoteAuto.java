@@ -30,6 +30,7 @@ import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.commands.Swerve.RotateToAngle;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -39,7 +40,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
 
     private int blueMuliplier;
 
-    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, boolean isRed){
+    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, boolean isRed){
         
         blueMuliplier = isRed ? 1 : -1;
 
@@ -79,7 +80,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             // backup and pick up note
             new ParallelRaceGroup(
                 new TimedDriveGyro(swerveSubsystem, 2, 0, () -> 0 * blueMuliplier, 1),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
                 ),
 
             new ParallelDeadlineGroup(new WaitCommand(0.4), new IntakeCommand(intakeSubsystem, 1)),
@@ -105,7 +106,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
 
             new ParallelRaceGroup(
                 new TimedDriveGyro(swerveSubsystem, 4, 0, () -> 0 * blueMuliplier, 1.25),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> false)
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
                 )
 
             // new ParallelRaceGroup(
