@@ -22,6 +22,7 @@ import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -37,7 +38,7 @@ public class AutoLeave extends SequentialCommandGroup{
     double vx = 1.5;
     double vy = 1.5;
 
-    public AutoLeave(SwerveSubsystem swerveSubsystem, ShooterSubsystem shooterSubsystem){
+    public AutoLeave(SwerveSubsystem swerveSubsystem, ShooterSubsystem shooterSubsystem, ClimbSubsystem climberSubsystem){
 
         if(ally.isPresent()){
             if (ally.get() == Alliance.Red) {
@@ -57,7 +58,7 @@ public class AutoLeave extends SequentialCommandGroup{
                     new WaitCommand(0.5),
                     new TimedDriveGyro(swerveSubsystem, 1, 0, () -> 0, 2)),
                 
-                new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0))
+                new RunShooterCommand(shooterSubsystem, climberSubsystem, () -> 0, () -> 0))
                         
         );
     }

@@ -15,9 +15,11 @@ public class ClimbSubsystem extends SubsystemBase {
     private CANSparkMax leftClimbMotor;
     private CANSparkMax rightClimbMotor;
     private DoubleSolenoid climberPiston;
+    private boolean climberReleased = false;
 
 
     public ClimbSubsystem() {
+
 
         climberLimitSwitch = new DigitalInput(2);
 
@@ -48,17 +50,18 @@ public class ClimbSubsystem extends SubsystemBase {
     }
 
     public void extendClimberPiston(){
-
+        climberReleased = true;
         climberPiston.set(Value.kForward);
     }
 
     public void retractClimberPiston(){
-
+        climberReleased = false;
         climberPiston.set(Value.kReverse);
     }
 
     public void toggleClimberPiston(){
 
+        climberReleased = !climberReleased;
         climberPiston.toggle();
     }
 
@@ -72,5 +75,9 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public boolean getLimitSwitchValue(){
         return climberLimitSwitch.get();
+    }
+
+    public boolean isClimberReleased(){
+        return climberReleased;
     }
 }

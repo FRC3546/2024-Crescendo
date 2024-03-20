@@ -22,7 +22,6 @@ public class TargetOnTheMove extends Command {
     DoubleSupplier xTranslation;
     DoubleSupplier yTranslation;
 
-    Optional<Alliance> ally;
     
 
   /**
@@ -32,7 +31,6 @@ public class TargetOnTheMove extends Command {
    */
   public TargetOnTheMove(LimelightSubsystem limelightSubsystem, SwerveSubsystem swerveSubsystem, DoubleSupplier xTranslation, DoubleSupplier yTranslation, DoubleSupplier setPosition) {
 
-    ally = DriverStation.getAlliance();
     this.xTranslation = xTranslation;
     this.yTranslation = yTranslation;
     
@@ -53,19 +51,7 @@ public class TargetOnTheMove extends Command {
   @Override
   public void initialize() {
 
-    // if(ally.isPresent()){
-    //         if (ally.get() == Alliance.Red) {
-    //           limelightSubsystem.setPipeline(2);
-    //         }
-    //         if (ally.get() == Alliance.Blue) {
-    //             limelightSubsystem.setPipeline(1);
-    //         }
-    //     }
-  
-  }
-
-  @Override
-  public void execute() {
+    Optional<Alliance> ally = DriverStation.getAlliance();
 
     if(ally.isPresent()){
             if (ally.get() == Alliance.Red) {
@@ -75,6 +61,17 @@ public class TargetOnTheMove extends Command {
                 limelightSubsystem.setPipeline(1);
             }
         }
+
+    else{
+      System.err.println("No Alliance value for TargetOnTheMove!");
+    }
+  
+  }
+
+  @Override
+  public void execute() {
+
+    
 
     // System.out.println(xTranslation.getAsDouble() + " " + yTranslation.getAsDouble() + " " + setPosition.getAsDouble());
     swerveSubsystem.driveFieldOrientedMaxVelocity(xTranslation.getAsDouble(), yTranslation.getAsDouble(), pidLoop.calculate(limelightSubsystem.getLimelightX()));

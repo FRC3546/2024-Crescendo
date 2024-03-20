@@ -19,7 +19,7 @@ public class FarSpeakerButton extends SequentialCommandGroup{
             new InstantCommand(() -> armSubsystem.extendArm()),
             new ParallelDeadlineGroup(
                 new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle),
-                new RunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75))
+                new RunShooterCommand(shooterSubsystem, climberSubsystem, () -> 0.75, () -> 0.75))
         );
     }
 }

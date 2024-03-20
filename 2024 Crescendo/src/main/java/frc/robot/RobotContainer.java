@@ -124,7 +124,7 @@ public class RobotContainer {
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
-    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem,  () -> 0.6,  () -> 0.6));
+    shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.6,  () -> 0.6));
   }
 
 
@@ -154,7 +154,7 @@ public class RobotContainer {
     shooterJoystick.button(11).toggleOnTrue(new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, () -> armSubsystem.getArmExtension()));
 
     shooterJoystick.button(8).onTrue(new StowedButton(shooterSubsystem, armSubsystem));
-    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0));
+    shooterJoystick.button(10).toggleOnTrue(new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0));
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem));    
 
     //DRIVER CONTROLLER
