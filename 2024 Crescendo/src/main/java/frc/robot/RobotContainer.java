@@ -132,7 +132,7 @@ public class RobotContainer {
 
     //CLIMBER
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
-    climberJoystick.button(5).toggleOnTrue(new InstantCommand(() -> climbSubsystem.retractClimberPiston()));
+    climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
     // climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
