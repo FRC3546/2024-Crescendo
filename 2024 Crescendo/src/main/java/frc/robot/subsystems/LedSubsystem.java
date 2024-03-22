@@ -26,7 +26,10 @@ public class LedSubsystem extends SubsystemBase{
         
 
     }
-    
+
+    public void gold(){
+        leds.setLEDs(255, 215, 0);
+    }
     
      public void red(){
         leds.setLEDs(255, 0, 0);

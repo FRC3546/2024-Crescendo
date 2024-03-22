@@ -12,7 +12,7 @@ public class ManualArmControlCommandGroup extends ParallelCommandGroup {
 
         addCommands(
 
-        new JoystickRotateArmCommand(() -> RobotContainer.shooterJoystick.getRawAxis(1)),
+        new JoystickRotateArmCommand(() -> RobotContainer.shooterJoystick.getRawAxis(1), RobotContainer.ledSubsystem),
         new PIDManualArmCommand()
         
         );

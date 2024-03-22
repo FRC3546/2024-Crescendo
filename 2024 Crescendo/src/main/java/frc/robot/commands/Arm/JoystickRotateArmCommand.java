@@ -9,16 +9,18 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.LedSubsystem;
 
 
 public class JoystickRotateArmCommand extends Command{
 
     DoubleSupplier motorValue;
     ArmSubsystem armSubsystem = RobotContainer.armSubsystem;
-     //private FlipperSubsystem m_flipperSubsystem = RobotContainer.m_flipperSubsystem;
+    LedSubsystem ledSubsystem;
     
-    public JoystickRotateArmCommand(DoubleSupplier motorValue){
+    public JoystickRotateArmCommand(DoubleSupplier motorValue, LedSubsystem ledSubsystem){
         
+        this.ledSubsystem = ledSubsystem;
         this.motorValue = motorValue;
         addRequirements(armSubsystem);
     }
@@ -26,7 +28,7 @@ public class JoystickRotateArmCommand extends Command{
      @Override
      public void initialize(){
         
-
+        ledSubsystem.gold();
 
      }
 
@@ -66,6 +68,7 @@ public class JoystickRotateArmCommand extends Command{
      @Override
      public void end(boolean interrupted) {
          armSubsystem.StopArm();
+         ledSubsystem.red();
      }
 
      @Override

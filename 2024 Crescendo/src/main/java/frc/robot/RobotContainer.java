@@ -143,7 +143,7 @@ public class RobotContainer {
     shooterJoystick.button(1).whileTrue(new IntakeCommand(intakeSubsystem, 1));
     shooterJoystick.button(2).onTrue(new PIDRotateArmCommand(() -> Constants.Arm.startingConfigArmAngle));
     
-    shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY()));
+    shooterJoystick.button(5).toggleOnTrue(new JoystickRotateArmCommand(() -> shooterJoystick.getY(), ledSubsystem));
     shooterJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -1), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 2)));
 
     shooterJoystick.button(4).toggleOnTrue(new InstantCommand(() -> armSubsystem.extendArm()));
