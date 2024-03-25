@@ -26,7 +26,6 @@ import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.ThreeNoteAuto;
 import frc.robot.Auto.TimedDrive;
-import frc.robot.Auto.TwoNoteAutoBlue;
 import frc.robot.Auto.TwoNoteAuto;
 import frc.robot.Constants.OperatorConstants;
 //COMMANDS
@@ -95,9 +94,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
-    autos.addOption("One Note Auto", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
+    autos.addOption("One Note Auto And Leave", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
     autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
     autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
     // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
