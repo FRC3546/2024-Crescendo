@@ -12,34 +12,41 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
+
 //vendordeps
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 public class IntakeSubsystem extends SubsystemBase{
     //motor
-    private VictorSP intakeMotor;
+    private VictorSPX intakeMotor;
     //sensor
     DigitalInput noteSensor;
 
     public IntakeSubsystem(){
         noteSensor = new DigitalInput(1);
-        intakeMotor = new VictorSP(0);
+        intakeMotor = new VictorSPX(13);
         intakeMotor.setInverted(true);
+        intakeMotor.setNeutralMode(NeutralMode.Brake);
     }
 
     public void intake(double speed){
-        intakeMotor.set(speed);
+        intakeMotor.set(VictorSPXControlMode.PercentOutput, speed);
     }
 
     public void stopIntake(){
-        intakeMotor.stopMotor();
+        intakeMotor.set(VictorSPXControlMode.Disabled, 0);
     }
 
     public double getIntakeSpeed(){
-        return intakeMotor.get();
+        return intakeMotor.getMotorOutputPercent();
     }
 
     public  boolean getSensorValue(){
