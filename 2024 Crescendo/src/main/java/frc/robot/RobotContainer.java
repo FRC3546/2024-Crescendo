@@ -41,6 +41,7 @@ import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Limelight.TargetOnTheMove;
+import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commandgroups.JoystickActions.IntakeButton;
 import frc.robot.commandgroups.JoystickActions.StowedButton;
 import frc.robot.commandgroups.JoystickActions.AmpButton;
@@ -54,6 +55,7 @@ import frc.robot.commands.Shooter.TimedRunShooterCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -80,6 +82,7 @@ public class RobotContainer {
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public final static LedSubsystem ledSubsystem = new LedSubsystem();
+  private PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
   
 
   //JOYSTICKS
@@ -133,7 +136,7 @@ public class RobotContainer {
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
-    // climberJoystick.button(7).onTrue(new InstantCommand(() -> ledSubsystem.green()));
+    climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, () -> 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
 
 
