@@ -55,7 +55,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             // scoring
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMultiplier).withTimeout(3.35),
-                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.005555),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.009721666),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.35),
                     new SequentialCommandGroup(
@@ -95,7 +95,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -25 * blueMultiplier).withTimeout(3),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.75),
                     new SequentialCommandGroup(
@@ -119,7 +119,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> 0 * blueMultiplier).withTimeout(2.5),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.5),
                     new SequentialCommandGroup(

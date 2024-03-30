@@ -23,7 +23,7 @@ public class RotateToAngle extends Command {
   public RotateToAngle(SwerveSubsystem swerveSubsystem, DoubleSupplier targetAngle) {
     
     this.targetAngle = targetAngle;
-    pidLoop = new PIDController(0.085, 0.2, 0);
+    pidLoop = new PIDController(0.08, 0.15, 0);
     pidLoop.setTolerance(0.3);
 
     pidLoop.setSetpoint(targetAngle.getAsDouble());

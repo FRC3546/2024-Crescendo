@@ -17,7 +17,7 @@ public class SensorReverseIntakeCommand extends Command{
     @Override
     public void initialize(){
         // intakeSubsystem.intake();
-        intakeSubsystem.intake(-0.18);
+        intakeSubsystem.intake(-0.3);
     }
 
     @Override

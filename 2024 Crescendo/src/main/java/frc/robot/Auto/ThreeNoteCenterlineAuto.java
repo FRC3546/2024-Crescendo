@@ -100,12 +100,12 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
                         new TimedIntakeCommand(intakeSubsystem, 1, 2.5))
             )),
 
-            new TimedDrive(swerveSubsystem, 2.5, 0, 0, 0.5),
+            // new TimedDrive(swerveSubsystem, 2.5, 0, 0, 0.5),
 
-            new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(1),
+            new RotateToAngle(swerveSubsystem, () -> -2).withTimeout(1),
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 4, 0, () -> 0 * blueMuliplier, 1.25),
+                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> -2 * blueMuliplier, 1.66),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
                 )
 

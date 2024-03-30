@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.ThreeNoteAuto;
+import frc.robot.Auto.ThreeNoteCenterlineAuto;
 import frc.robot.Auto.TimedDrive;
 import frc.robot.Auto.TwoNoteAuto;
 import frc.robot.Constants.OperatorConstants;
@@ -104,6 +105,7 @@ public class RobotContainer {
     // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
     autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
+    autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
 
     SmartDashboard.putData("Autonomous", autos);
 

@@ -52,7 +52,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             // scoring
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMuliplier).withTimeout(3.75),
-                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.005555),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.009721666),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.75),
                     new SequentialCommandGroup(
@@ -92,7 +92,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 3),
                     new SequentialCommandGroup(

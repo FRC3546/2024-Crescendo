@@ -30,6 +30,7 @@ public class PIDRotateArmCommand extends Command {
 
     @Override
     public void initialize() {
+        System.out.println(setPosition);
     }
 
     @Override
