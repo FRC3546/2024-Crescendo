@@ -22,10 +22,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 public class ArmSubsystem extends SubsystemBase {
 
     private boolean isExtended;
-
-    private ShuffleboardTab tab = Shuffleboard.getTab("Arm");
-    private GenericEntry armAngle = tab.add("arm angle", 0.5).getEntry();
-
     private CANSparkMax leftArmMotor;
     private CANSparkMax rightArmMotor;
     private SparkAbsoluteEncoder throughBoreEncoder;
@@ -98,15 +94,6 @@ public class ArmSubsystem extends SubsystemBase {
         return throughBoreEncoder.getPosition();
     }
 
-    public double getArmInput() {
-        return armAngle.getDouble(0.5);
-    }
-
     @Override
-    public void periodic() {
-
-        Shuffleboard.update();
-        SmartDashboard.putNumber("Through Bore Encoder Value", getArmPosition());
-    }
-
+    public void periodic() {}
 }

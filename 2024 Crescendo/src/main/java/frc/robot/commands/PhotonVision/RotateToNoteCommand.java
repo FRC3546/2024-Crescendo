@@ -11,52 +11,45 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class RotateToNoteCommand extends Command {
 
-    private DoubleSupplier targetAngle;
+    private double offsetAngle;
     PIDController pidLoop;
 
     PhotonVisionSubsystem visionSubsystem;
     SwerveSubsystem swerveSubsystem;
-    
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param LimelightSubsystem The subsystem used by this command.
-   */
-  public RotateToNoteCommand(SwerveSubsystem swerveSubsystem, PhotonVisionSubsystem visionSubsystem, DoubleSupplier targetAngle) {
-    
-    this.targetAngle = targetAngle;
-    pidLoop = new PIDController(0.085, 0, 0);
-    pidLoop.setTolerance(5);
+    public RotateToNoteCommand(
+            SwerveSubsystem swerveSubsystem,
+            PhotonVisionSubsystem visionSubsystem,
+            double offsetAngle) {
 
-    pidLoop.setSetpoint(targetAngle.getAsDouble());
+        this.offsetAngle = offsetAngle;
+        pidLoop = new PIDController(0.085, 0, 0);
+        pidLoop.setTolerance(5);
 
-    this.swerveSubsystem = swerveSubsystem;
-    this.visionSubsystem = visionSubsystem;
-    addRequirements(swerveSubsystem);
-  }
+        pidLoop.setSetpoint(offsetAngle);
 
-  
-  @Override
-  public void initialize() {}
+        this.swerveSubsystem = swerveSubsystem;
+        this.visionSubsystem = visionSubsystem;
+        addRequirements(swerveSubsystem);
+    }
 
-  @Override
-  public void execute() {
+    @Override
+    public void initialize() {
+    }
 
-    swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0,0, pidLoop.calculate(visionSubsystem.getX())));
+    @Override
+    public void execute() {
+        swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0, 0, pidLoop.calculate(visionSubsystem.getX())));
+    }
 
-  }
-  
+    @Override
+    public void end(boolean interrupted) {
+        swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0, 0, 0));
+    }
 
-
-  @Override 
-  public void end(boolean interrupted) {
-    swerveSubsystem.driveFieldOriented(new ChassisSpeeds(0,0,0));
-  }
-
-  @Override
-  public boolean isFinished() {
-    // return pidLoop.atSetpoint();
-    return false;
-  }
+    @Override
+    public boolean isFinished() {
+        // return pidLoop.atSetpoint();
+        return false;
+    }
 }

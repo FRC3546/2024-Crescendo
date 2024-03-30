@@ -28,10 +28,13 @@ public class IntakeSubsystem extends SubsystemBase{
     //motor
     private VictorSPX intakeMotor;
     //sensor
-    DigitalInput noteSensor;
+    DigitalInput firstNoteSensor;
+    DigitalInput secondNoteSensor;
+    
 
     public IntakeSubsystem(){
-        noteSensor = new DigitalInput(1);
+        firstNoteSensor = new DigitalInput(3);
+        secondNoteSensor = new DigitalInput(1);
         intakeMotor = new VictorSPX(13);
         intakeMotor.setInverted(true);
         intakeMotor.setNeutralMode(NeutralMode.Brake);
@@ -49,16 +52,18 @@ public class IntakeSubsystem extends SubsystemBase{
         return intakeMotor.getMotorOutputPercent();
     }
 
-    public  boolean getSensorValue(){
+    public boolean getFirstSensorValue(){
+        return !firstNoteSensor.get();
+    }
+
+    public boolean getSecondSensorValue(){
         // the note sensor returns true by default, so the value needs to be 
         // flipped so it returns true when detecting a piece
-        return !noteSensor.get();
+        return !secondNoteSensor.get();
     }
 
     @Override
-    public void periodic(){
-        Shuffleboard.update();
-    }
+    public void periodic(){}
 
 
 }

@@ -21,9 +21,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ShooterSubsystem extends SubsystemBase{
 
-    //dashboard
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
-    private GenericEntry inputShooterSpeed = tab.add("Input Shooter Speed", 0).getEntry();
+    
 
     //motors
     private CANSparkMax upperShooterMotor;
@@ -122,12 +120,6 @@ public class ShooterSubsystem extends SubsystemBase{
         return lowerShooterMotor.getEncoder().getVelocity();
     }
 
-    public double getInputShooterSpeed(){
-        return inputShooterSpeed.getDouble(0);
-    }
-
     @Override
-    public void periodic(){
-        Shuffleboard.update();
-    }
+    public void periodic(){}
 }

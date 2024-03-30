@@ -31,7 +31,7 @@ public class SensorReverseIntakeCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return !intakeSubsystem.getSensorValue();
+        return !intakeSubsystem.getSecondSensorValue();
     }
 }
 

@@ -24,6 +24,7 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Intake.TimedIntakeCommand;
+import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
@@ -40,9 +42,21 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
 
     private int blueMuliplier;
 
-    public ThreeNoteCenterlineAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, boolean isRed){
+    public ThreeNoteCenterlineAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, PhotonVisionSubsystem photonVisionSubsystem, boolean isRed){
         
         blueMuliplier = isRed ? 1 : -1;
+        double timeToCenterline = 1.66;
+        double firstLeg = 0.83;
+        double secondLeg = 0.2075;
+        double thirdLeg = 0.6225;
+        // double firstLeg = 0.5;
+        // double secondLeg = 0.6;
+        // double thirdLeg = 0.7;
+        double centerLineAngle = -2;
+
+        // double timeToFirstLeg = timeToCenterline * firstLeg;
+        // double timeToSecondLeg = secondLeg * timeToCenterline - timeToFirstLeg;
+        // double timeToThirdLeg
 
         addCommands(
 
@@ -102,12 +116,22 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
 
             // new TimedDrive(swerveSubsystem, 2.5, 0, 0, 0.5),
 
-            new RotateToAngle(swerveSubsystem, () -> -2).withTimeout(1),
+            new RotateToAngle(swerveSubsystem, () -> centerLineAngle).withTimeout(1),
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> -2 * blueMuliplier, 1.66),
+                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> centerLineAngle * blueMuliplier, firstLeg),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle)
+            ),
+
+            new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> ((centerLineAngle * blueMuliplier) + photonVisionSubsystem.getX()), secondLeg),
+
+            new ParallelRaceGroup(
+                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> centerLineAngle * blueMuliplier, firstLeg),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
-                )
+            )
+        
+
+            
 
             // new ParallelRaceGroup(
             //     new TimedDriveGyro(swerveSubsystem, -2.75, 0, () -> 0 * blueMuliplier, 1.5),

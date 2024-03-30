@@ -25,7 +25,7 @@ public class AmpScoreCommand extends Command{
         
         done = false;
         previousSensorValue = true;
-        currentSensorValue = intakeSubsystem.getSensorValue(); 
+        currentSensorValue = intakeSubsystem.getSecondSensorValue(); 
         
         intakeSubsystem.intake(0.4);
         shooterSubsystem.runShooter(0.3, 0.3);
@@ -36,7 +36,7 @@ public class AmpScoreCommand extends Command{
     public void execute() {
 
         previousSensorValue = currentSensorValue;
-        currentSensorValue = intakeSubsystem.getSensorValue();
+        currentSensorValue = intakeSubsystem.getSecondSensorValue();
 
         if (currentSensorValue && !previousSensorValue){
         //if(previousSensorValue == false && currentSensorValue == true){
