@@ -21,13 +21,14 @@ public class TimedDriveGyro extends Command{
     double vx;
     double vy;
     double time;
+    int setPointTimer = 0;
     
     public TimedDriveGyro(SwerveSubsystem swerveSubsystem, double vx, double vy, DoubleSupplier vr, double time){
         
         pidLoop = new PIDController(0.12, 0.1, 0);
         pidLoop.setTolerance(0);
 
-        pidLoop.setSetpoint(vr.getAsDouble());
+        
 
         this.vr = vr;
         this.vx = vx;
@@ -49,7 +50,13 @@ public class TimedDriveGyro extends Command{
 
     @Override
     public void execute() {
-
+        
+        if(setPointTimer == 10){
+            pidLoop.setSetpoint(vr.getAsDouble());
+            setPointTimer = 0;
+        } else {
+            setPointTimer++;
+        }
         swerveSubsystem.drive(new ChassisSpeeds(vx,vy,pidLoop.calculate(swerveSubsystem.getHeading().getDegrees())));
     }
 

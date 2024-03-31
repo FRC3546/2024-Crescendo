@@ -6,21 +6,52 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class PhotonVisionSubsystem extends SubsystemBase{
 
-    PhotonCamera camera = new PhotonCamera("photonvision");
+    PhotonCamera camera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
 
     public PhotonVisionSubsystem(){}
 
     public double getX(){
-        PhotonTrackedTarget target = camera.getLatestResult().getBestTarget();
-        return target.getYaw();
+        var result = camera.getLatestResult();
+        if(result != null){
+            PhotonTrackedTarget target = result.getBestTarget();
+            if(target != null){
+                // -9 because camera is not center
+                return target.getYaw() - 9;
+            }
+            else{
+                return 0;
+            }
+            
+        }
+        else{
+            return 0;
+        }
+        // return 0;
     }
 
     public double getY(){
-        PhotonTrackedTarget target = camera.getLatestResult().getBestTarget();
-        return target.getPitch();
+        var result = camera.getLatestResult();
+        if(result != null){
+            PhotonTrackedTarget target = result.getBestTarget();
+            if(target != null){
+                return target.getPitch();
+            }
+            else{
+                return 0;
+            }
+        }
+        else{
+            return 0;
+        }
     }
 
     public boolean isTargetSpotted(){
-        return camera.getLatestResult().hasTargets();
+        var result = camera.getLatestResult();
+        if(result != null){
+            return result.hasTargets();
+        }
+        else{
+            return false;
+        }
     }
 }

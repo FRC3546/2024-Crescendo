@@ -24,6 +24,7 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Intake.TimedIntakeCommand;
+import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
@@ -34,6 +35,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -42,17 +44,19 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
 
     private int blueMuliplier;
 
-    public ThreeNoteCenterlineAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, PhotonVisionSubsystem photonVisionSubsystem, boolean isRed){
+    public ThreeNoteCenterlineAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, PhotonVisionSubsystem photonVisionSubsystem, LimelightSubsystem limelightSubsystem, boolean isRed){
         
         blueMuliplier = isRed ? 1 : -1;
         double timeToCenterline = 1.66;
-        double firstLeg = 0.83;
-        double secondLeg = 0.2075;
-        double thirdLeg = 0.6225;
+        double firstLeg = 0.73;
+        double secondLeg = 0.6075;
+        double thirdLeg = 0.9225;
         // double firstLeg = 0.5;
         // double secondLeg = 0.6;
         // double thirdLeg = 0.7;
-        double centerLineAngle = -2;
+        double centerLineAngle = -1.5;
+
+        double driveSpeed = 3.95;
 
         // double timeToFirstLeg = timeToCenterline * firstLeg;
         // double timeToSecondLeg = secondLeg * timeToCenterline - timeToFirstLeg;
@@ -66,7 +70,7 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
             // scoring
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMuliplier).withTimeout(3.75),
-                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.005555),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.009721666),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.75),
                     new SequentialCommandGroup(
@@ -106,7 +110,7 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle + 0.006),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 3),
                     new SequentialCommandGroup(
@@ -118,17 +122,44 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
 
             new RotateToAngle(swerveSubsystem, () -> centerLineAngle).withTimeout(1),
 
+            // 1st leg
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> centerLineAngle * blueMuliplier, firstLeg),
+                new TimedDriveGyro(swerveSubsystem, driveSpeed, 0, () -> centerLineAngle * blueMuliplier, firstLeg),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle)
             ),
 
-            new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> ((centerLineAngle * blueMuliplier) + photonVisionSubsystem.getX()), secondLeg),
+            // 2nd leg
+            new TimedDriveGyro(swerveSubsystem, driveSpeed/2, 0, () -> ((centerLineAngle * blueMuliplier) + photonVisionSubsystem.getX()), secondLeg),
+
+            // 3rd leg
+            new ParallelRaceGroup(
+                new TimedDriveGyro(swerveSubsystem, driveSpeed, 0, () -> centerLineAngle * blueMuliplier, thirdLeg),
+                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
+            ),
 
             new ParallelRaceGroup(
-                new TimedDriveGyro(swerveSubsystem, 3.95, 0, () -> centerLineAngle * blueMuliplier, firstLeg),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
-            )
+                new TimedDriveGyro(swerveSubsystem, -driveSpeed, 0, () -> centerLineAngle * blueMuliplier, 2.1),
+                new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.75, () -> 0.75)
+            ),
+
+            new TargetOnTheMove(limelightSubsystem, swerveSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(3),
+
+            new ParallelDeadlineGroup(
+                new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),
+                //Stage shot angle plus offset to make note not miss high
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
+                new ParallelDeadlineGroup(
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 3),
+                    new SequentialCommandGroup(
+                        new WaitCommand(2.5), 
+                        new TimedIntakeCommand(intakeSubsystem, 1, 2.5))
+            ))
+
+
+
+
+
+            
         
 
             

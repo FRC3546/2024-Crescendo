@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
 import frc.robot.Auto.OneNoteLoadSideAuto;
+import frc.robot.Auto.ShootAndStay;
 import frc.robot.Auto.ThreeNoteAuto;
 import frc.robot.Auto.ThreeNoteCenterlineAuto;
 import frc.robot.Auto.TimedDrive;
@@ -106,7 +107,8 @@ public class RobotContainer {
     // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
     autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
-    autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, true));
+    autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, limelightSubsystem, true));
+    autos.addOption("Score and stay", new ShootAndStay(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
 
     SmartDashboard.putData("Autonomous", autos);
 
@@ -210,6 +212,7 @@ public class RobotContainer {
   }
 
   public void limelightValues(){
+    SmartDashboard.putNumber("photonvision x", photonVisionSubsystem.getX());
     SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
     SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
     SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
