@@ -2,29 +2,39 @@ package frc.robot.subsystems;
 
 //wpilib
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix.led.Animation;
 import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdleConfiguration;
-import com.ctre.phoenix.led.RainbowAnimation;
-
-//vendordeps
- 
+import com.ctre.phoenix.led.StrobeAnimation;
 
 public class LedSubsystem extends SubsystemBase{
     
+    public Color green = new Color(0,255,0);
+    public Color white = new Color(255,255,255);
+
     private CANdle leds;
-    RainbowAnimation shootAnimation = new RainbowAnimation(0.5, 0.5, 8);
+    private int startIndex;
+    private int segmentSize;
     
-    public LedSubsystem(){
+    public LedSubsystem(int startIndex, int segmentSize){
         
+        this.startIndex = startIndex;
+        this.segmentSize = segmentSize;
         leds = new CANdle(9);
         CANdleConfiguration ledconfig = new CANdleConfiguration();
         ledconfig.stripType = LEDStripType.RGB;
         ledconfig.brightnessScalar = 0.5;
         leds.configAllSettings(ledconfig);
-       
-        
+    }
 
+    public void setAnimation(Animation animation) {
+            leds.animate(animation);
+    }
+
+    public void clearAnimation(){
+        leds.clearAnimation(0);
     }
 
     public void gold(){
@@ -36,7 +46,7 @@ public class LedSubsystem extends SubsystemBase{
     }
 
     public void green(){
-        leds.setLEDs(0, 255, 0);
+        leds.setLEDs(green.red, green.green, green.blue);
     }
 
     public void blue(){
@@ -51,8 +61,20 @@ public class LedSubsystem extends SubsystemBase{
         leds.setLEDs(0, 0, 0);
     }
 
-    public void rainbow(){
-        leds.animate(shootAnimation);
+    public void setStrobeAnimation(Color color, double speed){
+        setAnimation(new StrobeAnimation(color.red, color.green, color.blue, 0, speed, segmentSize, startIndex));
+    }
+
+    public static class Color {
+        public int red;
+        public int green;
+        public int blue;
+
+        public Color(int red, int green, int blue) {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
     }
 
 

@@ -9,7 +9,6 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Leds.LedCarryingNoteCommand;
-import frc.robot.commands.Leds.LedGreenCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
@@ -23,8 +22,8 @@ public class IntakeNoteCommandGroup extends SequentialCommandGroup{
             new SensorIntakeCommand(RobotContainer.intakeSubsystem, 1),
             
             // new WaitCommand(0.5),
-            new SensorReverseIntakeCommand(RobotContainer.intakeSubsystem),
-            new LedCarryingNoteCommand(ledSubsystem, intakeSubsystem));
+            new SensorReverseIntakeCommand(RobotContainer.intakeSubsystem));
+            // new LedCarryingNoteCommand(ledSubsystem, intakeSubsystem));
     }
     
 

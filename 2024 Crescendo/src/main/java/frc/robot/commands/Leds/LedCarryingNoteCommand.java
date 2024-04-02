@@ -23,22 +23,26 @@ public class LedCarryingNoteCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    ledSubsystem.clearAnimation();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    if (intakeSubsystem.getSecondSensorValue()) {
-      ledSubsystem.green();
+    if (intakeSubsystem.getFirstSensorValue()) {
+      ledSubsystem.setStrobeAnimation(ledSubsystem.green, 0.5);
     } else {
+      ledSubsystem.clearAnimation();
       ledSubsystem.red();
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    ledSubsystem.clearAnimation();
+  }
 
   // Returns true when the command should end.
   @Override

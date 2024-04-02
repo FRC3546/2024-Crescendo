@@ -142,7 +142,7 @@ public class ThreeNoteCenterlineAuto extends SequentialCommandGroup{
                 new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.75, () -> 0.75)
             ),
 
-            new TargetOnTheMove(limelightSubsystem, swerveSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(3),
+            new TargetOnTheMove(limelightSubsystem, swerveSubsystem, ledSubsystem,() -> 0, () -> 0, () -> -6.9).withTimeout(3),
 
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),

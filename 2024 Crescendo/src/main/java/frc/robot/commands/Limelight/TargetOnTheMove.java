@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -17,6 +18,7 @@ public class TargetOnTheMove extends Command {
     private LimelightSubsystem limelightSubsystem;
     PIDController pidLoop;
     SwerveSubsystem swerveSubsystem;
+    private LedSubsystem ledSubsystem;
 
     DoubleSupplier xTranslation;
     DoubleSupplier yTranslation;
@@ -28,14 +30,14 @@ public class TargetOnTheMove extends Command {
    *
    * @param LimelightSubsystem The subsystem used by this command.
    */
-  public TargetOnTheMove(LimelightSubsystem limelightSubsystem, SwerveSubsystem swerveSubsystem, DoubleSupplier xTranslation, DoubleSupplier yTranslation, DoubleSupplier setPosition) {
+  public TargetOnTheMove(LimelightSubsystem limelightSubsystem, SwerveSubsystem swerveSubsystem, LedSubsystem ledSubsystem, DoubleSupplier xTranslation, DoubleSupplier yTranslation, DoubleSupplier setPosition) {
 
     this.xTranslation = xTranslation;
     this.yTranslation = yTranslation;
     
     this.setPosition = setPosition;
-    pidLoop = new PIDController(0.04, 0, 0);
-    pidLoop.setTolerance(3);
+    pidLoop = new PIDController(0.06, 0, 0);
+    pidLoop.setTolerance(6);
     //0.03
     // 0
     // 2
@@ -43,12 +45,15 @@ public class TargetOnTheMove extends Command {
 
     this.limelightSubsystem = limelightSubsystem;
     this.swerveSubsystem = swerveSubsystem;
-    addRequirements(swerveSubsystem);
+    this.ledSubsystem = ledSubsystem;
+    addRequirements(swerveSubsystem, ledSubsystem);
   }
 
   
   @Override
   public void initialize() {
+
+    ledSubsystem.clearAnimation();
 
     Optional<Alliance> ally = DriverStation.getAlliance();
 
@@ -70,7 +75,12 @@ public class TargetOnTheMove extends Command {
   @Override
   public void execute() {
 
-    
+    if(pidLoop.atSetpoint()){
+      ledSubsystem.setStrobeAnimation(ledSubsystem.white, 0.5);
+    } else{
+      ledSubsystem.clearAnimation();
+      ledSubsystem.off();
+    }
 
     // System.out.println(xTranslation.getAsDouble() + " " + yTranslation.getAsDouble() + " " + setPosition.getAsDouble());
     swerveSubsystem.driveFieldOrientedMaxVelocity(xTranslation.getAsDouble(), yTranslation.getAsDouble(), pidLoop.calculate(limelightSubsystem.getLimelightX()));
@@ -82,6 +92,7 @@ public class TargetOnTheMove extends Command {
 
   @Override 
   public void end(boolean interrupted) {
+    ledSubsystem.clearAnimation();
     swerveSubsystem.driveCommand(() -> 0, () -> 0, () -> 0);
   }
 

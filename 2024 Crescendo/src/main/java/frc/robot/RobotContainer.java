@@ -84,7 +84,7 @@ public class RobotContainer {
   public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  public final static LedSubsystem ledSubsystem = new LedSubsystem();
+  public final static LedSubsystem ledSubsystem = new LedSubsystem(0, 40);
   private PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
   
 
@@ -99,22 +99,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-
-    autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
-    autos.addOption("One Note Auto And Leave", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
-    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
-    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
-    // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
-    autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
-    autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
-    autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, limelightSubsystem, true));
-    autos.addOption("Score and stay", new ShootAndStay(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
-
-    SmartDashboard.putData("Autonomous", autos);
-
-    armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
-
-    configureBindings();
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
@@ -132,6 +116,22 @@ public class RobotContainer {
 
     shooterSubsystem.setDefaultCommand(new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.6,  () -> 0.6));
     ledSubsystem.setDefaultCommand(new LedCarryingNoteCommand(ledSubsystem, intakeSubsystem));
+    armSubsystem.setDefaultCommand(new HoldArmCommand(armSubsystem.getArmPosition()));
+
+    autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
+    autos.addOption("One Note Auto And Leave", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
+    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
+    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
+    // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
+    autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, true));
+    autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
+    autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, limelightSubsystem, true));
+    autos.addOption("Score and stay", new ShootAndStay(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
+
+    SmartDashboard.putData("Autonomous", autos);
+
+    configureBindings();
+
   }
 
 
@@ -142,7 +142,7 @@ public class RobotContainer {
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
-    climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
+    // climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
 
 
@@ -165,7 +165,7 @@ public class RobotContainer {
     shooterJoystick.button(12).onTrue(new FarSpeakerButton(armSubsystem, shooterSubsystem, climbSubsystem));    
 
     //DRIVER CONTROLLER
-    new JoystickButton(driverXbox, 2).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, () -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));
+    new JoystickButton(driverXbox, 2).whileTrue(new TargetOnTheMove(limelightSubsystem, drivebase, ledSubsystem,() -> (driverXbox.getRawAxis(1)), () -> (-driverXbox.getRawAxis(0)), () -> -6.9));
     new JoystickButton(driverXbox, 1).toggleOnTrue(new InstantCommand(() -> drivebase.zeroGyro()));
   }
 
@@ -196,7 +196,7 @@ public class RobotContainer {
   }
 
   public void robotSystemValues(){
-    // SmartDashboard.putBoolean("first sensor value", intakeSubsystem.getFirstSensorValue());
+    SmartDashboard.putBoolean("first sensor value", intakeSubsystem.getFirstSensorValue());
     SmartDashboard.putBoolean("second sensor value", intakeSubsystem.getSecondSensorValue());
     SmartDashboard.putBoolean("climber limit switch value", climbSubsystem.getLimitSwitchValue());
   //   SmartDashboard.putNumber("intake motor speed", intakeSubsystem.getIntakeSpeed());
