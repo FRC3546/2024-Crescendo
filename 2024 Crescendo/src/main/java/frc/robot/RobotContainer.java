@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Auto.AutoLeave;
+import frc.robot.Auto.CenterAuto;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.ShootAndStay;
 import frc.robot.Auto.ThreeNoteAuto;
@@ -127,6 +128,7 @@ public class RobotContainer {
     autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, false));
     autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, limelightSubsystem, true));
     autos.addOption("Score and stay", new ShootAndStay(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
+    autos.addOption("center auto", new CenterAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem, ledSubsystem));
 
     SmartDashboard.putData("Autonomous", autos);
 
