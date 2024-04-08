@@ -54,6 +54,7 @@ import frc.robot.commandgroups.JoystickActions.FarSpeakerButton;
 // import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
+import frc.robot.commands.Swerve.RotateToAngle;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.IntakeSubsystem;
@@ -146,6 +147,7 @@ public class RobotContainer {
     // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
     // climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
+    climberJoystick.button(10).toggleOnTrue(new RotateToAngle(drivebase, () -> 27));
 
 
     //SHOOTER, INTAKE AND ARM CONTROL
