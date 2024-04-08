@@ -51,7 +51,7 @@ public class CenterAuto extends SequentialCommandGroup{
 
             new TimedDrive(swerveSubsystem, 0, -1, 0, 0.5),
 
-            new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(3),
+            new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(2.5),
 
             new TimedDriveGyro(swerveSubsystem, -1, 0, () -> 0, 0.5),
 

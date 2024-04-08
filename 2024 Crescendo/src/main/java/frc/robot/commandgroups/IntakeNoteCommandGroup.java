@@ -19,7 +19,7 @@ public class IntakeNoteCommandGroup extends SequentialCommandGroup{
     public IntakeNoteCommandGroup(LedSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem){
 
         addCommands(
-            new SensorIntakeCommand(RobotContainer.intakeSubsystem, 1),
+            new SensorIntakeCommand(RobotContainer.intakeSubsystem, 1, 0.3),
             
             // new WaitCommand(0.5),
             new SensorReverseIntakeCommand(RobotContainer.intakeSubsystem));

@@ -6,6 +6,7 @@ import frc.robot.Constants;
 //wpilib
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.units.Temperature;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -60,6 +61,10 @@ public class IntakeSubsystem extends SubsystemBase{
         // the note sensor returns true by default, so the value needs to be 
         // flipped so it returns true when detecting a piece
         return !secondNoteSensor.get();
+    }
+
+    public double getTemperature(){
+        return intakeMotor.getTemperature();
     }
 
     @Override

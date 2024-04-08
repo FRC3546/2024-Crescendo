@@ -6,11 +6,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class SensorIntakeCommand extends Command{
 
     IntakeSubsystem intakeSubsystem;
-    double speed;
+    double fastSpeed;
+    double slowSpeed;
     
-    public SensorIntakeCommand(IntakeSubsystem intakeSubsystem, double speed){
+    public SensorIntakeCommand(IntakeSubsystem intakeSubsystem, double fastSpeed, double slowSpeed){
         
-        this.speed = speed;
+        this.fastSpeed = fastSpeed;
+        this.slowSpeed = slowSpeed;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
 
@@ -18,15 +20,20 @@ public class SensorIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        intakeSubsystem.intake(speed);
+        intakeSubsystem.intake(fastSpeed);
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+
+        if(intakeSubsystem.getFirstSensorValue()){
+            intakeSubsystem.intake(slowSpeed);
+        }
+
+    }
 
     @Override
     public void end(boolean interrupted) {
-
         intakeSubsystem.stopIntake();
     }
 
