@@ -44,6 +44,7 @@ import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Leds.LedCarryingNoteCommand;
+import frc.robot.commands.Limelight.AmpLineupCommand;
 import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commandgroups.JoystickActions.IntakeButton;
@@ -148,6 +149,7 @@ public class RobotContainer {
     // climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
     climberJoystick.button(10).toggleOnTrue(new RotateToAngle(drivebase, () -> 27));
+    climberJoystick.button(11).whileTrue(new AmpLineupCommand(limelightSubsystem, drivebase, ledSubsystem, -3.9, 16, () -> 0));
 
 
     //SHOOTER, INTAKE AND ARM CONTROL
