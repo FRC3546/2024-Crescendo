@@ -135,7 +135,6 @@ public class RobotContainer {
     SmartDashboard.putData("Autonomous", autos);
 
     configureBindings();
-
   }
 
 
@@ -145,10 +144,7 @@ public class RobotContainer {
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
-    // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
-    // climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
-    climberJoystick.button(10).toggleOnTrue(new RotateToAngle(drivebase, () -> 27));
     climberJoystick.button(11).whileTrue(new AmpLineupCommand(limelightSubsystem, drivebase, ledSubsystem, -3.9, 16, () -> 0));
 
 

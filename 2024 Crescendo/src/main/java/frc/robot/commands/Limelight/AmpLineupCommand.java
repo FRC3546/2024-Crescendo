@@ -89,9 +89,7 @@ public class AmpLineupCommand extends Command {
     //   ledSubsystem.off();
     // }
 
-    // System.out.println(xTranslation.getAsDouble() + " " + yTranslation.getAsDouble() + " " + setPosition.getAsDouble());
     swerveSubsystem.driveFieldOrientedMaxVelocity(-ypidLoop.calculate(limelightSubsystem.getLimelightY()), -xpidLoop.calculate(limelightSubsystem.getLimelightX() ), 0);
-    // swerveSubsystem.driveCommand(xTranslation, yTranslation, () -> 0);
 
     if(ypidLoop.atSetpoint() && xpidLoop.atSetpoint()){
         new TimedDriveGyro(swerveSubsystem, -0.5, 0, () -> swerveSubsystem.getHeading().getDegrees(), 1);
