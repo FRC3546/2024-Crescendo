@@ -198,7 +198,7 @@ public class RobotContainer {
   }
 
   public void robotSystemValues(){
-    SmartDashboard.putNumber("intake temperature", intakeSubsystem.getTemperature());
+    SmartDashboard.putNumber("ultrasonic distance inches", drivebase.getDistanceInches());
     SmartDashboard.putBoolean("first sensor value", intakeSubsystem.getFirstSensorValue());
     SmartDashboard.putBoolean("second sensor value", intakeSubsystem.getSecondSensorValue());
     SmartDashboard.putBoolean("climber limit switch value", climbSubsystem.getLimitSwitchValue());
