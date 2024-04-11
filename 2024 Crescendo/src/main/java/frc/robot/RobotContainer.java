@@ -44,6 +44,7 @@ import frc.robot.commands.Climb.JoystickClimbCommand;
 import frc.robot.commands.Intake.IntakeCommand;
 import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Leds.LedCarryingNoteCommand;
+import frc.robot.commands.Limelight.AmpLineupCommand;
 import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commandgroups.JoystickActions.IntakeButton;
@@ -54,6 +55,7 @@ import frc.robot.commandgroups.JoystickActions.FarSpeakerButton;
 // import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
+import frc.robot.commands.Swerve.RotateToAngle;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
 import frc.robot.subsystems.IntakeSubsystem;
@@ -133,7 +135,6 @@ public class RobotContainer {
     SmartDashboard.putData("Autonomous", autos);
 
     configureBindings();
-
   }
 
 
@@ -143,9 +144,8 @@ public class RobotContainer {
     climberJoystick.button(1).whileTrue(new JoystickClimbCommand(climbSubsystem, () -> climberJoystick.getY()));
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
-    // climberJoystick.button(6).onTrue(new InstantCommand(() -> ledSubsystem.blue()));
-    // climberJoystick.button(7).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
+    climberJoystick.button(11).whileTrue(new AmpLineupCommand(limelightSubsystem, drivebase, ledSubsystem, -3.9, 16, () -> 0));
 
 
     //SHOOTER, INTAKE AND ARM CONTROL
@@ -198,7 +198,7 @@ public class RobotContainer {
   }
 
   public void robotSystemValues(){
-    SmartDashboard.putNumber("Ultrasonic distance inches", drivebase.getDistanceInches());
+    SmartDashboard.putNumber("intake temperature", intakeSubsystem.getTemperature());
     SmartDashboard.putBoolean("first sensor value", intakeSubsystem.getFirstSensorValue());
     SmartDashboard.putBoolean("second sensor value", intakeSubsystem.getSecondSensorValue());
     SmartDashboard.putBoolean("climber limit switch value", climbSubsystem.getLimitSwitchValue());
