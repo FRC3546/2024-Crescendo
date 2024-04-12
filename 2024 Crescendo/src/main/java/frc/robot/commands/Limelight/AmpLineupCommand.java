@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Auto.TimedDriveGyro;
+import frc.robot.commands.Swerve.DrivetoUltrasonicRangeCommand;
 import frc.robot.subsystems.LedSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -89,11 +90,10 @@ public class AmpLineupCommand extends Command {
     //   ledSubsystem.off();
     // }
 
-    swerveSubsystem.driveFieldOrientedMaxVelocity(-ypidLoop.calculate(limelightSubsystem.getLimelightY()), -xpidLoop.calculate(limelightSubsystem.getLimelightX() ), 0);
-
-    if(ypidLoop.atSetpoint() && xpidLoop.atSetpoint()){
-        new TimedDriveGyro(swerveSubsystem, -0.5, 0, () -> swerveSubsystem.getHeading().getDegrees(), 1);
-    }
+    swerveSubsystem.driveFieldOrientedMaxVelocity(
+      -xpidLoop.calculate(limelightSubsystem.getLimelightX() ),
+      ypidLoop.calculate(limelightSubsystem.getLimelightY()), 
+      0); 
   }
   
 
@@ -106,6 +106,6 @@ public class AmpLineupCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return xpidLoop.atSetpoint() && ypidLoop.atSetpoint();
   }
 }

@@ -55,6 +55,7 @@ import frc.robot.commandgroups.JoystickActions.FarSpeakerButton;
 // import frc.robot.commands.Shooter.InputRunShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
+import frc.robot.commands.Swerve.DrivetoUltrasonicRangeCommand;
 import frc.robot.commands.Swerve.RotateToAngle;
 // import frc.robot.commands.Shooter.ShooterModeCommand;
 //SUBSYSTEMS
@@ -145,6 +146,8 @@ public class RobotContainer {
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
+    climberJoystick.button(7).whileTrue(new DrivetoUltrasonicRangeCommand(drivebase, ledSubsystem, 12.5));
+    climberJoystick.button(10).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
     climberJoystick.button(11).whileTrue(new AmpLineupCommand(limelightSubsystem, drivebase, ledSubsystem, -3.9, 16, () -> 0));
 
 
@@ -218,6 +221,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("photonvision x", photonVisionSubsystem.getX());
     SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
     SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
-    SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isLimelightXRange());
+    SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isValidTarget());
   }
 }

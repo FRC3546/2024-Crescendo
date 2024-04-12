@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SubsystemBase
       throw new RuntimeException(e);
     }
     swerveDrive.setHeadingCorrection(true); // Heading correction should only be used while controlling the robot via angle.
-
+    setUpUltrasonic();
     setupPathPlanner();
   }
 
@@ -81,12 +81,20 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg)
   {
-    medianFilter = new MedianFilter(5);
-    ultrasonic = new Ultrasonic(4, 5);
+    setUpUltrasonic();
     swerveDrive = new SwerveDrive(driveCfg, controllerCfg, maximumSpeed);
   }
 
+  public void setUpUltrasonic(){
+    medianFilter = new MedianFilter(5);
+    ultrasonic = new Ultrasonic(4, 5);
+    Ultrasonic.setAutomaticMode(true);
+  }
+
   public double getDistanceInches(){
+    if(ultrasonic == null){
+      return -11;
+    }
     return medianFilter.calculate(ultrasonic.getRangeInches());
   }
 

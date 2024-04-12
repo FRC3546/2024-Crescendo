@@ -14,9 +14,9 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 public class DrivetoUltrasonicRangeCommand extends Command {
 
-    private double xSetpoint;
+    private double ySetpoint;
 
-    private PIDController xpidLoop;
+    private PIDController ypidLoop;
     private SwerveSubsystem swerveSubsystem;
     private LedSubsystem ledSubsystem;
 
@@ -29,14 +29,14 @@ public class DrivetoUltrasonicRangeCommand extends Command {
    *
    * @param LimelightSubsystem The subsystem used by this command.
    */
-  public DrivetoUltrasonicRangeCommand(SwerveSubsystem swerveSubsystem, LedSubsystem ledSubsystem, double xSetpoint) {
+  public DrivetoUltrasonicRangeCommand(SwerveSubsystem swerveSubsystem, LedSubsystem ledSubsystem, double ySetpoint) {
 
-   this.xSetpoint = xSetpoint;
+   this.ySetpoint = ySetpoint;
     
-    xpidLoop = new PIDController(0.01, 0, 0);
-    xpidLoop.setTolerance(3);
+    ypidLoop = new PIDController(0.01, 0, 0);
+    ypidLoop.setTolerance(3);
     
-    xpidLoop.setSetpoint(xSetpoint);
+    ypidLoop.setSetpoint(ySetpoint);
 
     this.swerveSubsystem = swerveSubsystem;
     this.ledSubsystem = ledSubsystem;
@@ -60,7 +60,7 @@ public class DrivetoUltrasonicRangeCommand extends Command {
     //   ledSubsystem.off();
     // }
 
-    swerveSubsystem.driveFieldOrientedMaxVelocity(-xpidLoop.calculate(swerveSubsystem.getDistanceInches()), 0, 0);
+    swerveSubsystem.driveFieldOrientedMaxVelocity(0, -ypidLoop.calculate(swerveSubsystem.getDistanceInches()), 0);
 
     // if(ypidLoop.atSetpoint() && xpidLoop.atSetpoint()){
     //     new TimedDriveGyro(swerveSubsystem, -0.5, 0, () -> swerveSubsystem.getHeading().getDegrees(), 1);
