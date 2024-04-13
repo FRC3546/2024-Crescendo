@@ -24,6 +24,7 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Intake.TimedIntakeCommand;
+import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
@@ -40,7 +42,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
 
     private int blueMuliplier;
 
-    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, boolean isRed){
+    public TwoNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, LimelightSubsystem limelightSubsystem, boolean isRed){
         
         blueMuliplier = isRed ? 1 : -1;
 
@@ -51,7 +53,10 @@ public class TwoNoteAuto extends SequentialCommandGroup{
             
             // scoring
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMuliplier).withTimeout(3.75),
+                new SequentialCommandGroup(
+                    new RotateToAngle(swerveSubsystem, () -> -46.5 * blueMuliplier).withTimeout(2),
+                    new TargetOnTheMove(limelightSubsystem, swerveSubsystem, ledSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(1.5)
+                ),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.009721666),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.75),
@@ -90,9 +95,12 @@ public class TwoNoteAuto extends SequentialCommandGroup{
                 new SensorReverseIntakeCommand(intakeSubsystem)),
 
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(3),
+                new SequentialCommandGroup(
+                    new RotateToAngle(swerveSubsystem, () -> -25 * blueMuliplier).withTimeout(1.5),
+                    new TargetOnTheMove(limelightSubsystem, swerveSubsystem, ledSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(1.5)
+                ),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.01063333),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 3),
                     new SequentialCommandGroup(
@@ -100,9 +108,7 @@ public class TwoNoteAuto extends SequentialCommandGroup{
                         new TimedIntakeCommand(intakeSubsystem, 1, 2.5))
             )),
 
-            new TimedDrive(swerveSubsystem, 2.5, 0, 0, 0.5),
-
-            
+            new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(2),
 
             new ParallelRaceGroup(
                 new TimedDriveGyro(swerveSubsystem, 4, 0, () -> 0 * blueMuliplier, 1.25),

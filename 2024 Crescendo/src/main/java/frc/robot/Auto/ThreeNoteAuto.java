@@ -27,6 +27,8 @@ import frc.robot.commands.Intake.ReverseIntakeCommand;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 import frc.robot.commands.Intake.SensorReverseIntakeCommand;
 import frc.robot.commands.Intake.TimedIntakeCommand;
+import frc.robot.commands.Limelight.TargetOnTheMove;
+import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commands.Shooter.PIDShooterCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.commands.Shooter.TimedRunShooterCommand;
@@ -36,6 +38,8 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LedSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.Intake.SensorIntakeCommand;
 
@@ -43,7 +47,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
 
     private int blueMultiplier;
 
-    public ThreeNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, boolean isRed){
+    public ThreeNoteAuto(SwerveSubsystem swerveSubsystem, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, LedSubsystem ledSubsystem, ArmSubsystem armSubsystem, ClimbSubsystem climbSubsystem, LimelightSubsystem limelightSubsystem, PhotonVisionSubsystem photonVisionSubsystem, boolean isRed){
         
         blueMultiplier = isRed ? 1 : -1;
 
@@ -54,7 +58,10 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             
             // scoring
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -46.32 * blueMultiplier).withTimeout(3.35),
+                new SequentialCommandGroup(
+                    new RotateToAngle(swerveSubsystem, () -> -46.5 * blueMultiplier).withTimeout(2),
+                    new TargetOnTheMove(limelightSubsystem, swerveSubsystem, ledSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(1.5)
+                ),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle + 0.009721666),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3.35),
@@ -93,9 +100,12 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
                 new SensorReverseIntakeCommand(intakeSubsystem)),
 
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> -25 * blueMultiplier).withTimeout(3),
+                new SequentialCommandGroup(
+                    new RotateToAngle(swerveSubsystem, () -> -25 * blueMultiplier).withTimeout(1.5),
+                    new TargetOnTheMove(limelightSubsystem, swerveSubsystem, ledSubsystem, () -> 0, () -> 0, () -> -6.9).withTimeout(1.5)
+                ),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.01063333),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.75),
                     new SequentialCommandGroup(
@@ -104,8 +114,12 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             )),
 
             new ParallelDeadlineGroup(
-                new RotateToAngle(swerveSubsystem, () -> 83 * blueMultiplier).withTimeout(1.75),
-                new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, () -> false)
+                new SequentialCommandGroup(
+                    new RotateToAngle(swerveSubsystem, () -> 83 * blueMultiplier).withTimeout(0.75),
+                    new RotateToNoteCommand(swerveSubsystem, photonVisionSubsystem, 12).withTimeout(1)
+                ),
+                new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle)
+
             ),
 
 
@@ -119,7 +133,7 @@ public class ThreeNoteAuto extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new RotateToAngle(swerveSubsystem, () -> 0 * blueMultiplier).withTimeout(2.5),
                 //Stage shot angle plus offset to make note not miss high
-                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.0023),
+                new PIDRotateArmCommand(() -> Constants.Arm.stageShotArmAngle - 0.01063333),
                 new ParallelDeadlineGroup(
                     new TimedRunShooterCommand(shooterSubsystem, () -> 0.75, () -> 0.75, 2.5),
                     new SequentialCommandGroup(

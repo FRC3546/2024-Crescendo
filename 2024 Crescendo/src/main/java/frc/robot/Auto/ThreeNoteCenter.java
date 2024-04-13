@@ -54,17 +54,21 @@ public class ThreeNoteCenter extends SequentialCommandGroup{
 
             new InstantCommand(() -> swerveSubsystem.lock()),
 
+
             new TimedDrive(swerveSubsystem, 0, -0.5, 0, 1),
 
             new RotateToAngle(swerveSubsystem, () -> 0).withTimeout(1),
 
-            new TimedDriveGyro(swerveSubsystem, -1, 0, () -> 0, 0.6),
+            new ParallelDeadlineGroup(
+                new TimedDriveGyro(swerveSubsystem, -1, 0, () -> 0, 0.6),
+                new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle)
+            ),
 
             new ParallelRaceGroup(
     
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 1.5),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 1.5),
                     new SequentialCommandGroup(
                         new WaitCommand(0.75), 
                         new TimedIntakeCommand(intakeSubsystem, 1, 0.75))
@@ -78,36 +82,39 @@ public class ThreeNoteCenter extends SequentialCommandGroup{
             new ParallelDeadlineGroup(
                 new TimedDriveGyro(swerveSubsystem, -1.6, 0, () -> 0, 1.5),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
-                new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 1.5)
+                new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 1.5)
             ),
             new ParallelRaceGroup(
     
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 0.5),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 0.5),
                     new TimedIntakeCommand(intakeSubsystem, 1, 0.75))
             ),
 
-            new TimedDrive(swerveSubsystem, 0, -2, 0, 1),
-            new TranslateToNoteCommand(swerveSubsystem, photonVisionSubsystem, -2).withTimeout(1.5),
+            new TimedDrive(swerveSubsystem, 0, 2 * blueMultiplier, 0, 1),
+            new TranslateToNoteCommand(swerveSubsystem, photonVisionSubsystem, 12).withTimeout(1.5),
 
             new ParallelDeadlineGroup(
-                new TimedDriveGyro(swerveSubsystem, 0.75, 0, () -> 0, 1.5),
+                new TimedDriveGyro(swerveSubsystem, 0.75, 0, () -> 0, 1.75),
                 new IntakeButton(shooterSubsystem, armSubsystem, intakeSubsystem, ledSubsystem, climbSubsystem, null)
             ),
 
-            new TimedDriveGyro(swerveSubsystem, -2.5, 0, () -> 0, 0.25
-            ),
+            new TimedDriveGyro(swerveSubsystem, -2.5, 0, () -> 0, 0.25),
 
-            new RotateToAngle(swerveSubsystem, () -> (35 * blueMultiplier)).withTimeout(1),
+            new RotateToAngle(swerveSubsystem, () -> (40 * blueMultiplier)).withTimeout(1),
 
             new ParallelDeadlineGroup(
-                new AmpLineupCommand(limelightSubsystem, swerveSubsystem, ledSubsystem, -3.9, 16, () -> 0).withTimeout(1),
+                // new AmpLineupCommand(limelightSubsystem, swerveSubsystem, ledSubsystem, -3.9, 16, () -> 0).withTimeout(1),
+                new TimedDrive(swerveSubsystem, -2, 0, 0, 1),
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
-                new TimedRunShooterCommand(shooterSubsystem, () -> 0, () -> 0, 1.5)
+                new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 1)
 
             ),
 
-            new TimedIntakeCommand(intakeSubsystem, 1, 0.5)
+            new ParallelDeadlineGroup(
+                new TimedIntakeCommand(intakeSubsystem, 1, 0.5),
+                new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 0.5)
+            )
             // new ParallelRaceGroup(
     
             //     new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
