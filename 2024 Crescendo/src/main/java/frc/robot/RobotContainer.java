@@ -27,6 +27,7 @@ import frc.robot.Auto.CenterAuto;
 import frc.robot.Auto.OneNoteLoadSideAuto;
 import frc.robot.Auto.ShootAndStay;
 import frc.robot.Auto.ThreeNoteAuto;
+import frc.robot.Auto.ThreeNoteCenter;
 import frc.robot.Auto.ThreeNoteCenterlineAuto;
 import frc.robot.Auto.TimedDrive;
 import frc.robot.Auto.TwoNoteAuto;
@@ -49,6 +50,7 @@ import frc.robot.commands.Limelight.TargetOnTheMove;
 import frc.robot.commands.PhotonVision.RotateToNoteCommand;
 import frc.robot.commandgroups.JoystickActions.IntakeButton;
 import frc.robot.commandgroups.JoystickActions.StowedButton;
+import frc.robot.commandgroups.LineupAmpCommandGroup;
 import frc.robot.commandgroups.JoystickActions.AmpButton;
 import frc.robot.commandgroups.JoystickActions.CloseSpeakerButton;
 import frc.robot.commandgroups.JoystickActions.FarSpeakerButton;
@@ -132,6 +134,8 @@ public class RobotContainer {
     autos.addOption("RED 3 Note Centerline", new ThreeNoteCenterlineAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, photonVisionSubsystem, limelightSubsystem, true));
     autos.addOption("Score and stay", new ShootAndStay(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
     autos.addOption("center auto", new CenterAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem, ledSubsystem));
+    autos.addOption("BLUE Center 3 Note", new ThreeNoteCenter(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem, ledSubsystem, photonVisionSubsystem, limelightSubsystem, false));
+    autos.addOption("RED Center 3 Note", new ThreeNoteCenter(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem, ledSubsystem, photonVisionSubsystem, limelightSubsystem, true));
 
     SmartDashboard.putData("Autonomous", autos);
 
@@ -146,9 +150,9 @@ public class RobotContainer {
     climberJoystick.button(5).toggleOnTrue(new ParallelCommandGroup(new InstantCommand(() -> climbSubsystem.retractClimberPiston()), new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0, () -> 0)));
     climberJoystick.button(2).toggleOnTrue(new InstantCommand(() -> climbSubsystem.extendClimberPiston()));
     climberJoystick.button(3).whileTrue(new ParallelDeadlineGroup(new ReverseIntakeCommand(intakeSubsystem, -0.5), new TimedRunShooterCommand(shooterSubsystem, () -> (-0.3), () -> (-0.3), 3)));
-    climberJoystick.button(7).whileTrue(new DrivetoUltrasonicRangeCommand(drivebase, ledSubsystem, 12.5));
+    climberJoystick.button(7).whileTrue(new DrivetoUltrasonicRangeCommand(drivebase, ledSubsystem, 12.5, () -> driverXbox.getRawAxis(0), () -> driverXbox.getRawAxis(2)));
     climberJoystick.button(10).whileTrue(new RotateToNoteCommand(drivebase, photonVisionSubsystem, 0));
-    climberJoystick.button(11).whileTrue(new AmpLineupCommand(limelightSubsystem, drivebase, ledSubsystem, -3.9, 16, () -> 0));
+    climberJoystick.button(11).whileTrue(new LineupAmpCommandGroup(drivebase, limelightSubsystem, ledSubsystem));
 
 
     //SHOOTER, INTAKE AND ARM CONTROL

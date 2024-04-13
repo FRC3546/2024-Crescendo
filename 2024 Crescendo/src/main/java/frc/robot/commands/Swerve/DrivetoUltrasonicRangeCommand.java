@@ -3,7 +3,10 @@ package frc.robot.commands.Swerve;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
+import com.fasterxml.jackson.databind.AnnotationIntrospector.XmlExtensions;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,8 +23,8 @@ public class DrivetoUltrasonicRangeCommand extends Command {
     private SwerveSubsystem swerveSubsystem;
     private LedSubsystem ledSubsystem;
 
-    DoubleSupplier xTranslation;
-
+    DoubleSupplier xMovement;
+    DoubleSupplier rotation;
     
 
   /**
@@ -29,11 +32,13 @@ public class DrivetoUltrasonicRangeCommand extends Command {
    *
    * @param LimelightSubsystem The subsystem used by this command.
    */
-  public DrivetoUltrasonicRangeCommand(SwerveSubsystem swerveSubsystem, LedSubsystem ledSubsystem, double ySetpoint) {
+  public DrivetoUltrasonicRangeCommand(SwerveSubsystem swerveSubsystem, LedSubsystem ledSubsystem, double ySetpoint, DoubleSupplier xMovement, DoubleSupplier rotation) {
 
-   this.ySetpoint = ySetpoint;
+    this.ySetpoint = ySetpoint;
+    this.xMovement = xMovement;
+    this.rotation = rotation;
     
-    ypidLoop = new PIDController(0.01, 0, 0);
+    ypidLoop = new PIDController(0.05, 0, 0);
     ypidLoop.setTolerance(3);
     
     ypidLoop.setSetpoint(ySetpoint);
@@ -60,7 +65,10 @@ public class DrivetoUltrasonicRangeCommand extends Command {
     //   ledSubsystem.off();
     // }
 
-    swerveSubsystem.driveFieldOrientedMaxVelocity(0, -ypidLoop.calculate(swerveSubsystem.getDistanceInches()), 0);
+    swerveSubsystem.drive(new ChassisSpeeds(
+      ypidLoop.calculate(swerveSubsystem.getDistanceInches()), 
+      xMovement.getAsDouble(), 
+      rotation.getAsDouble()));
 
     // if(ypidLoop.atSetpoint() && xpidLoop.atSetpoint()){
     //     new TimedDriveGyro(swerveSubsystem, -0.5, 0, () -> swerveSubsystem.getHeading().getDegrees(), 1);

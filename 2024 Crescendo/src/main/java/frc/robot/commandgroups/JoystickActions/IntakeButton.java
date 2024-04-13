@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commandgroups.IntakeWithArmCommandGroup;
+import frc.robot.commands.Arm.PIDRotateArmCommand;
 import frc.robot.commands.Shooter.RunShooterCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -25,25 +27,20 @@ public class IntakeButton extends SequentialCommandGroup {
             ClimbSubsystem climbSubsystem,
             BooleanSupplier armExtended) {
 
-        if (armExtended.getAsBoolean()) {
-            System.out.println(armSubsystem.getArmExtension());
+        
             addCommands(
-                    new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem, intakeSubsystem, climbSubsystem));
+                new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem, intakeSubsystem, climbSubsystem),
+                new PIDRotateArmCommand(() -> Constants.Arm.intakeArmAngle)
+                );
         }
 
-        else {
-            System.out.println("no " + armSubsystem.getArmExtension());
-            addCommands(
-
-                    // new InstantCommand(() -> armSubsystem.extendArm()),
-                    // new WaitCommand(0.3),
-                    new IntakeWithArmCommandGroup(shooterSubsystem, ledSubsystem, intakeSubsystem, climbSubsystem)
+       
 
             // new ParallelDeadlineGroup(
             // new StowedButton(shooterSubsystem, armSubsystem),
             // new RunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6))
-            );
+            
         }
-    }
+    
 
-}
+

@@ -40,11 +40,11 @@ public class AmpLineupCommand extends Command {
    this.xSetpoint = xSetpoint;
    this.ySetpoint = ySetpoint;
     
-    xpidLoop = new PIDController(0.01, 0, 0);
-    xpidLoop.setTolerance(0);
+    xpidLoop = new PIDController(0.05, 0, 0.01);
+    xpidLoop.setTolerance(1);
     
-    ypidLoop = new PIDController(0.01, 0, 0);
-    ypidLoop.setTolerance(0);
+    ypidLoop = new PIDController(0.05, 0, 0.01);
+    ypidLoop.setTolerance(1);
     //0.03
     // 0
     // 2
@@ -90,10 +90,10 @@ public class AmpLineupCommand extends Command {
     //   ledSubsystem.off();
     // }
 
-    swerveSubsystem.driveFieldOrientedMaxVelocity(
-      -xpidLoop.calculate(limelightSubsystem.getLimelightX() ),
-      ypidLoop.calculate(limelightSubsystem.getLimelightY()), 
-      0); 
+    swerveSubsystem.drive(new ChassisSpeeds(
+      -ypidLoop.calculate(limelightSubsystem.getLimelightY()),
+      -xpidLoop.calculate(limelightSubsystem.getLimelightX()), 
+      0)); 
   }
   
 
