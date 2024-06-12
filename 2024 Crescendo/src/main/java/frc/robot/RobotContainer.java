@@ -126,8 +126,8 @@ public class RobotContainer {
 
     autos.addOption("Backup Auto", new TimedDrive(drivebase, 1.5, 0, 0, 5));
     autos.addOption("One Note Auto And Leave", new OneNoteLoadSideAuto(drivebase, intakeSubsystem, shooterSubsystem, armSubsystem, climbSubsystem));
-    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, false));
-    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, true));
+    autos.addOption("BLUE 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, photonVisionSubsystem, false));
+    autos.addOption("RED 2 Note Auto", new TwoNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, photonVisionSubsystem, true));
     // autos.addOption("pathplanner test", new ParallelCommandGroup(drivebase.getAutonomousCommand("Test Path", true), new RunShooterCommand(shooterSubsystem, () -> 0, () -> 0)));
     autos.addOption("RED 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, photonVisionSubsystem, true));
     autos.addOption("BLUE 3 Note Auto", new ThreeNoteAuto(drivebase, intakeSubsystem, shooterSubsystem, ledSubsystem, armSubsystem, climbSubsystem, limelightSubsystem, photonVisionSubsystem, false));

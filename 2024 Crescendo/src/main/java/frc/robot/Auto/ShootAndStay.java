@@ -44,7 +44,7 @@ public class ShootAndStay extends SequentialCommandGroup{
 
             new ParallelDeadlineGroup(
                 new WaitCommand(2.5),
-                new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.6, () -> 0.6)
+                new RunShooterCommand(shooterSubsystem, climbSubsystem, () -> 0.65, () -> 0.65)
             ),
 
             new ParallelRaceGroup(
@@ -52,9 +52,9 @@ public class ShootAndStay extends SequentialCommandGroup{
                 //
                 new PIDRotateArmCommand(() -> Constants.Arm.speakerArmAngle),
                 new ParallelDeadlineGroup(
-                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.6, () -> 0.6, 3),
+                    new TimedRunShooterCommand(shooterSubsystem, () -> 0.65, () -> 0.65, 4),
                     new SequentialCommandGroup(
-                        new WaitCommand(1), 
+                        new WaitCommand(2), 
                         new TimedIntakeCommand(intakeSubsystem, 1, 2))
             ))
 
