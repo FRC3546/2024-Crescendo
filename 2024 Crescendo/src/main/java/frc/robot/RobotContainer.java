@@ -226,5 +226,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("limelight ty", limelightSubsystem.getLimelightY());
     SmartDashboard.putNumber("limelight tx", limelightSubsystem.getLimelightX());
     SmartDashboard.putBoolean("limelight in range", limelightSubsystem.isValidTarget());
+    SmartDashboard.putNumber("arm angle", armSubsystem.getArmPosition());
   }
 }
